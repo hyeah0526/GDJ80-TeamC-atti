@@ -7,10 +7,5 @@
 <title> </title>
 </head>
 <body>
-<<<<<<< HEAD
-안녕 안녕
-		안녕하세요 테스트
-		안녕하세요 테스트
-		안녕하세요 테스트 - hyeah
 </body>
 </html>
