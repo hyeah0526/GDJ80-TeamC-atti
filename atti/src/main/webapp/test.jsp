@@ -9,9 +9,8 @@
 <body>
 <<<<<<< HEAD
 안녕 안녕
-=======
 		안녕하세요 테스트
 		안녕하세요 테스트
->>>>>>> branch 'main' of https://github.com/GDJ80-TeamC/semi-atti.git
+		안녕하세요 테스트 - hyeah
 </body>
 </html>
