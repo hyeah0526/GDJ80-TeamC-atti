@@ -7,6 +7,6 @@
 <title> </title>
 </head>
 <body>
-안녕
+	안녕하세요
 </body>
 </html>
