@@ -86,19 +86,23 @@ INSERT INTO `employee` (`emp_no`, `emp_major`, `emp_grade`, `emp_name`, `emp_bir
 -- 테이블 atti.examination 구조 내보내기
 CREATE TABLE IF NOT EXISTS `examination` (
   `examination_no` int(11) NOT NULL AUTO_INCREMENT,
-  `registration_no` int(11) NOT NULL,
+  `regi_no` int(11) NOT NULL,
   `examination_kind` varchar(50) NOT NULL,
   `examination_content` varchar(50) NOT NULL,
   `examination_date` datetime NOT NULL,
   PRIMARY KEY (`examination_no`),
-  KEY `FK_examination_registration` (`registration_no`),
   KEY `FK_examination_examination_kind` (`examination_kind`),
+  KEY `FK_examination_registration` (`regi_no`) USING BTREE,
   CONSTRAINT `FK_examination_examination_kind` FOREIGN KEY (`examination_kind`) REFERENCES `examination_kind` (`examination_kind`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_examination_registration` FOREIGN KEY (`registration_no`) REFERENCES `registration` (`regi_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  CONSTRAINT `FK_examination_registration` FOREIGN KEY (`regi_no`) REFERENCES `registration` (`regi_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- 테이블 데이터 atti.examination:~0 rows (대략적) 내보내기
+-- 테이블 데이터 atti.examination:~3 rows (대략적) 내보내기
 DELETE FROM `examination`;
+INSERT INTO `examination` (`examination_no`, `regi_no`, `examination_kind`, `examination_content`, `examination_date`) VALUES
+	(1, 2, 'x-ray', ' 소화기간 x-ray 촬영', '2024-05-10 09:48:06'),
+	(2, 3, 'x-ray', '다리 관절 x-ray 촬영', '2024-05-10 09:48:06'),
+	(3, 5, 'x-ray', '소화기간 x-ray 촬영', '2024-05-10 09:48:06');
 
 -- 테이블 atti.examination_kind 구조 내보내기
 CREATE TABLE IF NOT EXISTS `examination_kind` (
@@ -134,31 +138,64 @@ DELETE FROM `examination_photo`;
 CREATE TABLE IF NOT EXISTS `hospitalization` (
   `hospitalization_no` int(11) NOT NULL AUTO_INCREMENT,
   `room_name` varchar(50) NOT NULL,
-  `registration_no` int(11) NOT NULL,
+  `regi_no` int(11) NOT NULL,
   `hospitalization_content` varchar(50) NOT NULL DEFAULT '미정',
   `create_date` datetime NOT NULL,
   `discharge_date` datetime NOT NULL,
   PRIMARY KEY (`hospitalization_no`),
-  KEY `FK_hospitalization_list_registration` (`registration_no`),
   KEY `FK_hospitalization_list_hospital_room` (`room_name`),
+  KEY `FK_hospitalization_list_registration` (`regi_no`) USING BTREE,
   CONSTRAINT `FK_hospitalization_list_hospital_room` FOREIGN KEY (`room_name`) REFERENCES `hospital_room` (`room_name`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_hospitalization_list_registration` FOREIGN KEY (`registration_no`) REFERENCES `registration` (`regi_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  CONSTRAINT `FK_hospitalization_list_registration` FOREIGN KEY (`regi_no`) REFERENCES `registration` (`regi_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- 테이블 데이터 atti.hospitalization:~0 rows (대략적) 내보내기
+-- 테이블 데이터 atti.hospitalization:~1 rows (대략적) 내보내기
 DELETE FROM `hospitalization`;
+INSERT INTO `hospitalization` (`hospitalization_no`, `room_name`, `regi_no`, `hospitalization_content`, `create_date`, `discharge_date`) VALUES
+	(1, 'A01', 3, '관절 염증 수술 환자 입원중', '2024-05-10 10:11:16', '2024-05-13 10:11:16');
 
 -- 테이블 atti.hospital_room 구조 내보내기
 CREATE TABLE IF NOT EXISTS `hospital_room` (
   `room_name` varchar(50) NOT NULL,
-  `state` enum('ON','OFF') NOT NULL,
+  `state` enum('ON','OFF') NOT NULL DEFAULT 'OFF',
   `cost` int(11) NOT NULL,
   `update_date` varchar(50) NOT NULL,
   PRIMARY KEY (`room_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- 테이블 데이터 atti.hospital_room:~0 rows (대략적) 내보내기
+-- 테이블 데이터 atti.hospital_room:~30 rows (대략적) 내보내기
 DELETE FROM `hospital_room`;
+INSERT INTO `hospital_room` (`room_name`, `state`, `cost`, `update_date`) VALUES
+	('A01', 'ON', 75000, '2024-05-10 10:12:07'),
+	('A02', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('A03', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('A04', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('A05', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('A06', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('A07', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('A08', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('A09', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('A10', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('B01', 'OFF', 150000, '2024-05-10 09:59:44'),
+	('B02', 'OFF', 150000, '2024-05-10 09:59:44'),
+	('B03', 'OFF', 150000, '2024-05-10 09:59:44'),
+	('B04', 'OFF', 150000, '2024-05-10 09:59:44'),
+	('B05', 'OFF', 150000, '2024-05-10 09:59:44'),
+	('B06', 'OFF', 150000, '2024-05-10 09:59:44'),
+	('B07', 'OFF', 150000, '2024-05-10 09:59:44'),
+	('B08', 'OFF', 150000, '2024-05-10 09:59:44'),
+	('B09', 'OFF', 150000, '2024-05-10 09:59:44'),
+	('B10', 'OFF', 150000, '2024-05-10 09:59:44'),
+	('C01', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('C02', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('C03', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('C04', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('C05', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('C06', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('C07', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('C08', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('C09', 'OFF', 75000, '2024-05-10 09:59:44'),
+	('C10', 'OFF', 75000, '2024-05-10 09:59:44');
 
 -- 테이블 atti.major 구조 내보내기
 CREATE TABLE IF NOT EXISTS `major` (
@@ -205,17 +242,28 @@ DELETE FROM `password_history`;
 -- 테이블 atti.payment 구조 내보내기
 CREATE TABLE IF NOT EXISTS `payment` (
   `payment_no` int(11) NOT NULL AUTO_INCREMENT,
-  `registration_no` int(11) NOT NULL,
+  `regi_no` int(11) NOT NULL,
   `payment_state` enum('미납','완납') NOT NULL DEFAULT '미납',
   `payment_category` enum('수술','처방','진료','검사','입원') NOT NULL,
   `create_date` datetime NOT NULL,
   PRIMARY KEY (`payment_no`),
-  KEY `FK_payment_registration` (`registration_no`),
-  CONSTRAINT `FK_payment_registration` FOREIGN KEY (`registration_no`) REFERENCES `registration` (`regi_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  KEY `FK_payment_registration` (`regi_no`) USING BTREE,
+  CONSTRAINT `FK_payment_registration` FOREIGN KEY (`regi_no`) REFERENCES `registration` (`regi_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- 테이블 데이터 atti.payment:~0 rows (대략적) 내보내기
+-- 테이블 데이터 atti.payment:~10 rows (대략적) 내보내기
 DELETE FROM `payment`;
+INSERT INTO `payment` (`payment_no`, `regi_no`, `payment_state`, `payment_category`, `create_date`) VALUES
+	(1, 2, '미납', '진료', '2024-05-09 16:59:37'),
+	(2, 3, '미납', '진료', '2024-05-09 16:59:37'),
+	(3, 5, '미납', '진료', '2024-05-09 16:59:37'),
+	(4, 3, '미납', '수술', '2024-05-09 17:29:35'),
+	(5, 3, '미납', '처방', '2024-05-09 17:37:18'),
+	(6, 3, '미납', '처방', '2024-05-09 17:38:08'),
+	(7, 2, '미납', '검사', '2024-05-10 09:48:06'),
+	(8, 3, '미납', '검사', '2024-05-10 09:48:06'),
+	(9, 4, '미납', '검사', '2024-05-10 09:48:06'),
+	(10, 3, '미납', '입원', '2024-05-10 10:11:16');
 
 -- 테이블 atti.pet 구조 내보내기
 CREATE TABLE IF NOT EXISTS `pet` (
