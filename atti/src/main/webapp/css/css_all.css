@@ -1,0 +1,121 @@
+/* 롯데마트 드림 폰트 */
+@font-face {
+	font-family: 'LotteMartDream';
+	font-style: normal;
+	font-weight: 400;
+	src: url('//fastly.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2') format('woff2'), url('//fastly.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff') format('woff');
+}
+#fontSet{
+	font-family: 'LotteMartDream';
+}
+
+
+/*----------------- body대신 사용 될 div -----------------*/
+#bodyDiv{
+	margin: 1%;
+	border: 2px solid #190d0b;
+}
+
+
+/*----------------- mainContent.jsp -----------------*/	
+#divMain{
+	background-color: red;
+	display: flex;
+}
+
+#mainContent{
+	background-color: #ffffff; 
+	flex: 1;
+	
+}
+
+/*----------------- hearder.jsp -----------------*/
+#header{
+	background-color: #675d50;
+	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+#headerLogin{
+	color: #bed8cb;
+	background-color: #675d50;
+	text-align: right;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-right:15px; 
+}
+
+#headerLogin button{
+	background-color: #eedcba;
+	border: none;
+	border-radius: 5px;
+	width: 110px;
+	height: 35px;
+}
+
+#mainCategory{
+	background-color: #675d50;
+	padding-bottom: 15px;
+	display: flex;
+}
+
+#logoImg{
+	background-color: #675d50;
+	flex: 0 0 15%;
+	text-align: center;
+}
+
+#mainCategoryDiv{
+	background-color: #675d50;
+	padding-top: 20px;
+	flex: 1;
+}
+
+#mainCategoryDiv button{
+	background-color: #eedcba;
+	border: none;
+	border-radius: 5px;
+	width: 110px;
+	height: 35px;
+}
+
+#mainCategoryDiv button:hover{
+	background-color: #bed8cb;
+}
+
+#mainCategoryDiv button:active{
+	background-color: #bed8cb;
+}
+
+
+/*----------------- subMenu.jsp -----------------*/
+#subMenu{ 
+	background-color: #675d50;
+	text-align: center;
+	position: absolute;
+    top: 160px;
+    left: -20px;
+    width: 15%;
+    z-index: 1000;
+}
+
+#subMenu button{
+	background-color: #eedcba;
+	border: none;
+	border-radius: 5px;
+	width: 110px;
+	height: 35px;
+}
+
+#subMenu button:hover{
+	background-color: #bed8cb;
+}
+
+#subMenu button:active{
+	background-color: #bed8cb;
+}
+
+/*--------------------------------------------*/
