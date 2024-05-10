@@ -1,0 +1,20 @@
+@charset "UTF-8";
+/* 롯데마트 드림 폰트 */
+@font-face {
+	font-family: 'LotteMartDream';
+	font-style: normal;
+	font-weight: 400;
+	src: url('//fastly.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2') format('woff2'), url('//fastly.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff') format('woff');
+}
+#fontSet{
+	font-family: 'LotteMartDream';
+}
+
+#main button{
+	background-color: #eedcba;
+	border: none;
+	border-radius: 5px;
+	width: 110px;
+	height: 35px;
+}
+
