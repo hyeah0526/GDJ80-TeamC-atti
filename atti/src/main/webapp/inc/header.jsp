@@ -14,7 +14,7 @@
 	<div id="mainCategory">
 		<!-- 이미지로고 -->
 		<div id="logoImg">
-			<img src="inc/testLogo.png">
+			<img src="../inc/testLogo.png">
 		</div>
 		
 		<!-- 카테고리출력 -->
