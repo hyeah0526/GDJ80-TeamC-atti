@@ -61,9 +61,9 @@ INSERT INTO `customer` (`customer_no`, `customer_name`, `customer_tel`, `custome
 
 -- 테이블 atti.employee 구조 내보내기
 CREATE TABLE IF NOT EXISTS `employee` (
-  `emp_no` int(11) NOT NULL AUTO_INCREMENT,
+  `emp_no` int(11) NOT NULL,
   `emp_major` varchar(50) NOT NULL,
-  `emp_grade` enum('의사','간호사','관리자','퇴시자') NOT NULL,
+  `emp_grade` enum('의사','간호사','관리자','퇴사자') NOT NULL,
   `emp_name` varchar(50) NOT NULL,
   `emp_birth` date NOT NULL,
   `emp_gender` enum('M','F') NOT NULL,
@@ -73,15 +73,15 @@ CREATE TABLE IF NOT EXISTS `employee` (
   PRIMARY KEY (`emp_no`) USING BTREE,
   KEY `FK_empoyee_major` (`emp_major`),
   CONSTRAINT `FK_empoyee_major` FOREIGN KEY (`emp_major`) REFERENCES `major` (`emp_major`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- 테이블 데이터 atti.employee:~4 rows (대략적) 내보내기
 DELETE FROM `employee`;
 INSERT INTO `employee` (`emp_no`, `emp_major`, `emp_grade`, `emp_name`, `emp_birth`, `emp_gender`, `emp_tel`, `hire_date`, `emp_pw`) VALUES
-	(2, '포유류', '의사', '박지유', '1987-04-23', 'M', '01055555555', '2010-08-02', '*A4B6157319038724E3560894F7F932C8886EBFCF'),
-	(3, '파충류', '의사', '최애영', '1979-11-15', 'F', '01066666666', '2002-02-26', '*A4B6157319038724E3560894F7F932C8886EBFCF'),
-	(4, '포유류', '간호사', '강국길', '1996-12-03', 'M', '01077777777', '2020-05-13', '*A4B6157319038724E3560894F7F932C8886EBFCF'),
-	(5, '파충류', '간호사', '강수영', '1991-08-08', 'F', '01088888888', '2018-11-12', '*A4B6157319038724E3560894F7F932C8886EBFCF');
+	(1100802, '포유류', '의사', '박지유', '1987-04-23', 'M', '01055555555', '2010-08-02', '*A4B6157319038724E3560894F7F932C8886EBFCF'),
+	(2020226, '파충류', '의사', '최애영', '1979-11-15', 'F', '01066666666', '2002-02-26', '*A4B6157319038724E3560894F7F932C8886EBFCF'),
+	(3181112, '파충류', '간호사', '강수영', '1991-08-08', 'F', '01088888888', '2018-11-12', '*A4B6157319038724E3560894F7F932C8886EBFCF'),
+	(3200513, '포유류', '간호사', '강국길', '1996-12-03', 'M', '01077777777', '2020-05-13', '*A4B6157319038724E3560894F7F932C8886EBFCF');
 
 -- 테이블 atti.examination 구조 내보내기
 CREATE TABLE IF NOT EXISTS `examination` (
@@ -203,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `major` (
   PRIMARY KEY (`emp_major`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
--- 테이블 데이터 atti.major:~3 rows (대략적) 내보내기
+-- 테이블 데이터 atti.major:~2 rows (대략적) 내보내기
 DELETE FROM `major`;
 INSERT INTO `major` (`emp_major`) VALUES
 	('조류'),
@@ -228,12 +228,12 @@ INSERT INTO `medicine` (`medicine_no`, `medicine_name`, `medicine_cost`) VALUES
 -- 테이블 atti.password_history 구조 내보내기
 CREATE TABLE IF NOT EXISTS `password_history` (
   `history_no` int(11) NOT NULL AUTO_INCREMENT,
-  `emp_id` int(11) NOT NULL,
+  `emp_no` int(11) NOT NULL,
   `previous_pw` varchar(50) NOT NULL,
   `update_date` datetime NOT NULL,
   PRIMARY KEY (`history_no`),
-  KEY `FK_password_history_empoyee` (`emp_id`),
-  CONSTRAINT `FK_password_history_empoyee` FOREIGN KEY (`emp_id`) REFERENCES `employee` (`emp_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `FK_password_history_empoyee` (`emp_no`) USING BTREE,
+  CONSTRAINT `FK_password_history_empoyee` FOREIGN KEY (`emp_no`) REFERENCES `employee` (`emp_no`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- 테이블 데이터 atti.password_history:~0 rows (대략적) 내보내기
@@ -306,7 +306,7 @@ CREATE TABLE IF NOT EXISTS `prescription` (
 DELETE FROM `prescription`;
 INSERT INTO `prescription` (`prescription_no`, `regi_no`, `medicine_no`, `prescription_content`, `prescription_date`) VALUES
 	(1, 3, 2, '수술 후 관절 염증 제거제', '2024-05-09 17:37:18'),
-	(2, 3, 3, '진통  제거제', '2024-05-09 17:38:08');
+	(2, 3, 3, '진통제', '2024-05-09 17:38:08');
 
 -- 테이블 atti.registration 구조 내보내기
 CREATE TABLE IF NOT EXISTS `registration` (
@@ -327,10 +327,10 @@ CREATE TABLE IF NOT EXISTS `registration` (
 -- 테이블 데이터 atti.registration:~4 rows (대략적) 내보내기
 DELETE FROM `registration`;
 INSERT INTO `registration` (`regi_no`, `emp_no`, `pet_no`, `regi_content`, `create_date`, `regi_date`, `regi_state`) VALUES
-	(2, 3, 1, '배변기능 이상', '2024-05-09 16:59:37', '2024-05-09 16:59:37', '대기'),
-	(3, 2, 2, '다리 관절  이상', '2024-05-09 16:59:37', '2024-05-09 16:59:37', '대기'),
-	(4, 4, 3, '시력  이상', '2024-05-09 16:59:37', '2024-06-24 00:00:00', '예약'),
-	(5, 4, 4, '소화 기능  이상', '2024-05-09 16:59:37', '2024-05-09 16:59:37', '대기');
+	(2, 1100802, 1, '배변기능 이상', '2024-05-09 16:59:37', '2024-05-09 16:59:37', '대기'),
+	(3, 2020226, 2, '다리 관절  이상', '2024-05-09 16:59:37', '2024-05-09 16:59:37', '대기'),
+	(4, 3200513, 3, '시력  이상', '2024-05-09 16:59:37', '2024-06-24 00:00:00', '예약'),
+	(5, 3181112, 4, '소화 기능  이상', '2024-05-09 16:59:37', '2024-05-09 16:59:37', '대기');
 
 -- 테이블 atti.surgery 구조 내보내기
 CREATE TABLE IF NOT EXISTS `surgery` (
