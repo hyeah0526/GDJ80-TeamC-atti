@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+h2{
+	font-size: 80px;
+}
+
+form{
+	display: flex;
+	flex-direction: column;
+	margin-top: 40px;
+}
+
+form button{
+	margin-top: 30px;
+	background-color: #eedcba;
+	border: 1px solid black;
+	border-radius: 5px;
+	width: 100%;
+	height: 50px;
+}	
+
+form button:hover{
+	background-color: #bed8cb;
+}
+
+form button:active{
+	background-color: #bed8cb;
+}
+
+label{
+	margin-right: 50px;
+	font-size: 30px;
+}
+
+input{
+	width: 200px;
+}
+
+#loginDiv{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-top: 10%;
+}
+
+.inputDiv{
+	display: flex;
+	justify-content: space-between;
+	margin-top: 30px;
+}

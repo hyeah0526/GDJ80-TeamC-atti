@@ -1,15 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <header id="header">
-	<!-- 로그인 정보 출력 -->
-	<div id="headerTop">
-		<div id="headerLogin">
-			000000(사번) 관리자(이름)님,
-			<button>로그아웃</button>
-			<button>비밀번호수정</button>
-		</div>
-	</div>
-		
+
+	
+	<%
+		//session 유무에 따라 보여주는 보여주는 버튼을 다르게 보여주기 
+		if(session.getAttribute("loginEmp")!= null){
+	%>
+			<!-- 로그인 정보 출력 -->
+			<div id="headerTop">
+				<div id="headerLogin">
+					000000(사번) 관리자(이름)님,
+					<button>로그아웃</button>
+					<button>비밀번호수정</button>
+				</div>
+			</div>
+	
+	<%			
+		}else{	
+	%>
+			<div id="headerTop">
+				<div id="headerLogin">
+					<button>
+						<a href="/atti/view/loginForm.jsp">로그인</a>
+					</button>
+				</div>
+			</div>
+	<%
+		}
+	%>
+	
 	<!-- 메인 카테고리 -->
 	<div id="mainCategory">
 		<!-- 이미지로고 -->

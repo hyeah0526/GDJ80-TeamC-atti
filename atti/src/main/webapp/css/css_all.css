@@ -78,6 +78,11 @@ img{
 	
 }
 
+a{
+	text-decoration: none;
+	color:black;
+}
+
 /*----------------- subMenu.jsp -----------------*/
 #subMenu{ 
 	background-color: #675d50;
