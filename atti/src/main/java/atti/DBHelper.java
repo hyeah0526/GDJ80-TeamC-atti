@@ -11,7 +11,6 @@ public class DBHelper {
 		
 		Connection conn = null;
 		conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/atti", id, pw);
-		//System.out.println(conn+"연결");
 		
 		return conn;
 	}
