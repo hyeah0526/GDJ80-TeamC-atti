@@ -3,6 +3,13 @@
 <%@ page import="java.util.*" %>
 <%@ page import="atti.*" %>
 
+<!-------------------- 
+ * 기능 번호  : #2
+ * 상세 설명  : 로그인 action
+ * 시작 날짜 : 2024-05-10
+ * 담당자 : 김인수
+ -------------------->
+
 <!-- Controller layer  -->
 <%
 	//loginForm에서 보낸 id, pw 
@@ -20,7 +27,7 @@
 	HashMap<String, Object> loginEmp = EmpDao.login(empNo,empPw);
 	
 	//로그인 디버깅
-	//System.out.println(resultMap);
+	//System.out.println("loginEmp = "+loginEmp);
 	
 	if(loginEmp != null){
 		session.setAttribute("loginEmp", loginEmp);

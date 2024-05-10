@@ -7,15 +7,6 @@
  * 담당자 : 김인수
  -------------------->
  
-<%
-	//인증 분기 
-	if(session.getAttribute("loginEmp")!= null){
-		response.sendRedirect("/shop/emp/empList.jsp");
-		return;
-	}
-	
-	//System.out.println(session.getAttribute("loginEmp"));
-%>
 
 <!DOCTYPE html>
 <html>

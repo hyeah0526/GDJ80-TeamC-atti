@@ -11,7 +11,9 @@
 			<div id="headerTop">
 				<div id="headerLogin">
 					000000(사번) 관리자(이름)님,
-					<button>로그아웃</button>
+					<button>
+						<a href="/atti/action/logoutAction.jsp">로그아웃</a>
+					</button>
 					<button>비밀번호수정</button>
 				</div>
 			</div>
@@ -36,7 +38,7 @@
 		<div id="logoImg">
 			<img src="../inc/testLogo.png">
 		</div>
-		
+	
 		<!-- 카테고리출력 -->
 		<div id="mainCategoryDiv">
 			<button>고객</button>

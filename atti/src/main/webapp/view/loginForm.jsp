@@ -37,7 +37,7 @@
 	<main>
 		<div id="loginDiv">
 			<h2>로그인</h2>
-			<form action="../action/loginAction.jsp" method="post">
+			<form action="/atti/action/loginAction.jsp" method="post">
 				<div class="inputDiv">
 					<label>아이디</label>
 					<input type="text" name="empNo">
