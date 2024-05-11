@@ -72,10 +72,9 @@
 
 img{
 	width: 100px;
-	position: absolute;
+	position: fixed;
 	top: 20px;
 	left: 50px;
-	
 }
 
 a{
@@ -89,7 +88,7 @@ a{
 	text-align: center;
 	position: fixed;
     top: 120px;
-    width: 9%;
+    width: 150px;
     height: 100%;
 }
 #subMenuBtnContainer{
@@ -117,7 +116,7 @@ a{
 
 /*----------------- main.jsp -----------------*/	
 main{
-	position: relative;
+	position: fixed;
 	top: 170px;
 	left: 200px;
 	width: 80%

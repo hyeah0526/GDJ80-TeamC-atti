@@ -6,7 +6,7 @@
 
 	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
 
-	//로그인한 사용자의 사번, 직무, 
+	//로그인한 사용자의 사번, 직무, 이름 디버깅 
 	//System.out.println(loginEmp.get("empGrade"));
 	//System.out.println(loginEmp.get("empName"));	
 	//System.out.println(loginEmp.get("empNo"));	
