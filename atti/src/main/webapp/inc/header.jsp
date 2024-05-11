@@ -20,7 +20,7 @@
 			<!-- 로그인 정보 출력 -->
 			<div id="headerTop">
 				<div id="headerLogin">
-					&nbsp;
+					<%=loginEmp.get("empNo")%> <%=loginEmp.get("empGrade")%>  <%=loginEmp.get("empName")%>님 &nbsp;
 					<button>
 						<a href="/atti/action/logoutAction.jsp">로그아웃</a>
 					</button>
