@@ -1,8 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.util.*" %>
+
+<%
+
+	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
+
+	//로그인한 사용자의 사번, 직무, 
+	//System.out.println(loginEmp.get("empGrade"));
+	//System.out.println(loginEmp.get("empName"));	
+	//System.out.println(loginEmp.get("empNo"));	
+%>
 
 <header id="header">
-
-	
 	<%
 		//session 유무에 따라 보여주는 보여주는 버튼을 다르게 보여주기 
 		if(session.getAttribute("loginEmp")!= null){
@@ -10,7 +20,7 @@
 			<!-- 로그인 정보 출력 -->
 			<div id="headerTop">
 				<div id="headerLogin">
-					000000(사번) 관리자(이름)님,
+					&nbsp;
 					<button>
 						<a href="/atti/action/logoutAction.jsp">로그아웃</a>
 					</button>
