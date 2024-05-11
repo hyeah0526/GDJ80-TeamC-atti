@@ -7,6 +7,27 @@
  * 담당자 : 김인수
  -------------------->
  
+ <!-- Controller layer  -->
+ <%
+ 	//사번 입력 필드 오류 메시지
+ 	String nullErrorMessage = request.getParameter("errorMessage");
+ 	String errorMessage = null;
+ 	
+ 	//사용자가 사번 입력 필드에 빈값, 숫자가 아닌 값을 넣는 경우
+ 	if(nullErrorMessage != null && !nullErrorMessage.equals("null")){
+	 	errorMessage = request.getParameter("errorMessage"); 		
+ 	}
+ 	
+ 	//사용자의 회원 정보가 일치하지 않는 경우
+ 	if(nullErrorMessage != null && nullErrorMessage.equals("null")){
+ 		errorMessage = "회원 정보를 확인하세요.";
+ 	}
+ 
+ 
+ 	//에러 메세지 디버깅
+ 	//System.out.println("nullErrorMessage = " + nullErrorMessage);
+ 	//System.out.println("errorMessage = " + errorMessage);
+ %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,6 +68,17 @@
 					<input type="password" name="empPw">
 				</div>
 				<button type="submit">확인</button>
+				
+				<%
+					//애러 메세지 출력
+					if(errorMessage != null){
+				%>
+						<div id="errorMessageDiv">
+							<%=errorMessage%>
+						</div>
+				<%	
+					}
+				%>
 			</form>
 		</div>
 	</main>
