@@ -2,32 +2,34 @@
 
 <!-------------------- 
  * 기능 번호  : #1
- * 상세 설명  : 메인 페이지
+ * 상세 설명  : 로그인 페이지(사번, 비밀번호 입력)
  * 시작 날짜 : 2024-05-10
  * 담당자 : 김인수
  -------------------->
  
- <!-- Controller layer  -->
- <%
- 	//사번 입력 필드 오류 메시지
- 	String nullErrorMessage = request.getParameter("errorMessage");
- 	String errorMessage = null;
- 	
- 	//사용자가 사번 입력 필드에 빈값, 숫자가 아닌 값을 넣는 경우
- 	if(nullErrorMessage != null && !nullErrorMessage.equals("null")){
-	 	errorMessage = request.getParameter("errorMessage"); 		
- 	}
- 	
- 	//사용자의 회원 정보가 일치하지 않는 경우
- 	if(nullErrorMessage != null && nullErrorMessage.equals("null")){
- 		errorMessage = "회원 정보를 확인하세요.";
- 	}
+<!-- Controller layer  -->
+<%
+	//사번 입력 오류 시 표시될 메세지 
+	String nullErrorMessage = request.getParameter("errorMessage");
+	String errorMessage = null;
+	
+	//사번 입력 오류 시 반환할 에러 메세지 처리
+	if(nullErrorMessage != null && !nullErrorMessage.equals("null")){
+ 	errorMessage = request.getParameter("errorMessage"); 		
+	}
+	
+	//사용자의 회원 정보가 일치하지 않는 경우
+	if(nullErrorMessage != null && nullErrorMessage.equals("null")){
+		errorMessage = "회원 정보를 확인하세요.";
+	}
+
+	//에러 메세지 디버깅
+	//System.out.println("nullErrorMessage = " + nullErrorMessage);
+	//System.out.println("errorMessage = " + errorMessage);
+%>
  
  
- 	//에러 메세지 디버깅
- 	//System.out.println("nullErrorMessage = " + nullErrorMessage);
- 	//System.out.println("errorMessage = " + errorMessage);
- %>
+<!-- view layer -->
 <!DOCTYPE html>
 <html>
 <head>

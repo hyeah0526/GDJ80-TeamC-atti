@@ -2,16 +2,12 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*" %>
 
+<!-- Controller layer  -->
 <%
-
 	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
-
-	//로그인한 사용자의 사번, 직무, 이름 디버깅 
-	//System.out.println(loginEmp.get("empGrade"));
-	//System.out.println(loginEmp.get("empName"));	
-	//System.out.println(loginEmp.get("empNo"));	
 %>
 
+<!-- view layer -->
 <header id="header">
 	<%
 		//session 유무에 따라 보여주는 보여주는 버튼을 다르게 보여주기 
@@ -58,8 +54,23 @@
 			<button>처방</button>
 			<button>입원</button>
 			<button>결제</button>
-			<button>매출관리</button>
-			<button>직원관리</button>
+			<%
+				if(session.getAttribute("loginEmp") != null){
+					
+					//로그인한 사용자의 사번, 직무, 이름 디버깅 
+					//System.out.println(loginEmp.get("empGrade"));
+					//System.out.println(loginEmp.get("empName"));	
+					//System.out.println(loginEmp.get("empNo"));
+					//System.out.println(loginEmp.get("empNo").toString().charAt(0));
+					
+					if(loginEmp.get("empNo") != null && loginEmp.get("empNo").toString().charAt(0) == '1'){					
+			%>		
+						<button>매출관리</button>
+						<button>직원관리</button>					
+			<%
+					}
+				}
+			%>
 		</div>
 	</div>
 </header>
