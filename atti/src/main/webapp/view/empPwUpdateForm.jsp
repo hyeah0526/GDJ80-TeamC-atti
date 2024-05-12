@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
 
 <!-------------------- 
  * 기능 번호  : #5
@@ -6,6 +7,17 @@
  * 시작 날짜 : 2024-05-12
  * 담당자 : 김인수
  -------------------->
+
+<!-- Controller layer  -->
+<%
+
+	//로그인 상태 검증
+	if(session.getAttribute("loginEmp")== null){
+		response.sendRedirect("/atti/view/loginForm.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
+		return;
+	}
+	
+%>
 
 <!-- view layer -->
 <!DOCTYPE html>
