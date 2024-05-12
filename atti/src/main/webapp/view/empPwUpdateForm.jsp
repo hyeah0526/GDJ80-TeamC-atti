@@ -12,11 +12,19 @@
 <%
 
 	//로그인 상태 검증
-	if(session.getAttribute("loginEmp")== null){
+	if(session.getAttribute("loginEmp") == null){
 		response.sendRedirect("/atti/view/loginForm.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
 		return;
 	}
+
+	//비밀번호 변경 오류 시 표시될 메세지
+	String nullErrorMessage = request.getParameter("errorMessage");
+	String errorMessage = null;
 	
+	//비밀번호 변경 오류 시 반환할 에러 메세지 처리
+	if(nullErrorMessage != null && !nullErrorMessage.equals("null")){
+ 		errorMessage = request.getParameter("errorMessage"); 		
+	}
 %>
 
 <!-- view layer -->
@@ -59,6 +67,16 @@
 						<input type="password" name="newPw">
 					</div>
 					<button type="submit">확인</button>
+					<%
+						//애러 메세지 출력
+						if(errorMessage != null){
+					%>
+							<div id="errorMessageDiv">
+								<%=errorMessage%>
+							</div>
+					<%	
+						}
+					%>
 				</form>
 			</div>
 	</main>
