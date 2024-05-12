@@ -43,7 +43,7 @@
 
 <!-- Model layer -->
 <%
-	//사용자의 사번과 비밀번호를 확인하여 로그인 시도
+	//사용자의 사번과 비밀번호를 확인하여 로그인 검증
 	HashMap<String, Object> loginEmp = EmpDao.login(empNo,empPw);
 	
 	//검증된 값 디버깅

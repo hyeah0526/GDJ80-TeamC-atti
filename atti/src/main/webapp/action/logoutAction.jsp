@@ -10,6 +10,6 @@
 <!-- Model layer -->
 <%
 	session.invalidate(); // 기존 세션공간을 초기화(포멧)
-	//System.out.println(session.getId() + "<---- session.invalidate() 호출 후 확인하기 ");
+	//System.out.println(session.getId() + "<---- session.invalidate() 호출 후 세션 상태 확인 ");
 	response.sendRedirect("/atti/view/loginForm.jsp");
 %>

@@ -20,7 +20,11 @@
 					<button>
 						<a href="/atti/action/logoutAction.jsp">로그아웃</a>
 					</button>
-					<button>비밀번호수정</button>
+					<button>
+						<a href="/atti/view/empPwUpdateForm.jsp">
+							비밀번호수정
+						</a>
+					</button>
 				</div>
 			</div>
 	
