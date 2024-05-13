@@ -1,25 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="atti.*" %>
 <%@ page import="java.util.*" %>
-<%
-	/*
-	 * 기능 번호  : #17
-	 * 상세 설명  : 고객 상세 보기
-	 * 시작 날짜 : 2024-05-10
+	<!-------------------- 
+	 * 기능 번호  : #18
+	 * 상세 설명  : 고객 정보 수정 페이지
+	 * 시작 날짜 : 2024-05-13
 	 * 담당자 : 김지훈
-	*/
-	
+	 -------------------->
+<%
 	System.out.println("--------------------");
-	System.out.println("customerDetail.jsp");
+	System.out.println("customerUpdateForm.jsp");
+	
 	
 	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
+	System.out.println("customerNo: " + customerNo);
 %>
-
-<% 
+<%
 	ArrayList<HashMap<String, Object>> customerDetail = CustomerDao.customerDetail(customerNo);
-%>
-    
-
+%> 
+<!-- view layer -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +31,6 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
-	
 </head>
 <body id="fontSet">
 	
@@ -47,37 +45,35 @@
 	
 	<!-------------------- main -------------------->
 	<main>
-		<div >
-			<h2>고객 상세 정보</h2>
+		<div class="regiCustomerInput">
+			<h2>고객 등록</h2>
+			<form action="/atti/action/customerUpdateAction.jsp">
+			<input type="hidden" name="customerNo" value="<%=customerNo%>"> 
+			<!-- form으로 customerNo를 같이 전달  -->
 			<table border="1">
 				<%
-					for(HashMap<String, Object> c : customerDetail){
-						
+					for(HashMap<String, Object> c: customerDetail){
 				%>
-						<tr>
-							<th>고객 번호</th>
-							<td><%=c.get("customerNo")%></td>
-						</tr>
-						<tr>
-							<th>고객 이름</th>
-							<td><%=c.get("customerName")%></td>
-						</tr>
-						<tr>
-							<th>고객 전화번호</th>
-							<td><%=c.get("customerTel")%></td>
-						</tr>
-						<tr>	
-							<th>고객 주소</th>
-							<td><%=c.get("customerAddress")%></td>
-						</tr>	
-				<% 
+					<tr>
+						<th><label for="customerName">고객 이름</label></th>
+						<td><input type="text" name="customerName" id="customerName" value="<%=c.get("customerName")%>" readonly="readonly"></td>
+					</tr>
+					<tr>
+						<th><label for="customerTel">전화번호</label></th>
+						<td><input type="text" name="customerTel" id="customerTel" value="<%=c.get("customerTel")%>" placeholder="-를 제외하고 입력해 주세요"><td>
+					</tr>
+					<tr>
+						<th><label for="customerAddress">주소</label></th>
+						<td><input type="text" name="customerAddress" id="customerAddress" value="<%=c.get("customerAddress")%>"></td>
+					</tr>
+				<%		
 					}
 				%>
 			</table>
-			<button type="button" onclick="location.href='/atti/view/customerUpdateForm.jsp?customerNo=<%=customerNo%>'">정보 수정하기</button>
-			<button type="button" onclick="location.href='/atti/view/petRegiForm.jsp?customerNo=<%=customerNo%>'">펫 등록하기</button>
-			<button type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+			<button type="submit">수정하기</button>
+			</form>
 		</div>
+	
 	</main>
 </body>
 </html>

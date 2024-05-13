@@ -1,25 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="atti.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="atti.*" %>   
 <%@ page import="java.util.*" %>
 <%
-	/*
-	 * 기능 번호  : #17
-	 * 상세 설명  : 고객 상세 보기
-	 * 시작 날짜 : 2024-05-10
-	 * 담당자 : 김지훈
-	*/
-	
 	System.out.println("--------------------");
-	System.out.println("customerDetail.jsp");
+	System.out.println("petDetail.jsp");
 	
-	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
-%>
+	// petNo 
+	int petNo = Integer.parseInt(request.getParameter("petNo"));
+	System.out.println("petNo: " + petNo);
+%> 
 
-<% 
-	ArrayList<HashMap<String, Object>> customerDetail = CustomerDao.customerDetail(customerNo);
-%>
-    
+<%
+	ArrayList<HashMap<String, Object>> petDetail = PetDao.petDetail(petNo);
 
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +27,7 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
-	
+	<link rel="stylesheet" href="../css/css_kiminsu.css">
 </head>
 <body id="fontSet">
 	
@@ -48,34 +43,45 @@
 	<!-------------------- main -------------------->
 	<main>
 		<div >
-			<h2>고객 상세 정보</h2>
+			<h2>펫 상세 정보</h2>
 			<table border="1">
 				<%
-					for(HashMap<String, Object> c : customerDetail){
+					for(HashMap<String, Object> p : petDetail){
 						
 				%>
 						<tr>
-							<th>고객 번호</th>
-							<td><%=c.get("customerNo")%></td>
+							<th>펫 번호</th>
+							<td><%=p.get("petNo")%></td>
 						</tr>
 						<tr>
-							<th>고객 이름</th>
-							<td><%=c.get("customerName")%></td>
+							<th>종류</th>
+							<td><%=p.get("major")%></td>
 						</tr>
 						<tr>
-							<th>고객 전화번호</th>
-							<td><%=c.get("customerTel")%></td>
+							<th>분류</th>
+							<td><%=p.get("petKind")%></td>
 						</tr>
-						<tr>	
-							<th>고객 주소</th>
-							<td><%=c.get("customerAddress")%></td>
-						</tr>	
+						<tr>
+							<th>이름</th>
+							<td><%=p.get("petName")%></td>
+						</tr>
+						<tr>
+							<th>생년월일</th>
+							<td><%=p.get("petBirth")%></td>
+						</tr>
+						<tr>
+							<th>보호자 이름</th>
+							<td><%=p.get("customerName")%></td>
+						</tr>
+						<tr>
+							<th>보호자 연락처</th>
+							<td><%=p.get("customerTel")%></td>
+						</tr>
 				<% 
 					}
 				%>
 			</table>
-			<button type="button" onclick="location.href='/atti/view/customerUpdateForm.jsp?customerNo=<%=customerNo%>'">정보 수정하기</button>
-			<button type="button" onclick="location.href='/atti/view/petRegiForm.jsp?customerNo=<%=customerNo%>'">펫 등록하기</button>
+			<button type="button" onclick="location.href='/atti/view/petUpdateForm.jsp?petNo=<%=petNo%>'">정보 수정하기</button>
 			<button type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
 		</div>
 	</main>
