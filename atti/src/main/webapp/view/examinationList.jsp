@@ -1,9 +1,17 @@
-<%@page import="atti.ExaminationDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.time.*" %>
 <%@ page import="java.net.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="atti.*"%>
 <%
+
+	/*
+	 * 기능 번호  : #35
+	 * 상세 설명  : 검사 조회 기능
+	 * 시작 날짜 : 2024-05-10
+	 * 담당자 : 한은혜
+	*/
+
 	System.out.println("---------------- examinationList.jsp -----------------");
 	// 로그인 세션 
 
@@ -37,7 +45,7 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
-	
+	<link rel="stylesheet" href="../css/css_eunhye.css">
 </head>
 <body id="fontSet">
 	
@@ -52,40 +60,47 @@
 	
 	<!-------------------- main -------------------->
 	<main>
-	
-	<div>
-		<form method="post" action="examinationList.jsp" >
+	<div class="row">
+	<div class="col container mb-2">
+		<!-- 날짜 선택해서 검색 -->
+		<form method="post" action="examinationList.jsp" class="inline">
 			<input type="date" name="searchDate" value="<%= searchDate %>">
 			<button type="submit">검색</button>
 		</form>
-		
-		<form method="post" action="examinationList.jsp" >
+		<!-- 오늘 날짜 바로 검색 -->
+		<form method="post" action="examinationList.jsp" class="inline">
 			<button type="submit" name="searchDate" value="<%= date %>">오늘</button>
 		</form>
 	</div>
 	
-	<table border="1">
+	<table border="1" class="a">
 		<tr>
 			<th>검사 번호</th>
+			<th>동물 종류</th>
+			<th>반려동물 이름</th>
 			<th>검사 종류</th>
 			<th>검사 내용</th>
 			<th>검사 날짜</th>
+			<th> </th>
 		</tr>
 		<%
 			for(HashMap<String, Object> e : examinationList) {
 		%>
 		<tr>
 			<td><%= e.get("examinationNo")%></td>
+			<td><%= e.get("petKind")%></td>
+			<td><%= e.get("petName")%></td>
 			<td><%= e.get("examinationKind")%></td>
 			<td><%= e.get("examinationContent")%></td>
 			<td><%= e.get("examinationDate")%></td>
+			<td><a href="/atti/view/examinationDetail.jsp?examinationNo=<%=e.get("examinationNo") %>">상세보기</a></td>
 		</tr>
 		<%
 			}
 		%>
 	
 	</table>
-	
+	</div>
 	</main>
 </body>
 </html>

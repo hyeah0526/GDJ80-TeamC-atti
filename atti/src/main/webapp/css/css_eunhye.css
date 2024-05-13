@@ -10,7 +10,7 @@
 	font-family: 'LotteMartDream';
 }
 
-#main button{
+.button{
 	background-color: #eedcba;
 	border: none;
 	border-radius: 5px;
@@ -18,3 +18,6 @@
 	height: 35px;
 }
 
+.inline {
+    display: inline-block;
+}
