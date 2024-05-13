@@ -23,14 +23,13 @@
 	System.out.println("customerTel: " + customerTel);
 	System.out.println("customerAddress: " + customerAddress);
 	
-	int row = CustomerDao.customerRegistration(customerName, customerTel, customerAddress);
 	
-	
-	int customerNo = 0;
+	// 메서드의 반환값을 customerNo를 할당
+	int customerNo = CustomerDao.customerRegistration(customerName, customerTel, customerAddress);
 	
 	if(customerNo > 0) {
 		System.out.println("고객 등록 성공");
-		response.sendRedirect("/atti/view/customerDetail.jsp?customerNo" + customerNo);
+		response.sendRedirect("/atti/view/customerDetail.jsp?customerNo=" + customerNo);
 	} else {
 		System.out.println("고객 등록 실패");
 		response.sendRedirect("/atti/view/customerRegiForm.jsp");

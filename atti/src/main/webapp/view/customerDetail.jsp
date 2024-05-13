@@ -49,16 +49,31 @@
 	<main>
 		<div >
 			<h2>고객 상세 정보</h2>
-			
-			<%
-				for(HashMap<String, Object> c : customerDetail){
-					
-			%>
-					<div><span>고객 번호</span><%=c.get("customerNo")%></div>
-					<div><span>고객 이름</span><%=c.get("customerName")%></div>
-					<div><span>고객 전화번호</span><%=c.get("customerTel")%></div>
-					<div><span>고객 주소</span><%=c.get("customerAddress")%></div>
-				}
+			<table border="1">
+				<%
+					for(HashMap<String, Object> c : customerDetail){
+						
+				%>
+						<tr>
+							<th>고객 번호</th>
+							<td><%=c.get("customerNo")%></td>
+						</tr>
+						<tr>
+							<th>고객 이름</th>
+							<td><%=c.get("customerName")%></td>
+						</tr>
+						<tr>
+							<th>고객 전화번호</th>
+							<td><%=c.get("customerTel")%></td>
+						</tr>
+						<tr>	
+							<th>고객 주소</th>
+							<td><%=c.get("customerAddress")%></td>
+						</tr>	
+				<% 
+					}
+				%>
+			</table>
 		</div>
 	</main>
 </body>

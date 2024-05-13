@@ -23,7 +23,7 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
-	
+	<link rel="stylesheet" href="../css/css_jihoson.css">
 </head>
 <body id="fontSet">
 	
@@ -38,19 +38,25 @@
 	
 	<!-------------------- main -------------------->
 	<main>
-		<div >
+		<div class="regiCustomerInput">
 			<h2>고객 등록</h2>
-			<div>
-				<form action="/atti/action/customerRegiAction.jsp">
-					<label for="customerName">고객 이름</label>
-					<input type="text" name="customerName" id="customerName"><br>
-					<label for="customerTel">전화번호</label>
-					<input type="text" name="customerTel" id="customerTel"><br>
-					<label for="customerAddress">주소</label>
-					<input type="text" name="customerAddress" id="customerAddress"><br>
-				<button type="submit">등록하기</button>
-				</form>
-			</div>
+			<form action="/atti/action/customerRegiAction.jsp">
+			<table border="1">
+				<tr>
+					<th><label for="customerName">고객 이름</label></th>
+					<td><input type="text" name="customerName" id="customerName"></td>
+				</tr>
+				<tr>
+					<th><label for="customerTel">전화번호</label></th>
+					<td><input type="text" name="customerTel" id="customerTel" placeholder="-를 제외하고 입력해 주세요"><td>
+				</tr>
+				<tr>
+					<th><label for="customerAddress">주소</label></th>
+					<td><input type="text" name="customerAddress" id="customerAddress"></td>
+				</tr>
+			</table>
+			<button type="submit">등록하기</button>
+			</form>
 		</div>
 	</main>
 </body>
