@@ -48,71 +48,63 @@
 		<!-- 내용출력되는 부분 -->
 		<div>
 			<h2>입원실 현황</h2>
-			
-				<%
-					// 입원실 전체 리스트 뿌려주기
-					int cntRms = 1;
-					for(HashMap<String, Object> rms : hospitalRmsList){
-						System.out.println(cntRms);
-						if(cntRms%10 == 0){
-							System.out.println("==0걸리나");
-				%>
-						<%
-							// 입원환자의 여부(ON, OFF)에 따라 다르게 표시
-							String state = (String)rms.get("state");
-							if(state.equals("ON")){
-						%>
-								<div style="border: 1px solid red; width: 100px; height: 100px; float: left;">
-									<span><%=(String)rms.get("roomName")%></span>
-									<span style="color: green;">&#9679;</span><br>
-									<span><%=(String)rms.get("petName")%></span>
-									<span>(<%=rms.get("petAge")%>살)</span><br>
-									<span><%=(String)rms.get("petKind")%></span>
-								</div>
-						<%
-							}else{
-						%>
-								<div style="border: 1px solid red; width: 100px; height: 100px; background-color: gray; float: left;">
-									<span><%=(String)rms.get("roomName")%></span>
-									<span style="color: red;">&#9679;</span><br>
-									<span>비어있음</span>
-								</div>
-						<%
-								
-							}
-						}else{
-							System.out.println("==1걸리나");
-							// 입원환자의 여부(ON, OFF)에 따라 다르게 표시
-							String state = (String)rms.get("state");
-							if(state.equals("ON")){
-						%>
-								<div style="border: 1px solid red; width: 100px; height: 100px; float: left;">
-									<span><%=(String)rms.get("roomName")%></span>
-									<span style="color: green;">&#9679;</span><br>
-									<span><%=(String)rms.get("petName")%></span>
-									<span>(<%=rms.get("petAge")%>살)</span><br>
-									<span><%=(String)rms.get("petKind")%></span>
-								</div>
-						<%
-							}else{
-						%>
-								<div style="border: 1px solid red; width: 100px; height: 100px; background-color: gray; float: left;">
-									<span><%=(String)rms.get("roomName")%></span>
-									<span style="color: red;">&#9679;</span><br>
-									<span>비어있음</span>
-								</div>
-								<div class="clear"></div>
-						<%
-							}
-							
+			<%
+				for(HashMap<String, Object> rms : hospitalRmsList){
+					String state = (String)rms.get("state");
+					String roomName = (String)rms.get("roomName");
+					//System.out.println("입원실 뒷자리 가져오기 hospitalRoomList.jsp --> " + roomName.substring(1,3));
+					
+					// 입원실이 10으로 끝남 (float속성을 clear)
+					if(roomName.substring(1,3).equals("10")){
+						// 입원실의 입원 환자 ON / OFF 구분
+						if(state.equals("ON")){
+			%>
+							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:10px;">
+								<%=roomName%> <span style="color: green;">&#9679;</span><br>
+								<!-- 접수번호로 상세보기이동 -->
+								<a href="/atti/view/hospitalizationDetail.jsp?regiNo=<%=(Integer)rms.get("regiNo")%>">
+									<%=(String)rms.get("petName")%> (<%=(Integer)rms.get("petAge")%>살)
+								</a><br>
+								<%=(String)rms.get("petKind")%>
+							</div>
+			<%
+						}else if(state.equals("OFF")){
+			%>
+							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:10px; background-color: gray;">
+								<%=roomName%> <span style="color: red;">&#9679;</span>
+								<br>비어있음
+							</div>
+			<%
 						}
-						cntRms = cntRms+1; //각 입원실 종류 나눠주기
-						%>
-						
-				<%
+			%>
+						<div style="clear: both;"></div>
+			<%
+					}else{
+					// 입원실이 1~09으로 끝남
+						// 입원실의 입원 환자 ON / OFF 구분					
+						if(state.equals("ON")){
+			%>
+							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:10px;">
+								<%=roomName%> <span style="color: green;">&#9679;</span><br>
+								<!-- 접수번호로 상세보기이동 -->
+								<a href="/atti/view/hospitalizationDetail.jsp?regiNo=<%=(Integer)rms.get("regiNo")%>">
+									<%=(String)rms.get("petName")%> (<%=(Integer)rms.get("petAge")%>살)
+								</a><br>
+								<%=(String)rms.get("petKind")%>
+							</div>
+			<%
+						}else if(state.equals("OFF")){
+			%>
+							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:10px; background-color: gray;">
+								<%=roomName%> <span style="color: red;">&#9679;</span>
+								<br>비어있음
+							</div>
+			<%
+						}
 					}
-				%>
-			</div>
+				}
+			%>
+		</div>
 	</main>
 </body>
 </html>

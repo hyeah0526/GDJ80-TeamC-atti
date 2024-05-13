@@ -9,7 +9,7 @@ public class HospitalRoomDao {
 	public static void main(String[] args) throws Exception {
 		
 		//HospitalRoomDao #hospitalRoomList() 디버깅
-		System.out.println(HospitalRoomDao.hospitalRoomList());
+		//System.out.println(HospitalRoomDao.hospitalRoomList());
 	}
 	
 	/*
@@ -33,7 +33,7 @@ public class HospitalRoomDao {
 		*/
 		String sql = "SELECT r.room_name roomName, r.state state, r.update_date updateDate"
 					+ ", h.hospitalization_no hospitalizationNo, h.regi_no regiNo, h.discharge_date dischargeDate"
-					+ ", p.pet_name petName, p.pet_kind petKind, p.pet_birth petBirth"
+					+ ", p.pet_name petName, p.pet_kind petKind, p.pet_birth petBirth, p.emp_major empMajor"
 					+ " FROM hospital_room r"
 					+ " LEFT JOIN hospitalization h"
 					+ " ON r.room_name = h.room_name" //입원실번호 = 입원환자의 입원실번호
@@ -44,13 +44,13 @@ public class HospitalRoomDao {
 					+ " ORDER BY roomName ASC"; //입원실 이름순으로 정렬
 		
 		stmt = conn.prepareStatement(sql);
-		//System.out.println("HospitalRoomDao #hospitalRoomList() ---> "+stmt);
+		//System.out.println("HospitalRoomDao #hospitalRoomList() sql ---> "+stmt);
 		
 		rs = stmt.executeQuery();
 		
 		Calendar calendar = Calendar.getInstance();
 		int currentYear = calendar.get(Calendar.YEAR);
-		System.out.println(currentYear);
+		//System.out.println("HospitalRoomDao #hospitalRoomList() currentYear --> "+currentYear);
 		int petAge = 0;
 		
 		// 담아주기
@@ -63,13 +63,14 @@ public class HospitalRoomDao {
 			hashMap.put("regiNo", rs.getInt("regiNo")); //접수번호
 			hashMap.put("dischargeDate", rs.getString("dischargeDate")); //퇴원날짜
 			hashMap.put("petName", rs.getString("petName")); //동물이름
-			hashMap.put("petKind", rs.getString("petKind")); //동물종류
+			hashMap.put("petKind", rs.getString("petKind")); //동물 세부종류
+			hashMap.put("empMajor", rs.getString("empMajor")); //포유류, 파충류, 조류 구분
 			
 			if(rs.getString("petBirth") != null) {
 				//동물나이구하기
 				String petBirth = rs.getString("petBirth").substring(0,4);
 				int petBirthInt = Integer.parseInt(petBirth);
-				//System.out.println("동물년도 확인-->" + petBirthInt);
+				//System.out.println("HospitalRoomDao #hospitalRoomList() 동물년도 확인-->" + petBirthInt);
 				
 				petAge = currentYear-petBirthInt;
 				hashMap.put("petAge", petAge); //동물생일
