@@ -48,6 +48,13 @@
 	text-align: center;
 }
 
+#logo{
+	width: 125px;
+	position: fixed;
+	top: 15px;
+	left: 20px;
+}
+
 #mainCategoryDiv{
 	background-color: #675d50;
 	flex: 1;
@@ -68,13 +75,6 @@
 
 #mainCategoryDiv button:active{
 	background-color: #bed8cb;
-}
-
-img{
-	width: 100px;
-	position: fixed;
-	top: 20px;
-	left: 50px;
 }
 
 a{
