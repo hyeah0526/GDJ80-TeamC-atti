@@ -9,7 +9,7 @@
 <!-- view layer -->
 <header id="header">
 	<%
-		//session 유무에 따라 보여주는 보여주는 버튼을 다르게 보여주기 
+		//session 유무에 따라 버튼을 다르게 보여주기 
 		if(session.getAttribute("loginEmp")!= null){
 	%>
 			<!-- 로그인 정보 출력 -->
@@ -66,10 +66,13 @@
 					//System.out.println(loginEmp.get("empNo"));
 					//System.out.println(loginEmp.get("empNo").toString().charAt(0));
 					
+					//로그인한 사용자의 권한에 따라 버튼 다르게 보여주기(관리자만)
 					if(loginEmp.get("empNo") != null && loginEmp.get("empNo").toString().charAt(0) == '1'){					
 			%>		
 						<button>매출관리</button>
-						<button>직원관리</button>					
+						<button>
+							<a href="/atti/view/empList.jsp">직원관리</a>
+						</button>					
 			<%
 					}
 				}

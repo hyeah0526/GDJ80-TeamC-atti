@@ -13,7 +13,12 @@ public class EmpDao {
 	*/
 	public static HashMap<String, Object> login(int empNo, String empPw)throws Exception{
 		
-		HashMap<String, Object> resultMap = null;
+		//매개변수 값 출력
+		//System.out.println("empNo = " + empNo);
+		//System.out.println("empPw = " + empPw);
+		
+		//반환 값 변수
+		HashMap<String, Object> resultMap = new HashMap<>();
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null; 
@@ -21,10 +26,11 @@ public class EmpDao {
 		//DB연결 
 		Connection conn = DBHelper.getConnection();
 		
-		
+		//사용자 인증: 입력된 사번과 비밀번호가 일치하는 직원의 정보 조회
 		String sql = "SELECT emp_no, emp_grade, emp_name "
 				+ "FROM employee "
 				+ "WHERE emp_no=? AND emp_pw = password(?)";
+		
 		stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, empNo); //사용자의 사번
 		stmt.setString(2, empPw); // 사용자의 비밀번호
@@ -32,7 +38,6 @@ public class EmpDao {
 		
 		
 		if(rs.next()) {
-			resultMap = new HashMap<String, Object>();
 			resultMap.put("empNo",rs.getString("emp_no")); // 사용자의 사번 
 			resultMap.put("empGrade",rs.getString("emp_grade"));  // 사용자의 직급
 			resultMap.put("empName",rs.getString("emp_name"));  // 사용자의 아이디
@@ -56,7 +61,13 @@ public class EmpDao {
 	  	담당자: 김인수
 	*/
 	public static int empPwUpdate(String currentPw, String newPw, int empNo) throws Exception{
-
+		
+		//매개변수 값 출력
+		//System.out.println("currentPw = " + currentPw);
+		//System.out.println("newPw = " + newPw);
+		//System.out.println("empNo = " + empNo);
+		
+		//반환 값 변수
 		int updateRow = 0;
 		
 		PreparedStatement stmt = null;
@@ -64,7 +75,7 @@ public class EmpDao {
 		//DB연결 
 		Connection conn = DBHelper.getConnection();
 		
-		// 사용자의 새 비밀번호가 현재 비밀번호 또는 과거 비밀번호와 다를 때만 업데이트
+		//사용자의 새 비밀번호 업데이트: 새 비밀번호가 현재 비밀번호나 과거에 사용된 비밀번호와 다를 경우에만 업데이트
 		String sql = "UPDATE employee SET emp_pw = PASSWORD(?) "
 				+ "WHERE emp_no = ? AND emp_pw = PASSWORD(?) AND PASSWORD(?) <> PASSWORD(?) "
 				+ "AND NOT EXISTS ("
@@ -95,12 +106,18 @@ public class EmpDao {
 	 */
 	public static int empPwHistory(int empNo, String previousPw) throws Exception{
 		
+		//매개변수 값 출력
+		//System.out.println("empNo = " + empNo);
+		//System.out.println("previousPw = " + previousPw);
+		
+		//반환 값 변수
 		int insertRow = 0;
 		PreparedStatement stmt = null;
 		
 		//DB연결 
 		Connection conn = DBHelper.getConnection();
 		
+		//비밀번호 변경 이력 저장: 직원의 이전 비밀번호를 저장
 		String sql = "INSERT INTO password_history (emp_no, previous_pw, update_date) "
 				+ "VALUES (?,PASSWORD(?),NOW())";
 		
@@ -111,6 +128,57 @@ public class EmpDao {
 		
 		conn.close();
 		return insertRow;
+	}
+	
+	/*
+	  	메소드: EmpDao#empAll()
+	  	페이지: empList.jsp
+	  	시작날짜: 2024-05-13
+	  	담당자: 김인수
+	*/
+	public static  ArrayList<HashMap<String, Object>> empAll(String searchWord, int startRow, int rowPerPage) throws Exception{
+		
+		//매개변수 값 출력
+		//System.out.println("searchWord = " + searchWord);
+		//System.out.println("startRow = " + startRow);
+		//System.out.println("rowPerPage = " + rowPerPage);
+		
+		//반환 값 변수
+		ArrayList<HashMap<String, Object>> resultMap = new ArrayList<>();
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		
+		//DB연결 
+		Connection conn = DBHelper.getConnection();
+		
+		//직원조회(이름): 사용자가 입력한 이름을 포함하는 모든 직원 정보 조회
+		String sql = "SELECT emp_no, emp_grade, emp_name,  COUNT(*) OVER() cnt "
+				+ "FROM employee "
+				+ "WHERE emp_name LIKE ? ORDER BY hire_date DESC LIMIT ?,?";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%"+searchWord+"%"); 
+		stmt.setInt(2, startRow);
+		stmt.setInt(3, rowPerPage); 
+		rs = stmt.executeQuery();
+		
+		
+		
+		while(rs.next()) {
+			HashMap<String, Object> emplist = new HashMap<String, Object>();
+			emplist.put("empNo",rs.getString("emp_no")); // 사용자의 사번 
+			emplist.put("empGrade",rs.getString("emp_grade"));  // 사용자의 직급
+			emplist.put("empName",rs.getString("emp_name"));  // 사용자의 아이디
+			emplist.put("cnt",rs.getString("cnt"));  // 사용자의 아이디
+			resultMap.add(emplist);
+		}
+		
+		//디버깅
+		//System.out.println("resultMap = " + resultMap);
+		
+		conn.close();
+		return resultMap;
 	}
 	
 }

@@ -19,7 +19,7 @@
 		return;
 	}
 
-HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");	
+	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");	
 	int empNo =  Integer.parseInt((String)loginEmp.get("empNo"));
 
 	//비빌번호 변경 요류 시 표시될 메세지	
@@ -47,11 +47,8 @@ HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute
 		
 		//사용자의 비밀번호 변경 후 기존 비밀번호 저장
 		int insertRow = EmpDao.empPwHistory(empNo, currentPw);
-		
-		if(insertRow > 0){
-			response.sendRedirect("/atti/action/logoutAction.jsp"); // 비밀번호 성공 시 로그아웃 action으로 이동			
-		}
-		
+		response.sendRedirect("/atti/action/logoutAction.jsp"); // 비밀번호 성공 시 로그아웃 action으로 이동			
+
 	}else{
 		errorMessage = URLEncoder.encode("이전에 사용했던 비밀번호 입니다.", "UTF-8");
 		//새로운 비빌번호가 이전에 사용했던 비밀번호일 경우 페이지 이동 후 오류 메시지 입력
