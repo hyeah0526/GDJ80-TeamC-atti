@@ -18,7 +18,7 @@ public class EmpDao {
 		//System.out.println("empPw = " + empPw);
 		
 		//반환 값 변수
-		HashMap<String, Object> resultMap = new HashMap<>();
+		HashMap<String, Object> resultMap = null;
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null; 
@@ -38,6 +38,7 @@ public class EmpDao {
 		
 		
 		if(rs.next()) {
+			resultMap = new HashMap<>();
 			resultMap.put("empNo",rs.getString("emp_no")); // 사용자의 사번 
 			resultMap.put("empGrade",rs.getString("emp_grade"));  // 사용자의 직급
 			resultMap.put("empName",rs.getString("emp_name"));  // 사용자의 아이디
@@ -170,7 +171,7 @@ public class EmpDao {
 			emplist.put("empNo",rs.getString("emp_no")); // 사용자의 사번 
 			emplist.put("empGrade",rs.getString("emp_grade"));  // 사용자의 직급
 			emplist.put("empName",rs.getString("emp_name"));  // 사용자의 아이디
-			emplist.put("cnt",rs.getString("cnt"));  // 사용자의 아이디
+			emplist.put("cnt",rs.getString("cnt"));  // 전체인원
 			resultMap.add(emplist);
 		}
 		
@@ -181,4 +182,54 @@ public class EmpDao {
 		return resultMap;
 	}
 	
+	
+	/*
+	  	메소드: EmpDao#empDetail()
+	  	페이지: empDetail.jsp
+	  	시작날짜: 2024-05-13
+	  	담당자: 김인수
+	*/
+	public static  ArrayList<HashMap<String, Object>> empDetail(int empNo) throws Exception{
+		
+		//매개변수 값 출력
+		//System.out.println("empNo = " + empNo);
+		
+		//반환 값 변수
+		ArrayList<HashMap<String, Object>> resultMap = new ArrayList<>();
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		
+		//DB연결 
+		Connection conn = DBHelper.getConnection();
+		
+		//직원 정보 상세 조회: 선택된 직원의 정보 상세 조회
+		String sql = "SELECT emp_no, emp_major, emp_grade, emp_name, emp_birth, emp_gender, emp_tel, hire_date "
+				+ "FROM employee "
+				+ "WHERE emp_no = ?";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, empNo);
+		rs = stmt.executeQuery();
+		
+		
+		if(rs.next()) {
+			HashMap<String, Object> empList = new HashMap<String, Object>();
+			empList.put("empNo",rs.getString("emp_no")); // 사용자의 사번 
+			empList.put("empMajor",rs.getString("emp_major"));  // 사용자의 전공
+			empList.put("empGrade",rs.getString("emp_grade"));  // 사용자의 직급
+			empList.put("empName",rs.getString("emp_name"));  // 사용자의 아이디
+			empList.put("empBirth",rs.getString("emp_birth"));  // 사용자의 생일
+			empList.put("empGender",rs.getString("emp_gender"));  // 사용자의 성별
+			empList.put("empTel",rs.getString("emp_tel"));  // 사용자의 전화번호
+			empList.put("hireDate",rs.getString("hire_date"));  // 사용자의 입사일
+			resultMap.add(empList);
+		}
+		
+		//디버깅
+		//System.out.println("resultMap = " + resultMap);
+		
+		conn.close();
+		return resultMap;
+	}
 }

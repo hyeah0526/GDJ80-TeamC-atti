@@ -49,7 +49,7 @@ input{
 table{
 	width: 80%;            
     border-collapse: collapse;
-    margin: 20px auto;    
+    margin: 20px;    
     box-shadow: 0 2px 3px #ccc; 
 }
 th, td {
@@ -59,7 +59,7 @@ th, td {
 }
 
 th {
-    background-color: #f2f2f2; 
+    background-color: #eedcba;; 
     font-weight: bold; 
 }
 
@@ -86,10 +86,28 @@ tr:hover {
 .currentPage {
     padding: 10px 20px;
     margin: 5px;
-    background-color: #f0f0f0;
+    background-color: #eedcba;
     border-radius: 5px;
     color: black;
     font-size: 16px;
+}
+
+.contentDiv{
+	display: flex;
+	justify-content: space-between;
+	border: 1px solid #c0c0c0;
+	padding: 10px;
+}
+
+.detailEmpBtn{
+	margin-top: 0px;
+	width: 100px;
+	height: 40px;
+	background-color: #eedcba;
+}
+
+.detailEmpBtn:hover{
+	background-color: #bed8cb;
 }
 
 #errorMessageDiv{
@@ -103,7 +121,7 @@ tr:hover {
 	justify-content:center;
 	align-items: center;
 	flex-direction: column;
-	height: 100px;
+	height: 50px;
 }
 
 
@@ -140,6 +158,44 @@ tr:hover {
 }
 
 #searchDiv{
-	margin-top: 30px;
+	padding: 10px;
 }
 
+#detailView{
+	border-radius: 5px;
+	background-color: #eedcba;
+}
+
+#detailView:hover{
+	background-color: #bed8cb;
+}
+
+#detailEmpForm{
+	display: flex;
+	justify-content: center;
+	border: 1px solid black;
+	margin-top: 0px;
+	flex-direction: unset;
+	border: 0;
+	padding: 0;
+	box-shadow: none;
+	width: auto;
+}
+
+
+#detailDiv{
+	display: flex;
+	flex-direction: column;
+}
+
+#detailDiv label{
+	margin-right: 15px;
+	border-right: 1px solid #c0c0c0;
+	padding-right: 20px;
+}
+
+#detailBtn{
+	display: flex;
+	margin-top: 20px;
+	justify-content: space-between;
+}

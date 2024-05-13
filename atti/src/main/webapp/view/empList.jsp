@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
+<%@ page import="java.net.*" %>
 <%@ page import="atti.*" %>
 
 <!-------------------- 
@@ -104,7 +105,7 @@
 	
 		<div id="searchDiv">
 		    <!-- 검색 폼 -->
-		    <form action="/atti/view/empList.jsp" id="paginationForm">
+		    <form action="/atti/view/empList.jsp" id="paginationForm" method="post">
 		        <label id="paginationLabel">이름</label>
 		        <input type="text" name="searchWord" id="paginationInput">
 		        <button type="submit" id="paginationBtn">확인</button>
@@ -118,6 +119,7 @@
 				<th>상세보기</th>
 			</tr>
 			<% 
+				//직원정보 출력하기
 				for(HashMap<String, Object> m : list){
 			%>
 				<tr>
@@ -125,11 +127,11 @@
 					<td><%=(String)(m.get("empGrade"))%></td>
 					<td><%=(String)(m.get("empName"))%></td>
 					<td>
-						<button>
-							<a>
-								상세보기
-							</a>
-						</button>
+						<!-- 상세보기 폼 -->
+						<form action="/atti/view/empDetail.jsp" id="detailEmpForm" method="post">
+							<input type="hidden" name="empNo" value="<%=(String)(m.get("empNo"))%>">
+    						<button type="submit" class="detailEmpBtn">상세보기</button>
+						</form>
 					</td>
 				</tr>
 			<% 
@@ -157,6 +159,7 @@
 			    <% } %>
 			</div>	
 		</div>
+		
 	</main>
 </body>
 </html>

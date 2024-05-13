@@ -10,6 +10,12 @@
 }
 
 /*----------------- hearder.jsp -----------------*/
+
+a{
+	text-decoration: none;
+	color:black;
+}
+
 #header{
 	background-color: #675d50;
 	position: fixed;
@@ -77,10 +83,6 @@
 	background-color: #bed8cb;
 }
 
-a{
-	text-decoration: none;
-	color:black;
-}
 
 /*----------------- subMenu.jsp -----------------*/
 #subMenu{ 
@@ -91,12 +93,14 @@ a{
     width: 150px;
     height: 100%;
 }
+
 #subMenuBtnContainer{
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
 }
+
 #subMenu button{
 	background-color: #eedcba;
 	border: none;
@@ -114,7 +118,8 @@ a{
 	background-color: #bed8cb;
 }
 
-/*----------------- main.jsp -----------------*/	
+/*----------------- main.jsp -----------------*/
+	
 main{
 	position: fixed;
 	top: 170px;
