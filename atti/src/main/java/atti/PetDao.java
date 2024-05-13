@@ -25,10 +25,16 @@ public class PetDao {
 		Connection conn = DBHelper.getConnection();
 		
 		String sql = "INSERT INTO pet(customer_no, emp_major, pet_kind,"
-				+ " pet_name, pet_birth, create_date, update_date"
+				+ " pet_name, pet_birth, create_date, update_date)"
 				+ " VALUES(?, ?, ?, ?, ?, NOW(), NOW())";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, customerNo);
+		stmt.setString(2, major);
+		stmt.setString(3, petKind);
+		stmt.setString(4, petName);
+		stmt.setString(5, petBirth);
+		
 		insertRow = stmt.executeUpdate();
 		conn.close();
 		return insertRow;

@@ -28,10 +28,10 @@
 	int insertRow = PetDao.petRegistration(customerNo, major, petKind, petName, petBirth);
 	
 	if(insertRow > 0) {
-		System.out.println("고객 등록 성공");
+		System.out.println("펫 등록 성공");
 		response.sendRedirect("/atti/view/customerDetail.jsp?customerNo=" + customerNo);
 	} else {
-		System.out.println("고객 등록 실패");
+		System.out.println("펫 등록 실패");
 		response.sendRedirect("/atti/view/customerRegiForm.jsp");
 	} 
  %>
