@@ -226,8 +226,100 @@ public class HospitalRoomDao {
 	}
 	
 	
+	/*
+	 * 메소드: #hospitalizationList(String searchName, int startRow, int rowPerPage) 
+	 * 페이지: hospitalRoomList.jsp
+	 * 시작 날짜: 2024-05-14
+	 * 담당자: 박혜아
+	*/
+	public static ArrayList<HashMap<String, Object>> hospitalizationList(String searchName, int startRow, int rowPerPage) throws Exception{
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		
+		//받아온 값 디버깅
+		System.out.println("HospitalRoomDao #hospitalizationList() searchName ---> "+searchName);
+		System.out.println("HospitalRoomDao #hospitalizationList() startRow ---> "+startRow);
+		System.out.println("HospitalRoomDao #hospitalizationList() rowPerPage ---> "+rowPerPage);
+		
+		//DB연결
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		/* SELECT(조회화면에서 보여줄 것)
+		 * registration : 접수번호
+		 * pet : 동물이름, 동물종류
+		 * customer : 보호자이름
+		 * hospitalization : 입원날짜, 퇴원날짜
+		 */
+		String sql = "SELECT regi.regi_no regiNo, p.pet_name petName, p.pet_kind petKind, c.customer_name customerName,"
+				+ " h.create_date createDate, h.discharge_date dischargeDate"
+				+ " FROM hospitalization h"
+				+ " LEFT JOIN registration regi ON h.regi_no = regi.regi_no" //입원의 접수번호 = 접수의 접수번호
+				+ " LEFT JOIN pet p ON regi.pet_no = p.pet_no"				//접수의 펫번호 = 펫의 펫번호
+				+ " LEFT JOIN customer c ON p.customer_no = c.customer_no"	//펫의 보호자번호 = 보호자의 보호자번호
+				+ " WHERE p.pet_name LIKE ?" 								//동물이름 검색어 설정
+				+ " ORDER BY h.create_date DESC" 							//최신순 정렬
+				+ " LIMIT ?, ?"; 											//페이징 
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%"+searchName+"%");
+		stmt.setInt(2, startRow);
+		stmt.setInt(3, rowPerPage);
+		System.out.println("HospitalRoomDao #hospitalizationList() sql ---> "+stmt);
+		
+		rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("regiNo", rs.getInt("regiNo"));						//접수번호
+			map.put("petName", rs.getString("petName"));				//펫이름
+			map.put("petKind", rs.getString("petKind"));				//펫종류
+			map.put("customerName", rs.getString("customerName"));		//보호자이름
+			map.put("createDate", rs.getString("createDate"));			//입원날짜
+			map.put("dischargeDate", rs.getString("dischargeDate"));	//퇴원날짜
+			
+			list.add(map);
+		}
+		
+		conn.close();
+		return list;
+	}
 	
 	
+	/*
+	 * 메소드: #hospitalizationListCnt(String searchName)
+	 * 페이지: hospitalRoomList.jsp
+	 * 시작 날짜: 2024-05-14
+	 * 담당자: 박혜아
+	*/
+	public static int hospitalizationListCnt(String searchName) throws Exception{
+		int row = 0;
+		
+		//DB연결
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		//전체행갯수
+		String sql = "SELECT COUNT(*) totalRow"
+				+ " FROM hospitalization h"
+				+ " LEFT JOIN registration regi ON h.regi_no = regi.regi_no"
+				+ " LEFT JOIN pet p ON regi.pet_no = p.pet_no"
+				+ " WHERE p.pet_name LIKE ?";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%"+searchName+"%");
+		
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			row = rs.getInt("totalRow");
+		}
+		System.out.println("HospitalRoomDao #hospitalizationListCnt()--> "+row);
+		
+		conn.close();
+		return row;
+	}
 	
 	
 }
