@@ -71,9 +71,10 @@
 	<main>
 		<h2>개인정보</h2>
 		<div id="detailDiv">
-		
 			<%
+				//선택된 직원정보 출력하기
 				for(HashMap<String, Object> m : detailList){
+					 String originalTel = (String)(m.get("empTel"));
 			%>
 				<div class="contentDiv">
 					<label>사번</label>
@@ -101,7 +102,7 @@
 				</div>
 				<div class="contentDiv">
 					<label>전화번호</label>
-					<%=(String)(m.get("empTel"))%>
+					<%=originalTel.replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3")%>
 				</div>
 			<%
 				}
@@ -109,13 +110,14 @@
 			
 			<div id="detailBtn">
 				<button class="detailEmpBtn">
+					 <!-- 이전 페이지 링크 -->
 					<a href="/atti/view/empList.jsp">뒤로가기</a>
 				</button>
 				<button class="detailEmpBtn">
-					수정하기
+				 	<!-- 개인정보 수정 페이지 링크 -->
+					<a href="/atti/view/empUpdateForm.jsp">수정하기</a>
 				</button>
 			</div>
-			
 		</div>
 	</main>
 </body>

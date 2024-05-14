@@ -99,17 +99,22 @@ tr:hover {
 	padding: 10px;
 }
 
+.contentDiv label{
+	font-size: 20px;
+}
+
 .detailEmpBtn{
 	margin-top: 0px;
 	width: 100px;
-	height: 40px;
+	height: 50px;
 	background-color: #eedcba;
+	border: 0;
+	border-radius: 10px;
 }
 
 .detailEmpBtn:hover{
 	background-color: #bed8cb;
 }
-
 #errorMessageDiv{
 	margin-top: 30px;
 	text-align: center;
@@ -155,6 +160,7 @@ tr:hover {
 	width: 100px;
 	height: 40px;
 	margin-left: 30px;
+	border: 0;
 }
 
 #searchDiv{
@@ -186,6 +192,8 @@ tr:hover {
 #detailDiv{
 	display: flex;
 	flex-direction: column;
+	font-size: 20px;
+	margin-top: 30px;
 }
 
 #detailDiv label{
@@ -198,4 +206,5 @@ tr:hover {
 	display: flex;
 	margin-top: 20px;
 	justify-content: space-between;
+	font-size: 20px;
 }
