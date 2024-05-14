@@ -17,12 +17,13 @@
 
 %>
 <%
-	ArrayList<HashMap<String, Object>> examinationDetail = ExaminationDao.examinationDetail();
+	// 값 받아오기 -> 검사 번호
+	int examinationNo = Integer.parseInt(request.getParameter("examinationNo"));
+	//System.out.println(examinationDetail + " ====== examinationDetail");
+	
+	// 검사 번호에 대한 검사 상세 내용 
+	ArrayList<HashMap<String, Object>> examinationDetail = ExaminationDao.examinationDetail(examinationNo);
 
-	int examinationNo = 0; // 초기화
-	
-	System.out.println(examinationNo + " ====== examinationNo");
-	
 %>
 <!DOCTYPE html>
 <html>
@@ -46,14 +47,22 @@
 	<!-------------------- aside -------------------->
 	<aside>
 		<!-- 서브메뉴나오는 부분 -->
-		<jsp:include page="/inc/subMenu.jsp"></jsp:include>
+		<div id="subMenu">
+			<div id="subMenuBtnContainer">
+				<button type="button" onclick="location.href='./examinationList.jsp'">검사 조회</button><br><br>
+			</div>
+		</div>
 	</aside>
 	
 	<!-------------------- main -------------------->
 	<main>
 	<div>
+		<h2>검사 상세 정보</h2>
+	</div>
+	
+	<div>
 		<table border="1">
-		
+		<!-- 검사 상세 정보 보여주기 -->
 		<%
 			for(HashMap<String, Object> d : examinationDetail) {
 		%>
