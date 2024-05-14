@@ -23,6 +23,7 @@
 	//디버깅
 	//System.out.println(loginEmp);
 	
+	//선택된 직원의 사번
 	int empNo = Integer.parseInt(request.getParameter("empNo"));
 	
 	//System.out.println(empNo);
@@ -65,7 +66,10 @@
 	
 	<!-------------------- main -------------------->
 	<main>
+	
 		<h2>직원 정보 수정</h2>
+		
+		<!-- 선택된 직원 정보 수정 입력 폼 -->
 		<form action="/atti/action/empUpdateAction.jsp" method="post" id="empUpdateForm">
 			<%
 				//선택된 직원정보 출력하기
@@ -73,7 +77,7 @@
 			%>
 				<div>
 					<label>사번</label>
-					<input type="text" readonly="readonly" value=<%=(String)(m.get("empNo"))%>>
+					<input type="text" name="empNo" readonly="readonly" value=<%=(String)(m.get("empNo"))%>>
 				</div>
 				<div>
 					<label>전공</label>
@@ -107,15 +111,15 @@
 			
 				<div>							
 					<button type="button" onclick="window.history.back();" class="detailEmpBtn">뒤로가기</button>
-					<button type="submit" class="detailEmpBtn">수정하기</button>
+					<button type="submit" class="detailEmpBtn">수정</button>
 					<button class="detailEmpBtn">
 						<a>회원탈퇴</a>
 					</button>
 				</div>
 				
-				<%
-					}
-				%>	
+			<%
+				}
+			%>	
 		</form>
 	</main>
 </body>

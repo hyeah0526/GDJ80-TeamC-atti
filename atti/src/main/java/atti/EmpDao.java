@@ -232,4 +232,40 @@ public class EmpDao {
 		conn.close();
 		return resultMap;
 	}
+	
+	/*
+	  	메소드: EmpDao#empUpdate()
+	  	페이지: empUpdateAction.jsp
+	  	시작날짜: 2024-05-14
+	  	담당자: 김인수
+	*/
+	public static int empUpdate(int empNo, String empMajor, String empTel) throws Exception{
+		
+		//매개변수 값 출력
+		//System.out.println("empNo = " + empNo);
+		//System.out.println("empMajor = " + empMajor);
+		//System.out.println("empTel = " + empTel);
+		
+		
+		//반환 값 변수
+		int updateRow = 0;
+		
+		PreparedStatement stmt = null;
+		
+		//DB연결 
+		Connection conn = DBHelper.getConnection();
+		
+		//직원 정보 변경: 직원의 전공 또는 전화번호 변경
+		String sql = "UPDATE employee SET emp_major = ? , emp_tel = ? WHERE emp_no = ? ";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, empMajor); //변경될 직원의 전공
+		stmt.setString(2, empTel); //변경될 직원의 전화번호
+		stmt.setInt(3, empNo); // 선택된 직원의 사번
+
+		updateRow = stmt.executeUpdate();
+		
+		conn.close();
+		return updateRow;
+	}
 }

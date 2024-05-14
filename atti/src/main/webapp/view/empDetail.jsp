@@ -23,7 +23,7 @@
 	//디버깅
 	//System.out.println(loginEmp);
 	
-	//직원의 사번
+	//선택된 직원의 사번
 	int empNo = Integer.parseInt(request.getParameter("empNo"));
 	
 	//디버깅
@@ -77,8 +77,8 @@
 				for(HashMap<String, Object> m : detailList){
 					 String originalTel = (String)(m.get("empTel"));
 			%>
-				
-				<form action="/atti/action/empUpdateAction.jsp" method="post" id="empUpdateForm">
+				<!-- 선택된 직원 정보 보여주기 폼 -->
+				<form action="" method="post" id="empUpdateForm">
 						<div>
 							<label>사번</label>
 							<input type="text" readonly="readonly" value=<%=(String)(m.get("empNo"))%>>
@@ -118,6 +118,7 @@
 						<input type="hidden" name="empNo" value="<%=(String)(m.get("empNo"))%>">
    						<button type="submit" class="detailEmpBtn">수정하기</button>
 					</form>
+					
 				</div>
 			<%
 				}
