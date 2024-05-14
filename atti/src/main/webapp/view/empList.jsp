@@ -127,8 +127,8 @@
 					<td><%=(String)(m.get("empGrade"))%></td>
 					<td><%=(String)(m.get("empName"))%></td>
 					<td>
-						<!-- 상세보기 폼 -->
-						<form action="/atti/view/empDetail.jsp" id="detailEmpForm" method="post">
+						<!-- 상세보기 페이지 이동-->
+						<form action="/atti/view/empDetail.jsp" class="detailEmpForm" method="post">
 							<input type="hidden" name="empNo" value="<%=(String)(m.get("empNo"))%>">
     						<button type="submit" class="detailEmpBtn">상세보기</button>
 						</form>

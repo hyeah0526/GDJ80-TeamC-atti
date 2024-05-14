@@ -69,55 +69,59 @@
 	
 	<!-------------------- main -------------------->
 	<main>
-		<h2>개인정보</h2>
+		<h2>직원 개인 정보 </h2>
 		<div id="detailDiv">
+		
 			<%
 				//선택된 직원정보 출력하기
 				for(HashMap<String, Object> m : detailList){
 					 String originalTel = (String)(m.get("empTel"));
 			%>
-				<div class="contentDiv">
-					<label>사번</label>
-					<%=(String)(m.get("empNo"))%>
-				</div>
 				
-				<div class="contentDiv">
-					<label>전공</label>
-					<%=(String)(m.get("empMajor"))%>
-				</div>
-				<div class="contentDiv">
-					<label>직책</label>	
-					<%=(String)(m.get("empGrade"))%></div>
-				<div class="contentDiv">
-					<label>이름</label>
-					<%=(String)(m.get("empName"))%>
-				</div>
-				<div class="contentDiv">
-					<label>생일</label>
-					<%=(String)(m.get("empBirth"))%>
-				</div>
-				<div class="contentDiv">
-					<label>성별</label>
-					<%=(String)(m.get("empGender"))%>
-				</div>
-				<div class="contentDiv">
-					<label>전화번호</label>
-					<%=originalTel.replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3")%>
+				<form action="/atti/action/empUpdateAction.jsp" method="post" id="empUpdateForm">
+						<div>
+							<label>사번</label>
+							<input type="text" readonly="readonly" value=<%=(String)(m.get("empNo"))%>>
+						</div>
+						<div>
+							<label>전공</label>
+							<input type="text" readonly="readonly" value=<%=(String)(m.get("empMajor")) %>>
+						</div>
+						<div>
+							<label>직책</label>
+							<input type="text" readonly="readonly"  value=<%=(String)(m.get("empGrade")) %>>
+						</div>
+						<div>
+							<label>이름</label>
+							<input type="text" readonly="readonly"  value=<%=(String)(m.get("empName")) %>>
+						</div>
+						<div>
+							<label>생일</label>
+							<input type="text" readonly="readonly"  value=<%=(String)(m.get("empBirth")) %>>
+						</div>
+						<div>
+							<label>성별</label>
+							<input type="text" readonly="readonly"  value=<%=(String)(m.get("empGender")) %>>
+						</div>
+						<div>
+							<label>전화번호</label>
+							<input type="text" readonly="readonly" value=<%=originalTel.replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3")%>>
+						</div>
+				</form>
+			
+				<div id="detailBtn">
+				
+					<button type="button" onclick="window.history.back();" class="detailEmpBtn">뒤로가기</button>
+					
+					<!--개인 정보 수정 페이지 이동-->
+					<form action="/atti/view/empUpdateForm.jsp" class="detailEmpForm" method="post">
+						<input type="hidden" name="empNo" value="<%=(String)(m.get("empNo"))%>">
+   						<button type="submit" class="detailEmpBtn">수정하기</button>
+					</form>
 				</div>
 			<%
 				}
 			%>
-			
-			<div id="detailBtn">
-				<button class="detailEmpBtn">
-					 <!-- 이전 페이지 링크 -->
-					<a href="/atti/view/empList.jsp">뒤로가기</a>
-				</button>
-				<button class="detailEmpBtn">
-				 	<!-- 개인정보 수정 페이지 링크 -->
-					<a href="/atti/view/empUpdateForm.jsp">수정하기</a>
-				</button>
-			</div>
 		</div>
 	</main>
 </body>

@@ -3,6 +3,8 @@
 h2{
 	font-size: 32px;
 	color: #333; 
+	background-color: #fff;  
+    position: relative;
 }
 
 main{
@@ -64,7 +66,7 @@ th {
 }
 
 tr:hover {
-    background-color: #e8e8e8; /* 마우스 오버 시 행의 배경색을 변경합니다 */
+    background-color: #e8e8e8; 
 }
 
 .userFormDiv{
@@ -115,6 +117,19 @@ tr:hover {
 .detailEmpBtn:hover{
 	background-color: #bed8cb;
 }
+
+.detailEmpForm{
+	display: flex;
+	justify-content: center;
+	border: 1px solid black;
+	margin-top: 0px;
+	flex-direction: unset;
+	border: 0;
+	padding: 0;
+	box-shadow: none;
+	width: auto;
+}
+
 #errorMessageDiv{
 	margin-top: 30px;
 	text-align: center;
@@ -176,17 +191,6 @@ tr:hover {
 	background-color: #bed8cb;
 }
 
-#detailEmpForm{
-	display: flex;
-	justify-content: center;
-	border: 1px solid black;
-	margin-top: 0px;
-	flex-direction: unset;
-	border: 0;
-	padding: 0;
-	box-shadow: none;
-	width: auto;
-}
 
 
 #detailDiv{
@@ -196,15 +200,33 @@ tr:hover {
 	margin-top: 30px;
 }
 
-#detailDiv label{
-	margin-right: 15px;
-	border-right: 1px solid #c0c0c0;
-	padding-right: 20px;
-}
-
 #detailBtn{
 	display: flex;
 	margin-top: 20px;
 	justify-content: space-between;
 	font-size: 20px;
+}
+
+#empUpdateForm{
+	font-size: 20px;
+}
+
+#empUpdateForm div{
+ 	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+
+#empUpdateForm input{
+	padding: 0px;
+	width: 80%;
+}
+
+#empUpdateForm label{
+	margin-right: 10px;
+}
+
+#empUpdateForm select{
+	width: 80%;
 }
