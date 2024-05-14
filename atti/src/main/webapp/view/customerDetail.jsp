@@ -1,30 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="atti.*" %>
 <%@ page import="java.util.*" %>
+
+<!-------------------- 
+ * 기능 번호  : #17
+ * 상세 설명  : 고객 상세 보기
+ * 시작 날짜 : 2024-05-10
+ * 담당자 : 김지훈
+ -------------------->
 <%
-	/*
-	 * 기능 번호  : #17
-	 * 상세 설명  : 고객 상세 보기
-	 * 시작 날짜 : 2024-05-10
-	 * 담당자 : 김지훈
-	*/
-	
+	// 현재 페이지
 	System.out.println("--------------------");
 	System.out.println("customerDetail.jsp");
-	
-	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
 %>
+<!-- Controller layer  -->
+<%	
+	// 세션을 변수로 변환
+	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
+	
+	/* // 로그인한 사용자가 관리자인지 확인
+	// 관리자, 직원 여부에 따라 보여지는 뷰가 달라짐
+	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
+		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
+		return;
+	} */
 
+	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
+	//System.out.println("customerNo: " + customerNo);
+%>
+<!-- model layer -->
 <% 
 	ArrayList<HashMap<String, Object>> customerDetail = CustomerDao.customerDetail(customerNo);
+	ArrayList<HashMap<String, Object>> petList = PetDao.petByCustomer(customerNo);
+	
+	// 메소드 디버깅
+	//System.out.println("customerDetail: " + customerDetail);
+	//System.out.println("petList: " + petList);
 %>
     
-
+<!-- view layer -->
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Main page</title>
+	<title>customerDetail page</title>
 	
 	<!-- 부트스트랩 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -49,7 +68,7 @@
 	<main>
 		<div >
 			<h2>고객 상세 정보</h2>
-			<table border="1">
+			<table>
 				<%
 					for(HashMap<String, Object> c : customerDetail){
 						
@@ -78,6 +97,25 @@
 			<button type="button" onclick="location.href='/atti/view/petRegiForm.jsp?customerNo=<%=customerNo%>'">펫 등록하기</button>
 			<button type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
 		</div>
+		<br>
+		<table>
+			<tr>
+				<th>펫 번호</th>
+				<th>펫 이름</th>
+				<th>최근 방문일</th>
+			</tr>
+			<%
+				for(HashMap<String, Object> p : petList){
+			%>
+					<tr>
+						<td><%=p.get("petNo")%></td> 
+						<td><%=p.get("petName")%></td>
+						<td><%=p.get("regiDate")%></td>
+					</tr>			
+			<%		
+				}
+			%>
+		</table>
 	</main>
 </body>
 </html>

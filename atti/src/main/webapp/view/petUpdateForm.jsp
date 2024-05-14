@@ -7,24 +7,37 @@
  * 시작 날짜 : 2024-05-13
  * 담당자 : 김지훈
  -------------------->
- <%
+<%
 	System.out.println("--------------------");
 	System.out.println("petUpdateForm.jsp");
- 
- 	int petNo = Integer.parseInt(request.getParameter("petNo"));
-
- 	System.out.println("petNo: " + petNo);
 %>
- 
- <%
+<!-- Controller layer  -->
+<%
+	// 세션을 변수로 변환
+	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
+	
+	/* // 로그인한 사용자가 관리자인지 확인
+	// 관리자, 직원 여부에 따라 보여지는 뷰가 달라짐
+	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
+		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
+		return;
+	} */
+
+	int petNo = Integer.parseInt(request.getParameter("petNo"));
+ 	//System.out.println("petNo: " + petNo);
+%>
+<!-- model layer -->
+<%
 	ArrayList<HashMap<String, Object>> petDetail = PetDao.petDetail(petNo);
- %>
+ 	// 메소드 디버깅
+ 	//System.out.println("petDetail: " + petDetail);
+%>
 <!-- view layer -->
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Main page</title>
+	<title>petUpdateForm page</title>
 	
 	<!-- 부트스트랩 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -46,11 +59,11 @@
 	
 	<!-------------------- main -------------------->
 	<main>
-	<div class="regiCustomerInput">
+		<div>
 			<h2>펫 정보 수정</h2>
 			<form action="/atti/action/petUpdateAction.jsp">
 			<input type="hidden" name="petNo" value="<%=petNo%>">
-			<table border="1">
+			<table>
 				
 				<%
 					for(HashMap<String, Object> p : petDetail){

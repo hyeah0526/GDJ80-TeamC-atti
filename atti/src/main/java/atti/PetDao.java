@@ -8,17 +8,59 @@ import java.util.HashMap;
 
 public class PetDao {
 	/*
+	 * 메소드: PetDao#petByCustomer()
+	 * 페이지: customerDetail.jsp
+	 * 시작 날짜: 2024-05-14
+	 * 담당자: 김지훈
+	*/
+	public static ArrayList<HashMap<String, Object>> petByCustomer(int customerNo) throws Exception {
+		
+		// customerNo값을 확인
+		// System.out.println("PetDao#petByCustomer customerNo: " + customerNo);
+		
+		ArrayList<HashMap<String, Object>> petByCustomer = new ArrayList<HashMap<String, Object>>();
+		
+		
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT p.pet_no petNo, p.pet_name petName, r.regi_date regiDate"
+				+ " FROM pet p"
+				+ " LEFT JOIN registration r"
+				+ " ON p.pet_no = r.pet_no"
+				+ " WHERE customer_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, customerNo);
+		
+		// 디버깅
+		// System.out.println("PetDao#petByCustomer: " + stmt);
+		ResultSet rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+			m.put("petNo", rs.getInt("petNo")); // pet table
+			m.put("petName", rs.getString("petName")); // pet table
+			m.put("regiDate", rs.getString("regiDate")); // registration table
+			petByCustomer.add(m);
+		}
+		conn.close(); // conn 반환
+		return petByCustomer; // 위 메소드 실행 후 petBycustomer를 반환
+	}
+	
+	
+	/*
 	 * 메소드: PetDao#petRegistration()
 	 * 페이지: petRegiAction.jsp
 	 * 시작 날짜: 2024-05-13
 	 * 담당자: 김지훈
 	*/
 	public static int petRegistration(int customerNo, String major, String petKind, String petName, String petBirth) throws Exception {
-		System.out.println("CustomerDao#petRegistration customerNo: " + customerNo);
-		System.out.println("CustomerDao#petRegistration major: " + major);
-		System.out.println("CustomerDao#petRegistration petKind" + petKind);
-		System.out.println("CustomerDao#petRegistration petName" + petName);
-		System.out.println("CustomerDao#petRegistration petBirth" + petBirth);
+		
+		// regiForm -> regiAction으로 넘어온 값을 확인
+		// 디버깅
+		// System.out.println("CustomerDao#petRegistration customerNo: " + customerNo);
+		// System.out.println("CustomerDao#petRegistration major: " + major);
+		// System.out.println("CustomerDao#petRegistration petKind" + petKind);
+		// System.out.println("CustomerDao#petRegistration petName" + petName);
+		// System.out.println("CustomerDao#petRegistration petBirth" + petBirth);
 		
 		int insertRow = 0;
 		
@@ -35,9 +77,13 @@ public class PetDao {
 		stmt.setString(4, petName);
 		stmt.setString(5, petBirth);
 		
+		// 디버깅
+		// System.out.println("PetDao#petRegistration: " + stmt);
+		
 		insertRow = stmt.executeUpdate();
-		conn.close();
-		return insertRow;
+		
+		conn.close(); // conn 반환
+		return insertRow; // 위 메소드 실행 후 insertRow 반환
 	}
 	
 	
@@ -49,8 +95,10 @@ public class PetDao {
 	*/
 	
 	public static int petUpdate(int petNo, String petName) throws Exception {
-		System.out.println("PetDao#petUpdate petNo: " + petNo);
-		System.out.println("PetDao#petUpdate petName" + petName);
+		
+		// petUpdateForm -> petUpdateAction으로 넘어온 값을 확인
+		// System.out.println("PetDao#petUpdate petNo: " + petNo);
+		// System.out.println("PetDao#petUpdate petName" + petName);
 		
 		int updateRow = 0;
 		
@@ -63,11 +111,13 @@ public class PetDao {
 		stmt.setString(1, petName);
 		stmt.setInt(2, petNo);
 		
-		System.out.println("PetDao#customerUpdate: " + stmt);
+		// 디버깅
+		// System.out.println("PetDao#customerUpdate: " + stmt);
+		
 		updateRow = stmt.executeUpdate();
 		
-		conn.close();
-		return updateRow;
+		conn.close(); // conn 반환
+		return updateRow; // 위 메소드 실행 후 updateRow 반환
 	}
 	
 	/*
@@ -79,7 +129,8 @@ public class PetDao {
 	public static ArrayList<HashMap<String, Object>>petDetail(int petNo) throws Exception {
 		ArrayList<HashMap<String, Object>> petDetail = new ArrayList<HashMap<String, Object>>();
 		
-		System.out.println("PetDao#petDetail petNo: " + petNo);
+		// 각 페이지에서 넘어온 petNo를 확인
+		// System.out.println("PetDao#petDetail petNo: " + petNo);
 		
 		Connection conn = DBHelper.getConnection();
 		
@@ -89,34 +140,33 @@ public class PetDao {
 				+ " FROM pet p"
 				+ " INNER JOIN customer c"
 				+ " ON p.customer_no = c.customer_no"
-				+ " WHERE pet_no = ?";
+				+ " WHERE pet_no = ?"; // petNo의 값에 따라 다른 값이 출력됨
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, petNo);
 		
-		System.out.println("PetDao.petDetail: " + stmt);
+		// 디버깅
+		// System.out.println("PetDao.petDetail: " + stmt);
 		
 		ResultSet rs = stmt.executeQuery();
 		
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
-			m.put("petNo", rs.getInt("petNo"));
-			m.put("petKind", rs.getString("petKind"));
-			m.put("petBirth", rs.getString("petBirth"));
-			m.put("petName", rs.getString("petName"));
-			m.put("major", rs.getString("major"));
-			m.put("customerNo", rs.getInt("customerNo"));
-			m.put("customerName", rs.getString("customerName"));
-			m.put("customerTel", rs.getString("customerTel"));
+			m.put("petNo", rs.getInt("petNo")); // pet table
+			m.put("petKind", rs.getString("petKind")); // pet table
+			m.put("petBirth", rs.getString("petBirth")); // pet table
+			m.put("petName", rs.getString("petName")); // pet table
+			m.put("major", rs.getString("major")); // pet table
+			m.put("customerNo", rs.getInt("customerNo")); // customer table
+			m.put("customerName", rs.getString("customerName")); // customer table
+			m.put("customerTel", rs.getString("customerTel")); // customer table
 			petDetail.add(m);
 		}
-		conn.close();
+		conn.close(); // conn 반환
 		
-		return petDetail;
+		return petDetail; // 위 메소드 실행 후 petDetail 반환
 	}
 	
-	
-
 	/*
 	 * 메소드: PetDao#petSearch()
 	 * 페이지: searchList.jsp
@@ -126,9 +176,11 @@ public class PetDao {
 	
 	public static ArrayList<HashMap<String, Object>> petSearch(String searchWord, int startRow, int rowPerPage) throws Exception {
 		
-		System.out.println("PetDao#petSearch searchWord: " + searchWord);
-		System.out.println("PetDao#petSearch startRow: " + startRow);
-		System.out.println("PetDao#petSearch rowPerPage: " + rowPerPage);
+		// searchList에서 넘어온 searchWord, startRow, rowPerPage를 확인
+
+		// System.out.println("PetDao#petSearch searchWord: " + searchWord);
+		// System.out.println("PetDao#petSearch startRow: " + startRow);
+		// System.out.println("PetDao#petSearch rowPerPage: " + rowPerPage);
 		
 		ArrayList<HashMap<String, Object>> petSearch = new ArrayList<HashMap<String, Object>>();
 		
@@ -136,30 +188,30 @@ public class PetDao {
 		
 		String sql = null;
 		
-		if(searchWord != null) {
+		if(searchWord != null) { // 검색어가 null이 아닐 경우
 			sql = "SELECT p.pet_no petNo, p.pet_name petName, p.customer_no customerNo,"
 				+ " p.create_date createDate, c.customer_name customerName"
 				+ " FROM pet p"
 				+ " LEFT JOIN customer c"
 				+ " ON p.customer_no = c.customer_no"
-				+ " WHERE p.pet_name LIKE ? OR c.customer_name LIKE ?"
+				+ " WHERE p.pet_name LIKE ? OR c.customer_name LIKE ?" // petName 또는 customerName에 검색 키워드가 포함된 값
 				+ " ORDER BY p.create_date DESC"
-				+ " LIMIT ?, ?";
-		} else {
+				+ " LIMIT ?, ?"; // n부터 n개까지
+		} else { // 검색어가 null일 경우
 			sql = "SELECT p.pet_no petNo, p.pet_name petName, p.customer_no customerNo,"
 				+ " p.create_date createDate, c.customer_name customerName"
 				+ " FROM pet p"
 				+ " LEFT JOIN customer c"
 				+ " ON p.customer_no = c.customer_no"
 				+ " ORDER BY p.create_date DESC"
-				+ " LIMIT ?, ?";
+				+ " LIMIT ?, ?"; // n부터 n개까지
 		}
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
-		if(searchWord != null) {
-			stmt.setString(1, "%" + searchWord + "%");
-			stmt.setString(2, "%" + searchWord + "%");
+		if(searchWord != null) { // 검색어가 null이 아닐 경우
+			stmt.setString(1, "%" + searchWord + "%"); // petName
+			stmt.setString(2, "%" + searchWord + "%"); // customerName
 			stmt.setInt(3, startRow);
 			stmt.setInt(4, rowPerPage);
 		} else {
@@ -169,19 +221,21 @@ public class PetDao {
 		
 		ResultSet rs = stmt.executeQuery();
 		
-		System.out.println("PetDao#petSearch: " + stmt);
+		// 디버깅
+		// System.out.println("PetDao#petSearch: " + stmt);
 		
+		// petNo, customerNo, petName, customerName, createDate를 put
 		while(rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
-			m.put("petNo", rs.getInt("petNo"));
-			m.put("customerNo", rs.getInt("customerNo"));
-			m.put("petName", rs.getString("petName"));
-			m.put("customerName", rs.getString("customerName"));
-			m.put("createDate", rs.getString("createDate"));
+			m.put("petNo", rs.getInt("petNo")); // pet table
+			m.put("customerNo", rs.getInt("customerNo")); // pet table
+			m.put("petName", rs.getString("petName")); // pet table
+			m.put("customerName", rs.getString("customerName")); // customer table
+			m.put("createDate", rs.getString("createDate")); // pet table
 			petSearch.add(m);
 		}
-		conn.close();
-		return petSearch;
+		conn.close(); // conn 반환
+		return petSearch; // 위 메소드 실행 결과 petSearch를 반환함
 		
 	}
 }
