@@ -65,51 +65,51 @@
 	
 	<!-------------------- main -------------------->
 	<main>
-	<div class="row">
-	<div>
-		<h2>검사 리스트</h2>
-	</div>
-	<div class="col container mb-2">
-		<!-- 날짜 선택해서 검색 -->
-		<form method="post" action="examinationList.jsp" class="inline">
-			<input type="date" name="searchDate" value="<%= searchDate %>">
-			<button type="submit">검색</button>
-		</form>
-		<!-- 오늘 날짜 바로 검색 -->
-		<form method="post" action="examinationList.jsp" class="inline">
-			<button type="submit" name="searchDate" value="<%= date %>">오늘</button>
-		</form>
-	</div>
-	
-	<!-- 검사 리스트 출력 -->
-	<table border="1" class="a">
-		<tr>
-			<th>검사 번호</th>
-			<th>동물 종류</th>
-			<th>반려동물 이름</th>
-			<th>검사 종류</th>
-			<th>검사 내용</th>
-			<th>검사 날짜</th>
-			<th> </th>
-		</tr>
-		<!-- 검사 리스트 값 -->
-		<%
-			for(HashMap<String, Object> e : examinationList) {
-		%>
-		<tr>
-			<td><%= e.get("examinationNo")%></td>
-			<td><%= e.get("petKind")%></td>
-			<td><%= e.get("petName")%></td>
-			<td><%= e.get("examinationKind")%></td>
-			<td><%= e.get("examinationContent")%></td>
-			<td><%= e.get("examinationDate")%></td>
-			<td><a href="/atti/view/examinationDetail.jsp?examinationNo=<%=e.get("examinationNo") %>">상세보기</a></td>
-		</tr>
-		<%
-			}
-		%>
-	</table>
-	</div>
+		<div class="row">
+			<div>
+				<h2>검사 리스트</h2>
+			</div>
+			<div class="col container mb-2">
+				<!-- 날짜 선택해서 검색 -->
+				<form method="post" action="examinationList.jsp" class="inline">
+					<input type="date" name="searchDate" value="<%= searchDate %>">
+					<button type="submit">검색</button>
+				</form>
+				<!-- 오늘 날짜 바로 검색 -->
+				<form method="post" action="examinationList.jsp" class="inline">
+					<button type="submit" name="searchDate" value="<%= date %>">오늘</button>
+				</form>
+			</div>
+			
+			<!-- 검사 리스트 출력 -->
+			<table border="1" class="a">
+				<tr>
+					<th>검사 번호</th>
+					<th>동물 종류</th>
+					<th>반려동물 이름</th>
+					<th>검사 종류</th>
+					<th>검사 내용</th>
+					<th>검사 날짜</th>
+					<th> </th>
+				</tr>
+				<!-- 검사 리스트 값 -->
+				<%
+					for(HashMap<String, Object> e : examinationList) {
+				%>
+				<tr>
+					<td><%= e.get("examinationNo")%></td>
+					<td><%= e.get("petKind")%></td>
+					<td><%= e.get("petName")%></td>
+					<td><%= e.get("examinationKind")%></td>
+					<td><%= e.get("examinationContent")%></td>
+					<td><%= e.get("examinationDate")%></td>
+					<td><a href="/atti/view/examinationDetail.jsp?examinationNo=<%=e.get("examinationNo") %>">상세보기</a></td>
+				</tr>
+				<%
+					}
+				%>
+			</table>
+		</div>
 	</main>
 </body>
 </html>

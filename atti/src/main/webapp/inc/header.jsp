@@ -53,7 +53,12 @@
 			<button>고객</button>
 			<button>접수/예약</button>
 			<button>진료</button>
-			<button>검사/수술</button>
+			<button>
+				<a href="/atti/view/examinationList.jsp">검사</a>
+			</button>
+			<button>
+				<a href="/atti/view/surgeryList.jsp">수술</a>
+			</button>
 			<button>처방</button>
 			<button>입원</button>
 			<button>결제</button>
