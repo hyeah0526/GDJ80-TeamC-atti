@@ -268,4 +268,39 @@ public class EmpDao {
 		conn.close();
 		return updateRow;
 	}
+	
+	/*
+	  	메소드: EmpDao#empDelete()
+	  	페이지: empDeleteAction.jsp
+	  	시작날짜: 2024-05-14
+	  	담당자: 김인수
+	*/
+	public static int empDelete(int empNo, String empGrade) throws Exception{
+		
+		//매개변수 값 출력
+		//System.out.println("empNo = " + empNo);
+		//System.out.println("empMajor = " + empMajor);
+		//System.out.println("empTel = " + empTel);
+		
+		//반환 값 변수
+		int updateRow = 0;
+		
+		PreparedStatement stmt = null;
+		
+		//DB연결 
+		Connection conn = DBHelper.getConnection();
+		
+		//직원 정보 변경: 직원 퇴사 처리  
+		String sql = "UPDATE employee SET emp_grade = ? WHERE emp_no = ? AND emp_grade = ? ";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "퇴사자"); //직원 퇴사처리
+		stmt.setInt(2, empNo); // 퇴사한 직원의 사번
+		stmt.setString(3, empGrade); // 퇴사한 직원의 직급
+
+		updateRow = stmt.executeUpdate();
+		
+		conn.close();
+		return updateRow;
+	}
 }

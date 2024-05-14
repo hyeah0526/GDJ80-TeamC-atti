@@ -112,15 +112,16 @@
 				<div>							
 					<button type="button" onclick="window.history.back();" class="detailEmpBtn">뒤로가기</button>
 					<button type="submit" class="detailEmpBtn">수정</button>
-					<button class="detailEmpBtn">
-						<a>회원탈퇴</a>
-					</button>
+		            <button class="detailEmpBtn">
+		            	<a href="/atti/action/empDeleteAction.jsp?empNo=<%=(String)(m.get("empNo"))%>&empGrade=<%=(String)(m.get("empGrade"))%>">
+			            	회원탈퇴
+		            	</a>
+	            	</button>
 				</div>
-				
 			<%
 				}
 			%>	
-		</form>
+		</form> 
 	</main>
 </body>
 </html>
