@@ -131,13 +131,14 @@ public class EmpDao {
 		return insertRow;
 	}
 	
+	
 	/*
 	  	메소드: EmpDao#empAll()
 	  	페이지: empList.jsp
 	  	시작날짜: 2024-05-13
 	  	담당자: 김인수
 	*/
-	public static  ArrayList<HashMap<String, Object>> empAll(String searchWord, int startRow, int rowPerPage) throws Exception{
+	public static  ArrayList<HashMap<String, Object>> empAll(String searchWord, String empGrade, int startRow, int rowPerPage) throws Exception{
 		
 		//매개변수 값 출력
 		//System.out.println("searchWord = " + searchWord);
@@ -153,15 +154,17 @@ public class EmpDao {
 		//DB연결 
 		Connection conn = DBHelper.getConnection();
 		
-		//직원조회(이름): 사용자가 입력한 이름을 포함하는 모든 직원 정보 조회
-		String sql = "SELECT emp_no, emp_grade, emp_name,  COUNT(*) OVER() cnt "
-				+ "FROM employee "
-				+ "WHERE emp_name LIKE ? ORDER BY hire_date DESC LIMIT ?,?";
+		//직원조회(이름): 사용자가 입력한 이름, 직책을 포함하는 모든 직원 정보 조회
+		String sql =  "SELECT emp_no, emp_grade, emp_name,  COUNT(*) OVER() cnt "
+		           + "FROM employee "
+		           + "WHERE emp_name LIKE ? AND emp_grade LIKE ? ORDER BY hire_date DESC LIMIT ?,?";
+
 		
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1, "%"+searchWord+"%"); 
-		stmt.setInt(2, startRow);
-		stmt.setInt(3, rowPerPage); 
+		stmt.setString(2, empGrade);
+		stmt.setInt(3, startRow);
+		stmt.setInt(4, rowPerPage); 
 		rs = stmt.executeQuery();
 		
 		
@@ -233,6 +236,7 @@ public class EmpDao {
 		return resultMap;
 	}
 	
+	
 	/*
 	  	메소드: EmpDao#empUpdate()
 	  	페이지: empUpdateAction.jsp
@@ -268,6 +272,7 @@ public class EmpDao {
 		conn.close();
 		return updateRow;
 	}
+	
 	
 	/*
 	  	메소드: EmpDao#empDelete()

@@ -34,6 +34,14 @@
 	if(request.getParameter("searchWord") != null ){
 		searchWord = request.getParameter("searchWord");
 	} 
+	
+	//사용자가 선택한 직책  
+  	String empGrade = request.getParameter("empGrade");
+	
+	// 직책 null 값 체크
+    if (empGrade == null || empGrade.isEmpty()) {
+        empGrade = "%";
+    }
 
 	//현재 페이지 
 	int currentPage = 1;
@@ -50,7 +58,7 @@
 	int startRow = (currentPage-1) * rowPerPage;
 
 	// 전체 회원수 가져오기
-	ArrayList<HashMap<String, Object>> list = EmpDao.empAll(searchWord, startRow, rowPerPage);
+	ArrayList<HashMap<String, Object>> list = EmpDao.empAll(searchWord, empGrade, startRow, rowPerPage);
 	
 	// 전체 인원 수 
 	int totalRow = 0;
@@ -104,12 +112,28 @@
 	<main>
 	
 		<div id="searchDiv">
-		    <!-- 검색 폼 -->
-		    <form action="/atti/view/empList.jsp" id="paginationForm" method="post">
-		        <label id="paginationLabel">이름</label>
-		        <input type="text" name="searchWord" id="paginationInput">
-		        <button type="submit" id="paginationBtn">확인</button>
-		    </form>
+			
+			<div id="searchForm">
+			    <!-- 검색 폼 -->
+			    <form action="/atti/view/empList.jsp" id="paginationForm" method="post">
+			        <label id="paginationLabel">이름</label>
+			        <input type="text" name="searchWord" id="paginationInput">
+			        <button type="submit" id="paginationBtn">확인</button>
+			    </form>
+			</div>
+		    
+		    <div id="selectFromDiv">
+		    	<!-- 직책 선택 폼 -->
+		    	<form action="/atti/view/empList.jsp" id="paginationGradeForm" method="post">
+		    		<select name="empGrade" onchange="this.form.submit()">
+			    		<option value="">직책선택</option>
+			    		<option value="의사">의사</option>
+			    		<option value="간호사">간호사</option>
+			    		<option value="퇴사자">퇴사자</option>
+			    	</select>
+		    	</form>
+		    </div>
+		
 		</div>	
 		<table>
 			<tr>
@@ -119,7 +143,7 @@
 				<th>상세보기</th>
 			</tr>
 			<% 
-				//직원정보 출력하기
+				//직원 정보 출력하기
 				for(HashMap<String, Object> m : list){
 			%>
 				<tr>

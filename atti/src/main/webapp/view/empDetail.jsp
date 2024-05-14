@@ -116,7 +116,9 @@
 					<!--개인 정보 수정 페이지 이동-->
 					<form action="/atti/view/empUpdateForm.jsp" class="detailEmpForm" method="post">
 						<input type="hidden" name="empNo" value="<%=(String)(m.get("empNo"))%>">
+						
 						<%
+							//퇴사자인 아닌 경우에만 개인 정보 수정 가능
 							if(!("퇴사자").equals((String)(m.get("empGrade")))){
 						%>
 		   						<button type="submit" class="detailEmpBtn">수정하기</button>

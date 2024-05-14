@@ -148,7 +148,6 @@ tr:hover {
 #paginationForm{
 	display: flex;
 	justify-content: center;
-	border: 1px solid black;
 	width: 700px;
 	margin-top: 0px;
 	flex-direction: unset;
@@ -157,6 +156,9 @@ tr:hover {
 	box-shadow: none;
 }
 
+#paginationForm select{
+	margin-left: 30px;
+}
 
 #paginationLabel {
 	padding-top: 10px;
@@ -179,7 +181,7 @@ tr:hover {
 }
 
 #searchDiv{
-	padding: 10px;
+	width: 80%;
 }
 
 #detailView{
@@ -229,3 +231,22 @@ tr:hover {
 	width: 80%;
 }
 
+#searchForm{
+	display: flex;
+	justify-content: center;
+}
+
+#selectFromDiv{
+	display: flex;
+	flex-direction: row-reverse;
+	width: 90%;
+}
+
+#paginationGradeForm{
+	width: 0px;
+	margin-top: 0px;
+	flex-direction: unset;
+	border: 0;
+	padding: 0;
+	box-shadow: none;
+}
