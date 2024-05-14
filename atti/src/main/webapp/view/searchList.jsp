@@ -85,7 +85,8 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
-	
+	<!-- CSS 개인 파일 -->
+	<link rel="stylesheet" href="../css/css_jihoon.css">
 </head>
 <body id="fontSet">
 	
@@ -108,12 +109,14 @@
 			<%
 				if(selectCategory == null || "all".equals(selectCategory)){
 			%>
-					<input type="radio" name="selectCategory" value="all" checked="checked"> 전체
-					<input type="radio" name="selectCategory" value="customer"> 고객
-					<input type="radio" name="selectCategory" value="pet"> 반려동물
-					<input type="text" name="searchWord">
-					<button type="submit">조회하기</button>
-					<table>
+					<div class="searchContainer">
+						<input type="radio" name="selectCategory" value="all" checked="checked"> 전체
+						<input type="radio" name="selectCategory" value="customer"> 고객
+						<input type="radio" name="selectCategory" value="pet"> 반려동물
+						<input type="text" name="searchWord" placeholder="펫 이름, 고객 이름">
+						<button class="inputButton" type="submit">조회하기</button>
+					</div>	
+					<table class="listTable">
 						<tr>
 							<th>고객 번호</th>
 							<th>펫 이름</th>
@@ -149,12 +152,14 @@
 			<%
 				} else if(selectCategory != null && "customer".equals(selectCategory)){
 			%>
-					<input type="radio" name="selectCategory" value="all"> 전체
-					<input type="radio" name="selectCategory" value="customer" checked="checked"> 고객
-					<input type="radio" name="selectCategory" value="pet"> 반려동물
-					<input type="text" name="searchWord">
-					<button type="submit">조회하기</button>
-					<table>
+					<div class="searchContainer"> 
+						<input type="radio" name="selectCategory" value="all" class="searchRadio"> 전체
+						<input type="radio" name="selectCategory" value="customer" checked="checked" class="searchRadio"> 고객
+						<input type="radio" name="selectCategory" value="pet" class="searchRadio"> 반려동물
+						<input type="text" name="searchWord" placeholder="고객 이름, 고객 전화번호" class="searchRadio">
+						<button class="inputButton" type="submit">조회하기</button>
+					</div>
+					<table class="listTable">
 						<tr>
 							<th>고객 번호</th>
 							<th>고객 이름</th>
@@ -189,12 +194,14 @@
 			<%
 				} else if(selectCategory != null && "pet".equals(selectCategory)){
 			%>
-					<input type="radio" name="selectCategory" value="all"> 전체
-					<input type="radio" name="selectCategory" value="customer"> 고객
-					<input type="radio" name="selectCategory" value="pet" checked="checked"> 반려동물
-					<input type="text" name="searchWord">
-					<button type="submit">조회하기</button>
-					<table>
+					<div class="searchContainer">
+						<input type="radio" name="selectCategory" value="all"> 전체
+						<input type="radio" name="selectCategory" value="customer"> 고객
+						<input type="radio" name="selectCategory" value="pet" checked="checked"> 반려동물
+						<input type="text" name="searchWord" placeholder="펫 이름, 고객 이름">
+						<button class="inputButton" type="submit">조회하기</button>
+					</div>
+					<table class="listTable">
 						<tr>
 							<th>펫 번호</th>
 							<th>펫 이름</th>

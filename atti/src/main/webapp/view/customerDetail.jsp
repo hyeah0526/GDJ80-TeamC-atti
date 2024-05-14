@@ -51,7 +51,8 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
-	
+	<!-- CSS 개인 파일 -->
+	<link rel="stylesheet" href="../css/css_jihoon.css">
 </head>
 <body id="fontSet">
 	
@@ -68,7 +69,7 @@
 	<main>
 		<div >
 			<h2>고객 상세 정보</h2>
-			<table>
+			<table class="inputTable">
 				<%
 					for(HashMap<String, Object> c : customerDetail){
 						
@@ -93,12 +94,15 @@
 					}
 				%>
 			</table>
-			<button type="button" onclick="location.href='/atti/view/customerUpdateForm.jsp?customerNo=<%=customerNo%>'">정보 수정하기</button>
-			<button type="button" onclick="location.href='/atti/view/petRegiForm.jsp?customerNo=<%=customerNo%>'">펫 등록하기</button>
-			<button type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+			<div class="buttonContainer">
+				<button class="inputButton" type="button" onclick="location.href='/atti/view/customerUpdateForm.jsp?customerNo=<%=customerNo%>'">정보 수정하기</button>
+				<button class="inputButton" type="button" onclick="location.href='/atti/view/petRegiForm.jsp?customerNo=<%=customerNo%>'">펫 등록하기</button>
+				<button class="inputButton" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+			</div>
 		</div>
 		<br>
-		<table>
+		<h2>펫 리스트</h2>
+		<table class="listTable">
 			<tr>
 				<th>펫 번호</th>
 				<th>펫 이름</th>

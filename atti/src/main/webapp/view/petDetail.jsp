@@ -47,7 +47,8 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
-	<link rel="stylesheet" href="../css/css_kiminsu.css">
+	<!-- CSS 개인 파일 -->
+	<link rel="stylesheet" href="../css/css_jihoon.css">
 </head>
 <body id="fontSet">
 	
@@ -64,7 +65,7 @@
 	<main>
 		<div >
 			<h2>펫 상세 정보</h2>
-			<table>
+			<table class="inputTable">
 				<%
 					for(HashMap<String, Object> p : petDetail){
 						
@@ -101,8 +102,10 @@
 					}
 				%>
 			</table>
-			<button type="button" onclick="location.href='/atti/view/petUpdateForm.jsp?petNo=<%=petNo%>'">정보 수정하기</button>
-			<button type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+			<div class="buttonContainer">
+				<button class="inputButton" type="button" onclick="location.href='/atti/view/petUpdateForm.jsp?petNo=<%=petNo%>'">정보 수정하기</button>
+				<button class="inputButton" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+			</div>
 		</div>
 	</main>
 </body>

@@ -37,6 +37,7 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
+	<!-- CSS 개인 파일 -->
 	<link rel="stylesheet" href="../css/css_jihoon.css">
 </head>
 <body id="fontSet">
@@ -55,7 +56,7 @@
 		<div>
 			<h2>고객 등록</h2>
 			<form action="/atti/action/customerRegiAction.jsp">
-			<table>
+			<table class="inputTableCustomer">
 				<tr>
 					<th><label for="customerName">고객 이름</label></th>
 					<td><input type="text" name="customerName" id="customerName"></td>
@@ -69,7 +70,11 @@
 					<td><input type="text" name="customerAddress" id="customerAddress"></td>
 				</tr>
 			</table>
-			<button type="submit">등록하기</button>
+			<div class="buttonContainer">
+				<button class="inputButton" type="reset">초기화</button>
+				<button class="inputButton" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+				<button class="inputButton" type="submit">등록하기</button>
+			</div>
 			</form>
 		</div>
 	</main>

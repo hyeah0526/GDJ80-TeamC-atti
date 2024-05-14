@@ -49,6 +49,8 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
+	<!-- CSS 개인 파일 -->
+	<link rel="stylesheet" href="../css/css_jihoon.css">
 </head>
 <body id="fontSet">
 	
@@ -68,7 +70,7 @@
 			<form action="/atti/action/customerUpdateAction.jsp">
 			<input type="hidden" name="customerNo" value="<%=customerNo%>"> 
 			<!-- form으로 customerNo를 같이 전달  -->
-			<table>
+			<table class="inputTable">
 				<%
 					for(HashMap<String, Object> c: customerDetail){
 				%>
@@ -88,10 +90,13 @@
 					}
 				%>
 			</table>
-			<button type="submit">수정하기</button>
+			<div class="buttonContatiner">
+				<button class="inputButton" type="reset">초기화</button>
+				<button class="inputButton" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+				<button class="inputButton" type="submit">수정하기</button>
+			</div>
 			</form>
 		</div>
-	
 	</main>
 </body>
 </html>

@@ -45,6 +45,8 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
+	<!-- CSS 개인 파일 -->
+	<link rel="stylesheet" href="../css/css_jihoon.css">
 </head>
 <body id="fontSet">
 	
@@ -63,7 +65,7 @@
 			<h2>펫 정보 수정</h2>
 			<form action="/atti/action/petUpdateAction.jsp">
 			<input type="hidden" name="petNo" value="<%=petNo%>">
-			<table>
+			<table class="inputTable">
 				
 				<%
 					for(HashMap<String, Object> p : petDetail){
@@ -89,7 +91,11 @@
 					}
 				%>
 			</table>
-			<button type="submit">등록하기</button>
+			<div class="buttonContainer">
+				<button type="reset">초기화</button>
+				<button type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+				<button type="submit">등록하기</button>
+			</div>	
 			</form>
 		</div>
 	</main>
