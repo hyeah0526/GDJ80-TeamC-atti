@@ -192,7 +192,6 @@ tr:hover {
 }
 
 
-
 #detailDiv{
 	display: flex;
 	flex-direction: column;
@@ -229,3 +228,4 @@ tr:hover {
 #empUpdateForm select{
 	width: 80%;
 }
+
