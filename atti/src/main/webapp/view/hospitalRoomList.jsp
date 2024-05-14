@@ -38,7 +38,7 @@
 		<div id="subMenu">
 			<div id="subMenuBtnContainer">
 				<button type="button" onclick="location.href='./hospitalRoomList.jsp'">입원실</button><br><br>
-				<button>입원 환자</button><br><br>
+				<button type="button" onclick="location.href='./hospitalizationList.jsp'">입원 환자</button><br><br>
 			</div>
 		</div>
 	</aside>
@@ -59,7 +59,7 @@
 						// 입원실의 입원 환자 ON / OFF 구분
 						if(state.equals("ON")){
 			%>
-							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:10px;">
+							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:5px;">
 								<%=roomName%> <span style="color: green;">&#9679;</span><br>
 								<!-- 접수번호로 상세보기이동 -->
 								<a href="/atti/view/hospitalizationDetail.jsp?regiNo=<%=(Integer)rms.get("regiNo")%>">
@@ -70,7 +70,7 @@
 			<%
 						}else if(state.equals("OFF")){
 			%>
-							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:10px; background-color: gray;">
+							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:5px; background-color: gray;">
 								<%=roomName%> <span style="color: red;">&#9679;</span>
 								<br>비어있음
 							</div>
@@ -84,7 +84,7 @@
 						// 입원실의 입원 환자 ON / OFF 구분					
 						if(state.equals("ON")){
 			%>
-							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:10px;">
+							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:5px;">
 								<%=roomName%> <span style="color: green;">&#9679;</span><br>
 								<!-- 접수번호로 상세보기이동 -->
 								<a href="/atti/view/hospitalizationDetail.jsp?regiNo=<%=(Integer)rms.get("regiNo")%>">
@@ -95,7 +95,7 @@
 			<%
 						}else if(state.equals("OFF")){
 			%>
-							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:10px; background-color: gray;">
+							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:5px; background-color: gray;">
 								<%=roomName%> <span style="color: red;">&#9679;</span>
 								<br>비어있음
 							</div>

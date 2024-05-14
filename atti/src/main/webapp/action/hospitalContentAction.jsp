@@ -1,3 +1,4 @@
+<%@page import="org.apache.catalina.ha.backend.Sender"%>
 <%@page import="atti.HospitalRoomDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- 
@@ -9,6 +10,7 @@
 <%
 	// 값 받아오기
 	String hospiContentDate = request.getParameter("hospiContentDate");
+	hospiContentDate = hospiContentDate.replace("T", " "); // T로 찍히는 값을 공백으로 치환
 	String hospiContent = request.getParameter("hospiContent");
 	String hospiEmpName = request.getParameter("hospiEmpName");
 	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
@@ -23,12 +25,18 @@
 	
 	// 입원내용등록 하나로 묶어주기
 	// ex) [2024-05-13 07:34 박임시] 수술환자 경과 좋음 퇴원예정 
-	String hospitalizationContent = "["+hospiContentDate+" "+hospiEmpName+"] "+hospiContent;
+	String hospitalizationContent = "\n ["+hospiContentDate+" "+hospiEmpName+"] "+hospiContent;
 	System.out.println("hospitalContentAction.jsp hospitalizationContent--> "+hospitalizationContent);
 	
 	// 등록하기
-	//HospitalRoomDao.hospitalizationContent(hospitalNo, hospitalizationContent);
+	int result = HospitalRoomDao.hospitalizationContent(hospitalNo, hospitalizationContent);
 	
-	
-
+	// 등록 수정, 실패하면 hospitalizationDetail로 다시 redirect됨
+	if(result == 1){
+		System.out.println("hospitalContentAction.jsp 입원환자 기록일지 내용등록 성공");
+		response.sendRedirect("/atti/view/hospitalizationDetail.jsp?regiNo="+regiNo);
+	}else{
+		System.out.println("hospitalContentAction.jsp 입원환자 기록일지 내용등록 실패");
+		response.sendRedirect("/atti/view/hospitalizationDetail.jsp?regiNo="+regiNo);
+	}
 %>

@@ -8,13 +8,16 @@
 	 * 담당자 : 박혜아
  -->
  <%
- 	// 입원한자의 해당하는 접수번호
+ 	// 입원환자의 해당하는 접수번호
  	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
  	//System.out.println("hospitalizationDetail.jsp regiNo--> " + regiNo);
  	
  	// 해당 환자(1마리)의 상세 입원정보 출력
  	ArrayList<HashMap<String, Object>> hospitalOne = HospitalRoomDao.hospitalizationDetail(regiNo);
  	//System.out.println("hospitalizationDetail.jsp hospitalOne--> " + hospitalOne);
+ 	
+ 	// 퇴원 / 등록 실패시 보여줄 에러메세지
+ 	String errMsg = request.getParameter("errMsg");
  %>
 <!DOCTYPE html>
 <html>
@@ -28,6 +31,7 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
+	<link rel="stylesheet" href="../css/css_hyeah.css">
 </head>
 <body id="fontSet">
 	
@@ -40,7 +44,7 @@
 		<div id="subMenu">
 			<div id="subMenuBtnContainer">
 				<button type="button" onclick="location.href='./hospitalRoomList.jsp'">입원실</button><br><br>
-				<button>입원 환자</button><br><br>
+				<button type="button" onclick="location.href='./hospitalizationList.jsp'">입원 환자</button><br><br>
 			</div>
 		</div>
 	</aside>
@@ -50,13 +54,22 @@
 		<!-- 내용출력되는 부분 -->
 		<div>
 			<h2>입원실 환자 상세보기</h2>
+			<!-- 퇴원처리 / 내용 등록 실패시 화면 안내 -->
+			<%
+				if(errMsg != null){
+			%>
+					<div style="text-align: center; color: red;">에러 : <%=errMsg%></div>
+			<%
+				}
+			%>
+			
 			<!-- 환자 기본보기 상세 -->
 			<%
 				for(HashMap<String, Object> p : hospitalOne){
 			%>
 					<div style="float: left; width: 50%; box-sizing: border-box;">
 						<!-- 입원정보 -->
-						<table>
+						<table border="1">
 							<tr>
 								<th colspan="2"><h5>입원 정보</h5></th>
 							</tr>
@@ -76,15 +89,53 @@
 								<th>담당의사</th>
 								<td><%=(String)p.get("empName")%></td>
 							</tr>
-						</table><br><br>
+							<%
+								// 진료상태가 '진행'중일 경우에만 퇴원버튼 활성화
+								String regiState = (String)p.get("regiState");
+								if(regiState.equals("진행")){
+							%>
+									<tr>
+										<th>현재상태</th>
+										<td>
+											입원중<a href="/atti/action/hospitalDischargeAction.jsp?roomName=<%=(String)p.get("roomName")%>&regiNo=<%=regiNo%>">[퇴원처리]</a>
+										</td>
+									</tr>
+							<%
+								}else{
+							%>
+								<tr>
+									<th>현재상태</th>
+									<td>퇴원완료</td>
+								</tr>	
+							<%
+								}
+							%>
+						</table><br>
 						
 						<!-- 입원 환자정보 -->
-						<table>
+						<table border="1">
 							<tr>
 								<th colspan="2"><h5>환자 정보</h5></th>
 							</tr>
 							<tr>
-								<td colspan="2">이미지</td>
+								<td colspan="2">
+									<%
+										String empMajor = (String)p.get("empMajor");
+										if(empMajor.equals("포유류")){
+									%>
+											<img id="iconAnimal"  src="../inc/icon_dog.png">
+									<%
+										}else if(empMajor.equals("파충류")){
+									%>
+											<img id="iconAnimal"  src="../inc/icon_lizard.png">
+									<%
+										}else if(empMajor.equals("조류")){
+									%>
+											<img id="iconAnimal"  src="../inc/icon_bird.png">
+									<%
+										}
+									%>
+								</td>
 							</tr>
 							<tr>
 								<th>환자 이름</th>
@@ -106,39 +157,51 @@
 					</div>
 					
 					<!-- 입원내용 출력 및 작성 -->
-					<div style="float: right; width: 50%; box-sizing: border-box;">
+					<div style="float: right; width: 50%; box-sizing: border-box; border: 1px solid red;">
 						<h5>입원 간호기록</h5><br>
 						<!-- 작성된 입원내용 전부 출력 -->
 						<div>
-							<%=(String)p.get("hospitalContent")%>
+							<%
+								// hospitalContent값을 \n -> <br>엔터 치환
+								String hospiContent = (String)p.get("hospitalContent");
+								String hospiContentChange =  hospiContent.replaceAll("\n", "<br/>");
+							%>
+							<%=hospiContentChange%>
 						</div><br><br>
 						
 						<!-- 입원내용 추가등록 -->
-						<div>
-							<form action="/atti/action/hospitalContentAction.jsp" method="post">
-								<input type="datetime-local" id="hospiContentToday" name="hospiContentDate" readonly="readonly">
-								
-								<textarea rows="" cols="" name="hospiContent"></textarea>
-								
-								<input type="hidden" value="<%=(Integer)p.get("hospitalNo") %>" name="hospitalNo">
-								<input type="hidden" value="<%=regiNo%>" name="regiNo">
-								<input type="hidden" value="박임시" name="hospiEmpName">
-								<button type="submit">추가등록</button>
-							</form>
-						</div>
+						<%
+							// 입원상태가 '진행'중일때만 작성 가능
+							if(regiState.equals("진행")){
+						%>
+								<div>
+									<form action="/atti/action/hospitalContentAction.jsp" method="post">
+										<input type="datetime-local" id="hospiContentToday" name="hospiContentDate" readonly="readonly">
+										
+										<textarea rows="" cols="" name="hospiContent"></textarea>
+										
+										<input type="hidden" value="<%=(Integer)p.get("hospitalNo") %>" name="hospitalNo">
+										<input type="hidden" value="<%=regiNo%>" name="regiNo">
+										<input type="hidden" value="박임시" name="hospiEmpName">
+										<button type="submit">추가등록</button>
+									</form>
+								</div>
+						<%
+							}
+						%>
 					</div>
 				<%
 					}
 				%>
-			
 		</div>
 	</main>
 </body>
+
+<!-- 날짜등록 사용자타임(한국시간)에 맞게 변경 -->
 <script>
   var userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
   var localTime = new Date(Date.now() - userTimezoneOffset);
   var localISOString = localTime.toISOString().slice(0, -1);
   document.getElementById('hospiContentToday').value = localISOString.slice(0, 16);
 </script>
-
 </html>
