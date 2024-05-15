@@ -30,6 +30,7 @@
 	String empMajor = request.getParameter("empMajor");
 	String empTel = request.getParameter("empTel");
 	
+	
 	//디버깅
 	//System.out.println(empNo);
 	//System.out.println(empMajor);
@@ -38,14 +39,31 @@
 %>
 
 <!-- Model layer -->
-<%
-	//선택된 직원의 사번을 확인하고 직무 또는 전화번호 변경
-	int updateRow = EmpDao.empUpdate(empNo, empMajor, empTel);
+<% 
+	int updateRow = 0;
 
-	//디버깅
-	//System.out.println(updateRow);
-
+	//직원의 변경할 전화번호 검증 (null, 빈값, 숫자가 아닌 경우, 010으로 시작하지 않는 경우, 길이가 11자리가 아닌 경우)
+	if(empTel == null || empTel.equals("") || !empTel.matches("^010\\d{8}$")){
+		
 %>
+		<!-- 직원 정보 수정 페이지 이동 -->
+		<form action="/atti/view/empUpdateForm.jsp" method="post" id="redirectForm">
+		    <input type="hidden" name="empNo" value="<%=empNo%>">
+		    <script>
+		        document.getElementById("redirectForm").submit(); // 자동으로 폼 제출
+		    </script>
+		</form>
+<%
+	}else{
+		
+		//선택된 직원의 사번을 확인하고 직무 또는 전화번호 변경
+		updateRow = EmpDao.empUpdate(empNo, empMajor, empTel);
+	
+		//디버깅
+		//System.out.println(updateRow);		
+	}
+%>
+
 <% if(updateRow > 0) { %>
 
 	<!-- 상세보기 페이지 이동 -->
