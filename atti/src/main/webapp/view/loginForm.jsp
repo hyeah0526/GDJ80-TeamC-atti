@@ -13,17 +13,17 @@
 	String nullErrorMessage = request.getParameter("errorMessage");
 	String errorMessage = null;
 	
-	//사번 입력 오류 시 반환할 에러 메세지 처리
+	//사번 입력 오류 시 에러 메세지 
 	if(nullErrorMessage != null && !nullErrorMessage.equals("null")){
- 	errorMessage = request.getParameter("errorMessage"); 		
+ 		errorMessage = request.getParameter("errorMessage"); 		
 	}
 	
-	//사용자의 회원 정보가 일치하지 않는 경우
+	//사용자의 회원 정보가 일치하지 않는 경우 에러 메시지
 	if(nullErrorMessage != null && nullErrorMessage.equals("null")){
 		errorMessage = "회원 정보를 확인하세요.";
 	}
 
-	//에러 메세지 디버깅
+	//디버깅
 	//System.out.println("nullErrorMessage = " + nullErrorMessage);
 	//System.out.println("errorMessage = " + errorMessage);
 %>

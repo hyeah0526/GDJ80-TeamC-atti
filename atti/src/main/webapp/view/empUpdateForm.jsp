@@ -11,12 +11,12 @@
 
 <!-- Controller layer  -->
 <%
-	//세션을 변수로 변환
+	//세션에서 로그인한 사용자 정보를 가져와 변수에 저장
 	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
 	
 	//로그인한 사용자가 관리자인지 확인
 	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
-		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
+		response.sendRedirect("/atti/view/main.jsp"); // 메인 페이지로 이동
 		return;
 	}
 	

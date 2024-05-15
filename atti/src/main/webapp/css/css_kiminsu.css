@@ -160,6 +160,12 @@ tr:hover {
 	color: red;
 }
 
+#errorMessageRegiDiv{
+	justify-content: center;
+	color: red;
+	margin-top: 10px;
+}
+
 #paginationDiv{
 	display: flex;
 	justify-content:center;

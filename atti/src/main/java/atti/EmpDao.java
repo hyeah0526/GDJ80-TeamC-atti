@@ -14,13 +14,47 @@ public class EmpDao {
 	public static int empRegistration(
 		int empNo, String empMajor, String empGrade, 
 		String empName, String empBirth, String empGender, 
-		String empTel
+		String empTel, String empHireDate
 	) throws Exception{
 		
+		//매개변수 값 출력
+		//System.out.println("empNo = " + empNo);
+		//System.out.println("empMajor = " + empMajor);
+		//System.out.println("empGrade = " + empGrade);
+		//System.out.println("empName = " + empName);
+		//System.out.println("empBirth = " + empBirth);
+		//System.out.println("empGender = " + empGender);
+		//System.out.println("empTel = " + empTel);
+		
+		// 반환 값 변수
 		int insertRow = 0;
 		
+		PreparedStatement stmt = null;
+		
+		//DB연결 
+		Connection conn = DBHelper.getConnection();
+		
+		//직원 등록 : 신규 입사한 직원의 정보를 저장
+		String sql = "INSERT INTO employee ( "
+				+ "emp_no, emp_major, emp_grade, emp_name, "
+				+ "emp_birth, emp_gender, emp_tel, hire_date, emp_pw "
+				+ ") VALUES (?,?,?,?,?,?,?,?,PASSWORD(?))";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, empNo); // 신규 직원의 사번
+		stmt.setString(2,empMajor); // 신규 직원의 전공
+		stmt.setString(3,empGrade); // 신규 직원의 직책
+		stmt.setString(4,empName); // 신규 직원의 이름
+		stmt.setString(5,empBirth); // 신규 직원의 생일
+		stmt.setString(6,empGender); // 신규 직원의 성별
+		stmt.setString(7,empTel); // 신규 직원의 전화번호
+		stmt.setString(8,empHireDate); // 신규 직원의 입사일
+		stmt.setString(9, "1234"); // 신규 직원의 비밀번호
 		
 		
+		insertRow = stmt.executeUpdate();
+		
+		conn.close();
 		return insertRow;
 	}
 	

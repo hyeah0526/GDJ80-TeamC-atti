@@ -11,17 +11,20 @@
 
 <!-- Controller layer  -->
 <%
-	//세션을 변수로 변환
+	//세션에서 로그인한 사용자 정보를 가져와 변수에 저장
 	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
 	
 	//로그인한 사용자가 관리자인지 확인
 	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
-		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
+		response.sendRedirect("/atti/view/main.jsp"); // 메인 페이지로 이동
 		return;
 	}
 	
 	//디버깅
 	//System.out.println(loginEmp);
+	
+	//입력 오류 시 표시될 메세지
+	String errorMessage = request.getParameter("errorMessage");
 	
 %>
 
@@ -55,7 +58,7 @@
 	<main> 
 		<h2>신규 직원 등록</h2>
 		
-		<!-- 선택된 직원 정보 수정 입력 폼 -->
+		<!-- 신규 직원의 정보 입력 폼 -->
 		<form action="/atti/action/empRegiAction.jsp" method="post" class="empForm">
 				<div>
 					<label>전공</label>
@@ -98,6 +101,16 @@
 					<label>입사일</label>
 					<input type="date" name="empHireDate">
 				</div>
+					<%
+						//애러 메세지 출력
+						if(errorMessage != null){
+					%>
+						<div id="errorMessageRegiDiv">
+							<%=errorMessage%>
+						</div>
+					<%	
+						}
+					%>
 				<div>
 					<div></div>						
 					<button type="submit" class="detailEmpBtn">확인</button>
