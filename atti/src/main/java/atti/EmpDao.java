@@ -6,6 +6,27 @@ import java.util.*;
 public class EmpDao {
 	
 	/*
+	  	메소드: EmpDao#empRegistration()
+	  	페이지: empRegiAction.jsp
+	  	시작날짜: 2024-05-15
+	  	담당자: 김인수
+	*/
+	public static int empRegistration(
+		int empNo, String empMajor, String empGrade, 
+		String empName, String empBirth, String empGender, 
+		String empTel
+	) throws Exception{
+		
+		int insertRow = 0;
+		
+		
+		
+		return insertRow;
+	}
+	
+	
+	
+	/*
 	  	메소드: EmpDao#login()
 	  	페이지: loginAction.jsp
 	  	시작날짜: 2024-05-10

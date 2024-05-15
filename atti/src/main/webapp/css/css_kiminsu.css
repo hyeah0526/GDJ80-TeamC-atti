@@ -130,6 +130,30 @@ tr:hover {
 	width: auto;
 }
 
+.empForm{
+	font-size: 20px;
+}
+
+.empForm div{
+ 	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+
+.empForm input{
+	padding: 0px;
+	width: 80%;
+}
+
+.empForm label{
+	margin-right: 10px;
+}
+
+.empForm select{
+	width: 80%;
+}
+
 #errorMessageDiv{
 	margin-top: 30px;
 	text-align: center;
@@ -207,30 +231,6 @@ tr:hover {
 	font-size: 20px;
 }
 
-#empUpdateForm{
-	font-size: 20px;
-}
-
-#empUpdateForm div{
- 	display: flex;
-	justify-content: space-between;
-	margin-bottom: 10px;
-	margin-top: 20px;
-}
-
-#empUpdateForm input{
-	padding: 0px;
-	width: 80%;
-}
-
-#empUpdateForm label{
-	margin-right: 10px;
-}
-
-#empUpdateForm select{
-	width: 80%;
-}
-
 #searchForm{
 	display: flex;
 	justify-content: center;
@@ -239,7 +239,7 @@ tr:hover {
 #selectFromDiv{
 	display: flex;
 	flex-direction: row-reverse;
-	width: 90%;
+	width: 93%;
 }
 
 #paginationGradeForm{

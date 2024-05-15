@@ -22,6 +22,7 @@
 	
 	//사번 입력 검증
 	if(empNoStr != null){
+		
 		//사번 입력 필드에 숫자만 들어오는 확인(정규표현식 적용)
 		if(empNoStr.matches("\\d+")){	
 			empNo = Integer.parseInt(empNoStr);	// 정상적인 사번 입력 시 숫자로 변환
@@ -29,7 +30,9 @@
 			errorMessage =  URLEncoder.encode("사번을 확인 해 주세요.", "UTF-8"); //오류 메세지 인코딩
 		}
 	}
-	if(empNoStr == ""){
+	
+	//사번 입력 검증
+	if(empNoStr.trim().isEmpty()){
 		errorMessage = URLEncoder.encode("사번을 입력해 주세요.", "UTF-8"); // 입력 필드가 비어있는 경우 오류 메세지
 	}
 	

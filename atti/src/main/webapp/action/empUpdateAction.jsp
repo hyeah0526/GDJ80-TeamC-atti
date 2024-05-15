@@ -43,7 +43,7 @@
 	int updateRow = 0;
 
 	//직원의 변경할 전화번호 검증 (null, 빈값, 숫자가 아닌 경우, 010으로 시작하지 않는 경우, 길이가 11자리가 아닌 경우)
-	if(empTel == null || empTel.equals("") || !empTel.matches("^010\\d{8}$")){
+	if(empTel == null || empTel.trim().isEmpty() || !empTel.matches("^010\\d{8}$")){
 		
 %>
 		<!-- 직원 정보 수정 페이지 이동 -->

@@ -78,7 +78,7 @@
 					 String originalTel = (String)(m.get("empTel"));
 			%>
 				<!-- 선택된 직원 정보 보여주기 폼 -->
-				<form action="" method="post" id="empUpdateForm">
+				<form action="" method="post" class="empForm">
 						<div>
 							<label>사번</label>
 							<input type="text" readonly="readonly" value=<%=(String)(m.get("empNo"))%>>
