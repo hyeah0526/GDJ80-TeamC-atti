@@ -15,10 +15,10 @@
 %>
 <!-- Controller layer  -->
 <%
-	// 세션을 변수로 변환
+	/* // 세션을 변수로 변환
 	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
 	
-	/* // 로그인한 사용자가 관리자인지 확인
+	// 로그인한 사용자가 관리자인지 확인
 	// 관리자, 직원 여부에 따라 보여지는 뷰가 달라짐
 	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
 		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
@@ -51,9 +51,17 @@
 
 	// 전체 행의 수
 	int totalRow = 0;
-	
 	// 마지막 페이지
-	int lastPage = 0;
+	
+	if("all".equals(selectCategory) || selectCategory == null){
+		totalRow = CustomerDao.searchAllCount(searchWord);
+	} else if("customer".equals(selectCategory)){
+		totalRow = CustomerDao.searchCustomerCount(searchWord);
+	} else if("pet".equals(selectCategory)){
+		totalRow = PetDao.searchPetCount(searchWord);
+	}
+	
+	int lastPage = totalRow / rowPerPage;
 	
 	// 전체 행 / 페이지당 출력할 row의 수가 0으로 나누어 떨어지지 않으면 +1
 	if(totalRow % rowPerPage != 0) { // 0이 아닐 경우
@@ -63,14 +71,18 @@
 %>
 <!-- model layer -->
 <%
-	ArrayList<HashMap<String, Object>> searchAll = CustomerDao.searchAll(searchWord, startRow, rowPerPage);
-	ArrayList<HashMap<String, Object>> customerList = CustomerDao.customerSearch(searchWord, startRow, rowPerPage);
-	ArrayList<HashMap<String, Object>> petList = PetDao.petSearch(searchWord, startRow, rowPerPage);
+	// searchData에 각 메소드를 분기
+	ArrayList<HashMap<String, Object>> searchData = new ArrayList<>();
+
+	if("all".equals(selectCategory) || selectCategory == null){
+		searchData = CustomerDao.searchAll(searchWord, startRow, rowPerPage);
+	} else if("customer".equals(selectCategory)){
+		searchData = CustomerDao.customerSearch(searchWord, startRow, rowPerPage);
+	} else if("pet".equals(selectCategory)){
+		searchData = PetDao.petSearch(searchWord, startRow, rowPerPage);
+	}
 	
-	// 메소드 디버깅
-	//System.out.println("searchAll: " + searchAll);
-	//System.out.println("customerList: " + customerList);
-	//System.out.println("petList: " + petList);
+	//System.out.println("searchData: " + searchData);
 %>
 <!-- view layer -->
 <!DOCTYPE html>
@@ -118,32 +130,36 @@
 					</div>	
 					<table class="listTable">
 						<tr>
-							<th>고객 번호</th>
+							<th>펫 번호</th>
 							<th>펫 이름</th>
 							<th>고객 전화번호</th>
 							<th>고객 이름</th>
 							<th>등록일</th>
+							<th>접수</th>
 						</tr>
 						<%
-							for(HashMap<String, Object> s : searchAll){
+							for(HashMap<String, Object> a : searchData){
 						%>		
 								<tr>
 									<td>
-										<a href="/atti/view/customerDetail.jsp?customerNo=<%=s.get("customerNo")%>">
-											<%=s.get("customerNo")%></a>
+										<a href="/atti/view/customerDetail.jsp?customerNo=<%=a.get("petNo")%>">
+											<%=a.get("petNo")%></a>
 									</td>
 									<td>
-										<a href="/atti/view/petDetail.jsp?petNo=<%=s.get("petNo")%>">
-											<%=s.get("petName")%>
+										<a href="/atti/view/petDetail.jsp?petNo=<%=a.get("petNo")%>">
+											<%=a.get("petName")%>
 										</a>
 									</td>
-									<td><%=s.get("customerTel")%></td>
+									<td><%=a.get("customerTel")%></td>
 									<td>
-										<a href="/atti/view/customerDetail.jsp?customerNo=<%=s.get("customerNo")%>">
-											<%=s.get("customerName")%>
+										<a href="/atti/view/customerDetail.jsp?customerNo=<%=a.get("customerNo")%>">
+											<%=a.get("customerName")%>
 										</a>
 									</td>
-									<td><%=s.get("createDate")%></td>
+									<td><%=a.get("createDate")%></td>
+									<td>
+										<button class="listButton" type="button" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=a.get("petNo")%>'">접수하기</button>
+									</td>
 								</tr>
 						<%
 							}
@@ -166,9 +182,10 @@
 							<th>고객 전화번호</th>
 							<th>등록된 펫(수)</th>
 							<th>등록일</th>
+							<th>접수</th>
 						</tr>
 						<%
-							for(HashMap<String, Object> c : customerList){
+							for(HashMap<String, Object> c : searchData){
 						%>		
 								<tr>
 									<td>
@@ -184,6 +201,9 @@
 									<td><%=c.get("customerTel")%></td>
 									<td><%=c.get("petCnt")%></td>
 									<td><%=c.get("createDate")%></td>
+									<td>
+										<button class="listButton" type="button" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=c.get("petNo")%>'">접수하기</button>
+									</td>
 								</tr>
 						<%
 							}
@@ -207,10 +227,11 @@
 							<th>펫 이름</th>
 							<th>고객 이름</th>
 							<th>등록일</th>
+							<th>접수</th>
 						</tr>
 					
 						<%
-							for(HashMap<String, Object> p : petList){
+							for(HashMap<String, Object> p : searchData){
 						%>		
 								<tr>
 									<td>
@@ -229,6 +250,9 @@
 										</a>
 									</td>
 									<td><%=p.get("createDate")%></td>
+									<td>
+										<button class="listButton" type="button" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=p.get("petNo")%>'">접수하기</button>
+									</td>
 								</tr>
 						<%
 							}
@@ -238,6 +262,26 @@
 				}
 			%>		
 		</form>	
+		</div>
+		<div class="pagenationContainer">
+			<div>
+			    <!-- 이전 페이지 링크 -->
+			    <% if(currentPage > 1){ %>
+			        <a href="/atti/view/searchList.jsp?currentPage=<%=currentPage -1%>&selectCategory=<%=selectCategory%>&searchWord=<%=searchWord%>" class="pageButton">이전</a>
+			    <% } else { %>
+			        <span class="pageButton disabled">이전</span>
+			    <% } %>
+			
+			    <!-- 현재 페이지 표시 -->
+			    <b><span class="currentPage"><%=currentPage%>page</span></b>
+			
+			    <!-- 다음 페이지 링크 -->
+			    <% if(currentPage < lastPage) { %>
+			        <a href="/atti/view/searchList.jsp?currentPage=<%=currentPage +1%>&selectCategory=<%=selectCategory%>&searchWord=<%=searchWord%>" class="pageButton">다음</a>
+			    <% } else { %>
+			        <span class="pageButton disabled">다음</span>
+			    <% } %>
+			</div>	
 		</div>
 
 	</main>

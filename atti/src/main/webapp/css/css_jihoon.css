@@ -3,6 +3,16 @@ h2 {
 	text-align: center;
 }
 
+.pageButton {
+	background-color: #eedcba;
+	margin: 5px;
+}
+.pagenationContainer {
+	display: flex;
+	justify-content: center;
+	
+}
+
 .buttonContainer {
 	display: flex;
 	justify-content: center;
@@ -10,6 +20,7 @@ h2 {
 	height: 40px;
 	margin-top: 10px;
 }
+
 .inputButton {
 	background-color: #eedcba;
     border: none;
@@ -18,6 +29,7 @@ h2 {
     height: 35px;
     margin: 5px;
 }
+
 .searchContainer input{
 	margin-left: 10px;
 }
@@ -29,7 +41,7 @@ h2 {
 }
 .inputTableCustomer {
 	width: 40%;
-	border: none;
+	border: dash 2px;
 	border-radius: 10px;
 	padding: 5px;
 	margin: auto;
@@ -39,13 +51,49 @@ h2 {
 
 .inputTable {
 	width: 60%;
-	border: none;
+	border: dash 2px;
 	border-radius: 10px;
 	padding: 5px;
 	margin: auto;
 	margin-top: 10px;
 	box-shadow: 2px 2px 5px;
 }
+.inputTable th, td{
+	text-align: center;
+}
+.inputTable td {
+    border-left: 1px dash black; /* 왼쪽 테두리를 점선으로 설정 */
+    border-right: 1px dash black; /* 오른쪽 테두리를 점선으로 설정 */
+}
+
+.inputTable {
+    border-collapse: collapse; /* 테이블 셀 경계선을 합쳐서 중복되지 않도록 설정 */
+}
+
+.inputTable td:first-child {
+    border-left: none; /* 첫 번째 셀의 왼쪽 테두리를 제거 */
+}
+
+.inputTable td:last-child {
+    border-right: none; /* 마지막 셀의 오른쪽 테두리를 제거 */
+}
+
+.listButton {
+	background-color: #eedcba;
+    border: none;
+	border-radius: 10px;
+    width: 110px;
+    height: 25px;
+    margin: 5px;
+}
+
+.listButton:active, .inputButton:active {
+	background-color: #bed8cb;
+}
+.listButton:hover, .inputButton:hover {
+	background-color: #bed8cb;
+}
+
 .listTable th {
 	text-align: center;
 	background-color: #eedcba;
@@ -60,6 +108,7 @@ h2 {
 	margin-top: 10px;
 	margin-bottom: 10px;
 	box-shadow: 2px 2px 5px;
+	height: 35px;
 }
 
 .listTable th:first-child {
@@ -77,11 +126,11 @@ h2 {
 .listTable tr:last-child th:last-child {
 	border-bottom-right-radius: 10px;
 }
-th {
+.listTable th {
 	text-align: center;
 	background-color: #eedcba;
 }
-td {
+.listTable td {
 	margin-left: 5px;
 	text-align: center;
 }

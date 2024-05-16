@@ -12,6 +12,9 @@
  	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
  	System.out.println("paymentDetail.jsp regiNo--> " + regiNo);
  	
+ 	// 안내메세지
+ 	String infoMsg = request.getParameter("infoMsg");
+ 	
  	// 상세 결제정보 
  	HashMap<String, Object> paymentDetail = PaymentDao.paymentDetail(regiNo);
  	System.out.println("paymentDetail.jsp paymentDetail--> " + paymentDetail);
@@ -30,7 +33,7 @@
  	String medicineName = (String)paymentDetail.get("medicineName");		//약이름
  	int medicineCost = (Integer)paymentDetail.get("medicineCost");			//약비용
  	
- 	// 총금액 (진료비용 + 검사비용 + 수술비용 + 입원비용 + 약비용)
+ 	// 총금액 저장 (진료비용 + 검사비용 + 수술비용 + 입원비용 + 약비용)
  	int totalPrice = clinicCost + examinationCost + surgeryCost + hospitalCost + medicineCost;
  	
  	
@@ -80,8 +83,17 @@
 	<!-------------------- main -------------------->
 	<main>
 		<h2>결제내역상세</h2>
+		<!-- 에레메세지출력 -->
 		<div>
-			<table>
+			<% 
+				if(infoMsg != null){
+			%>
+				<h6><%=infoMsg%></h6>
+			<%}%>
+		</div>
+		
+		<div>
+			<table border="1">
 				<tr>
 					<th>접수번호</th>
 					<td><%=regiNo%></td>
@@ -138,6 +150,30 @@
 					<th>전제요금</th>
 					<td><%=totalPrice%></td>
 				</tr>
+				<%
+					if(paymentState.equals("미납")){
+				%>
+						<tr>
+							<th colspan="2">
+								<!-- 결제하기 -->
+								<form action="/atti/action/paymentAction.jsp">
+									<input type="hidden" name="regiNo" value="<%=regiNo%>">
+									<input type="hidden" name="totalPrice" value="<%=totalPrice%>">
+									<input type="hidden" name="paymentState" value="<%=paymentState%>">
+									<input type="number" name="customerPay" placeholder="결제금액입력">
+									<button type="submit">결제</button>
+								</form>
+							</th>
+						</tr>
+				<%
+					}else{
+				%>
+						<tr>
+							<th colspan="2">결제완료</th>
+						</tr>
+				<%
+					}
+				%>
 			</table>
 		</div>
 	</main>
