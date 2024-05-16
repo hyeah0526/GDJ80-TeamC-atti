@@ -19,21 +19,51 @@
 <%
 	// 검색 날짜 값 가져오기 
 	String searchDate = request.getParameter("searchDate");
-	//System.out.println(searchDate + " ====== searchDate");
-	
-	// searchDate가 null일 경우(날짜를 선택하지 않은 경우) -> searchDate = 현재 날짜 입력
-	LocalDate date = LocalDate.now();	// 오늘 날짜 
-	//System.out.println(date);
+	// searchDate가 null일 경우(날짜를 선택하지 않은 경우) -> 공백 처리 
 	if(searchDate == null) {
-		searchDate = date.toString();
-		//System.out.println(searchDate);
+		searchDate = "";
+	}
+	// 오늘 날짜 		
+	LocalDate date = LocalDate.now();	
+	
+	// 페이징 
+	// 현재 페이지 기본값
+ 	int currentPage = 1;
+ 	// 페이지 설정값 가져오기
+	if(request.getParameter("currentPage") != null){
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+ 	// 한 페이지에 나오는 개수
+	int rowPerPage = 10;
+	int startRow = (currentPage-1) * rowPerPage;
+	
+	// 검사 리스트 DAO 호출
+	ArrayList<HashMap<String, Object>> examinationList = ExaminationDao.examinationList(searchDate, startRow, rowPerPage);
+	
+	// 총 행 수 구하기 
+	int totalRow = 0;
+	// null인 경우 처리 (examinationList가 비어있지 않은 경우에만 totalRow 호출)
+	if(!examinationList.isEmpty()){ 
+		totalRow = (Integer)examinationList.get(1).get("totalRow");
+	}
+	// 마지막 페이지 계산하기
+	int lastPage = totalRow / rowPerPage;
+	
+	// 나머지가 있으면 마지막 페이지 +1 
+	if (totalRow % rowPerPage != 0) {
+		lastPage += 1; 
 	}
 	
-	// 검사 리스트 
-	ArrayList<HashMap<String, Object>> examinationList = ExaminationDao.examinationList(searchDate);
+	// 디버깅
+	//System.out.println(searchDate + " ====== examinationList searchDate");
+	//System.out.println(date);
+	//System.out.println(currentPage + " ====== examinationList currentPage");
+	//System.out.println(rowPerPage + " ====== examinationList rowPerPage");
+	//System.out.println(startRow + " ====== examinationList startRow");
+	//System.out.println(startRow + " ====== examinationList totalRow");
+	//System.out.println(lastPage + " ====== examinationList lastPage");
 
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,6 +140,30 @@
 				%>
 			</table>
 		</div>
+		
+		<!-- 페이징  -->
+		<div>
+			<div>
+			    <!-- 이전 페이지 링크 -->
+			    <% if(currentPage > 1){ %>
+			        <a href="/atti/view/examinationList.jsp?currentPage=<%=currentPage-1%>&searchDate=<%=searchDate%>">이전</a>
+			    <% } else { %>
+			        <span class="disabled">이전</span>
+			    <% } %>
+
+			    <!-- 현재 페이지 표시 -->
+			    <span class="currentPage"><%=currentPage%></span>
+
+			    <!-- 다음 페이지 링크 -->
+			    <% if(currentPage < lastPage) { %>
+			        <a href="/atti/view/examinationList.jsp?currentPage=<%=currentPage+1%>&searchDate=<%=searchDate%>">다음</a>
+			    <% } else { %>
+			        <span class="disabled">다음</span>
+			    <% } %>
+
+			</div>	
+		</div>
+		
 	</main>
 </body>
 </html>

@@ -20,7 +20,6 @@
 	// 값 받아오기 -> 검사 번호
 	int examinationNo = Integer.parseInt(request.getParameter("examinationNo"));
 	//System.out.println(examinationDetail + " ====== examinationDetail");
-	
 	// 검사 번호에 대한 검사 상세 내용 
 	ArrayList<HashMap<String, Object>> examinationDetail = ExaminationDao.examinationDetail(examinationNo);
 
@@ -62,7 +61,7 @@
 	
 	<div>
 		<table border="1">
-		<!-- 검사 상세 정보 보여주기 -->
+		<!-- 검사 상세 정보 보여죽 -->
 		<%
 			for(HashMap<String, Object> d : examinationDetail) {
 		%>
