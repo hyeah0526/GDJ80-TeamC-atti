@@ -44,7 +44,7 @@
 	int totalRow = 0;
 	// null인 경우 처리 (examinationList가 비어있지 않은 경우에만 totalRow 호출)
 	if(!examinationList.isEmpty()){ 
-		totalRow = (Integer)examinationList.get(1).get("totalRow");
+		totalRow = (Integer)examinationList.get(0).get("totalRow");
 	}
 	// 마지막 페이지 계산하기
 	int lastPage = totalRow / rowPerPage;
@@ -109,6 +109,10 @@
 				<form method="post" action="examinationList.jsp" class="inline">
 					<button type="submit" name="searchDate" value="<%= date %>">오늘</button>
 				</form>
+				<!-- 전체 검색 -->
+				<form method="post" action="examinationList.jsp" class="inline">
+					<button type="submit" name="searchDate" value="">전체</button>
+				</form>
 			</div>
 			
 			<!-- 검사 리스트 출력 -->
@@ -163,7 +167,6 @@
 
 			</div>	
 		</div>
-		
 	</main>
 </body>
 </html>
