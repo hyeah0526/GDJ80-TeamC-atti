@@ -72,6 +72,7 @@
 		<div id="subMenu">
 			<div id="subMenuBtnContainer">
 				<button type="button" onclick="location.href='./paymentList.jsp'">결제내역</button><br><br>
+				<button type="button" onclick="location.href='./income.jsp'">매출관리</button><br><br>
 			</div>
 		</div>
 	</aside>
@@ -157,6 +158,5 @@
 		</div>
 		
 	</main>
-</body>
 </body>
 </html>
