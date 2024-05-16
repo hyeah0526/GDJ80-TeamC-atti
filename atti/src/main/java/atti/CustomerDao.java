@@ -5,6 +5,91 @@ import java.sql.*;
 import java.util.*;
 
 public class CustomerDao {
+	
+	/*
+	 * 메소드: CustomerDao#searchCustomerCount()
+	 * 페이지: searchList.jsp
+	 * 시작 날짜: 2024-05-16
+	 * 담당자: 김지훈
+	*/
+	
+	public static int searchCustomerCount(String searchWord) throws Exception {
+		// 검색된 값을 확인
+		// System.out.println("CustomerDao#searchCustomerCount searchWord: " + searchWord);
+
+		int cnt = 0; // SELECT한 ROW의 총 개수
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "SELECT COUNT(*) cnt"
+				+ " FROM customer c"
+				+ " LEFT JOIN pet p"
+				+ " ON c.customer_no = p.pet_no";
+		if(searchWord != null) {
+			sql += " WHERE c.customer_name LIKE ?"
+				+ " OR c.customer_tel LIKE ?";
+		}
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		if(searchWord != null) {
+			stmt.setString(1, "%" + searchWord + "%");
+			stmt.setString(2, "%" + searchWord + "%");
+		}
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			cnt = rs.getInt(1);
+		}
+		
+		conn.close();
+		return cnt;
+	}
+	
+	/*
+	 * 메소드: CustomerDao#searchAllCount()
+	 * 페이지: searchList.jsp
+	 * 시작 날짜: 2024-05-16
+	 * 담당자: 김지훈
+	*/
+	
+	public static int searchAllCount(String searchWord) throws Exception {
+		
+		// 검색된 값을 확인
+		// System.out.println("CustomerDao#searchAllCount searchWord: " + searchWord);
+		
+		int cnt = 0; // SELECT한 ROW의 총 개수
+
+		Connection conn = DBHelper.getConnection();
+		
+		// row의 개수 구하기
+		String sql = "SELECT COUNT(*) cnt"
+				+ " FROM customer c"
+				+ " INNER JOIN pet p"
+				+ " ON c.customer_no = p.customer_no";
+		
+		if(searchWord != null) {
+			sql += " WHERE c.customer_name LIKE ?" // 검색어가 customerName
+				+ " OR c.customer_tel LIKE ?" // 또는 검색어가 customerTel
+				+ " OR p.pet_name LIKE ?"; // 또는 검색어가 petName
+		} // searchWord가 null이 아닐 경우(경색어가 있는 경우) 쿼리를 추가
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		if(searchWord != null) {
+			stmt.setString(1, "%" + searchWord + "%"); // customerName
+			stmt.setString(2, "%" + searchWord + "%"); // customerTel
+			stmt.setString(3, "%" + searchWord + "%"); // petName
+		}
+		
+		// 디버깅
+		// System.out.println("CustomerDao#searchAllCount: " + stmt);
+	
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			cnt = rs.getInt(1); // row의 개수 추출
+		}
+		conn.close();
+		return cnt; // cnt를 반환
+	}
+	
 	/*
 	 * 메소드: CustomerDao#customerUpdate()
 	 * 페이지: customerUpdateAction.jsp
@@ -15,25 +100,26 @@ public class CustomerDao {
 	public static int customerUpdate(int customerNo, String customerTel, String customerAddress) throws Exception {
 		
 		// updateForm -> updateAction 넘어온 데이터를 확인
-		//System.out.println("CustomerDao#customerUpdate customerNo: " + customerNo);
-		//System.out.println("CustomerDao#customerUpdate customerTel:" + customerTel);
-		//System.out.println("CustomerDao#customerUpdate customerAddress:" + customerAddress);
+		// System.out.println("CustomerDao#customerUpdate customerNo: " + customerNo);
+		// System.out.println("CustomerDao#customerUpdate customerTel:" + customerTel);
+		// System.out.println("CustomerDao#customerUpdate customerAddress:" + customerAddress);
 		
 		int updateRow = 0;
 		
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "UPDATE customer SET customer_tel = ?, customer_address = ?"
-				+ "WHERE customer_no = ?"; 
+		// 고객의 정보를 수정
+		String sql = "UPDATE customer SET customer_tel = ?," // 변경 희망하는 전화번호 
+				+ " customer_address = ?" // 변경 희망하는 주소
+				+ " WHERE customer_no = ?";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customerTel);
 		stmt.setString(2, customerAddress);
 		stmt.setInt(3, customerNo);
 		
-		
 		// 디버깅
-		//System.out.println("CustomerDao#customerUpdate: " + stmt);
+		// System.out.println("CustomerDao#customerUpdate: " + stmt);
 		
 		updateRow = stmt.executeUpdate();
 		
@@ -53,9 +139,9 @@ public class CustomerDao {
 		// searchList에서 넘어온 searchWord, startRow, rowPerPage를 확인
 		
 		// 디버깅
-		//System.out.println("CustomerDao#customerUpdate searchAll: " + searchWord);
-		//System.out.println("CustomerDao#customerUpdate searchAll" + startRow);
-		//System.out.println("CustomerDao#customerUpdate searchAll" + rowPerPage);
+		// System.out.println("CustomerDao#customerUpdate searchAll: " + searchWord);
+		// System.out.println("CustomerDao#customerUpdate searchAll" + startRow);
+		// System.out.println("CustomerDao#customerUpdate searchAll" + rowPerPage);
 		
 		ArrayList<HashMap<String, Object>> searchAll = new ArrayList<HashMap<String, Object>>();
 		
@@ -64,26 +150,29 @@ public class CustomerDao {
 		String sql = null;
 		if(searchWord != null) { // searchWord가 null이 아닐 경우
 			sql = "SELECT c.customer_no customerNo, c.customer_name customerName,"
-					+ " c.customer_tel customerTel, p.pet_no petNo, p.pet_name petName, p.create_date createDate"
-					+ " FROM customer c"
-					+ " INNER JOIN pet p"
-					+ " ON c.customer_no = p.customer_no"
-					+ " WHERE c.customer_name LIKE ? OR c.customer_tel LIKE ? OR p.pet_name LIKE ?" // 검색어가 customerName 또는  customerTel 또는 petName
-					+ " ORDER BY p.create_date DESC"
-					+ " LIMIT ?, ?"; // n부터 n개까지			
+				+ " c.customer_tel customerTel, p.pet_no petNo, p.pet_name petName, p.create_date createDate"
+				+ " FROM customer c"
+				+ " INNER JOIN pet p"
+				+ " ON c.customer_no = p.customer_no"
+				+ " WHERE c.customer_name LIKE ?" // 검색어가 customerName
+				+ " OR c.customer_tel LIKE ?" // 또는 검색어가 customerTel
+				+ " OR p.pet_name LIKE ?" // 또는 검색어가 petName
+				+ " ORDER BY p.create_date DESC"
+				+ " LIMIT ?, ?"; // n부터 n개까지			
 		} else {
 			sql = "SELECT c.customer_no customerNo, c.customer_name customerName,"
-					+ " c.customer_tel customerTel, p.pet_no petNo, p.pet_name petName, p.create_date createDate"
-					+ " FROM customer c"
-					+ " INNER JOIN pet p"
-					+ " ON c.customer_no = p.customer_no"
-					+ " ORDER BY p.create_date DESC"
-					+ " LIMIT ?, ?"; // n부터 n개까지	
+				+ " c.customer_tel customerTel, p.pet_no petNo, p.pet_name petName, p.create_date createDate"
+				+ " FROM customer c"
+				+ " INNER JOIN pet p"
+				+ " ON c.customer_no = p.customer_no"
+				+ " ORDER BY p.create_date DESC"
+				+ " LIMIT ?, ?"; // n부터 n개까지	
 		}
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
-		System.out.println("CustomerDao#customerUpdate: " + stmt);
+		// 디버깅
+		// System.out.println("CustomerDao#customerUpdate: " + stmt);
 		
 		if(searchWord != null) { // 검색어가 null이 아닐 경우
 			stmt.setString(1, "%" + searchWord + "%"); // customerName
@@ -124,15 +213,18 @@ public class CustomerDao {
 		
 		// searchList에서 넘어온 searchWord, startRow, rowPerPage를 확인
 		// 디버깅
-		//System.out.println("CustomerDao#customerUpdate customerSearch searchWord: " + searchWord);
-		//System.out.println("CustomerDao#customerUpdate customerSearch startRow: " + startRow);
-		//System.out.println("CustomerDao#customerUpdate customerSearch rowPerPage: " + rowPerPage);
+		// System.out.println("CustomerDao#customerUpdate customerSearch searchWord: " + searchWord);
+		// System.out.println("CustomerDao#customerUpdate customerSearch startRow: " + startRow);
+		// System.out.println("CustomerDao#customerUpdate customerSearch rowPerPage: " + rowPerPage);
 		
 		ArrayList<HashMap<String, Object>> customerSearch = new ArrayList<HashMap<String, Object>>();
 		
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "SELECT c.customer_no customerNo, c.customer_name customerName,"
+		String sql = null;
+		
+		if(searchWord != null) { // 검색어가 null이 아닐 경우
+			sql = "SELECT c.customer_no customerNo, c.customer_name customerName,"
 				+ " c.customer_tel customerTel,"
 				+ " COUNT(p.pet_no) petCnt, c.create_date createDate"
 				+ " FROM customer c "
@@ -140,11 +232,23 @@ public class CustomerDao {
 				+ " ON c.customer_no = p.customer_no"
 				+ " WHERE c.customer_name LIKE ? OR c.customer_tel LIKE ?"
 				+ " GROUP BY c.customer_no, c.customer_name, c.customer_tel"
-				+ " ORDER BY c.create_date DESC";
-		
+				+ " ORDER BY c.create_date DESC"
+				+ " LIMIT ?, ?";
+		} else { // 검색어가 null일 경우
+			sql = "SELECT c.customer_no customerNo, c.customer_name customerName,"
+				+ " c.customer_tel customerTel,"
+				+ " COUNT(p.pet_no) petCnt, c.create_date createDate"
+				+ " FROM customer c "
+				+ " LEFT JOIN pet p"
+				+ " ON c.customer_no = p.customer_no"
+				+ " GROUP BY c.customer_no, c.customer_name, c.customer_tel"
+				+ " ORDER BY c.create_date DESC"
+				+ " LIMIT ?, ?";
+		}
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
-		System.out.println("CustomerDao#customerUpdate customerSearch: " + stmt);
+		// 디버깅
+		// System.out.println("CustomerDao#customerUpdate customerSearch: " + stmt);
 		
 		if(searchWord != null) { // 검색어가 null이 아닐 경우
 			stmt.setString(1, "%" + searchWord + "%"); // customerName
@@ -183,7 +287,7 @@ public class CustomerDao {
 		ArrayList<HashMap<String, Object>> customerDetail = new ArrayList<HashMap<String, Object>>();
 		
 		// 각 페이지에서 넘어온 customerNo값을 확인
-		//System.out.println("CustomerDao#customerDetail customerNo: " + customerNo);
+		// System.out.println("CustomerDao#customerDetail customerNo: " + customerNo);
 		
 		Connection conn = DBHelper.getConnection();
 		
@@ -195,7 +299,7 @@ public class CustomerDao {
 		stmt.setInt(1, customerNo);
 		
 		// 디버깅
-		//System.out.println("CustomerDao#customerDetail: " + stmt);
+		// System.out.println("CustomerDao#customerDetail: " + stmt);
 		
 		ResultSet rs = stmt.executeQuery();
 		
@@ -223,9 +327,9 @@ public class CustomerDao {
 		
 		// 디버깅
 		// customerRegiForm -> customerRegiAction 매개 변수값 확인
-		//System.out.println("CustomerDao#customerRegistration customerName: " + customerName);
-		//System.out.println("CustomerDao#customerRegistration customerTel: " + customerTel);
-		//System.out.println("CustomerDao#customerRegistration customerAddress: " + customerAddress);
+		// System.out.println("CustomerDao#customerRegistration customerName: " + customerName);
+		// System.out.println("CustomerDao#customerRegistration customerTel: " + customerTel);
+		// System.out.println("CustomerDao#customerRegistration customerAddress: " + customerAddress);
 		
 		
 		int customerNo = 0; 
@@ -245,7 +349,7 @@ public class CustomerDao {
 		stmt.setString(3, customerAddress);
 		
 		// 디버깅
-		//System.out.println("CustomerDao#customerRegistration: " + stmt);
+		// System.out.println("CustomerDao#customerRegistration: " + stmt);
 		
 		row = stmt.executeUpdate();
 		

@@ -7,6 +7,46 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class PetDao {
+	
+	/*
+	 * 메소드: PetDao#searchPetCount()
+	 * 페이지: searchList.jsp
+	 * 시작 날짜: 2024-05-16
+	 * 담당자: 김지훈
+	*/
+	public static int searchPetCount(String searchWord) throws Exception {
+		
+		// 검색된 searchWord값을 확인
+		// System.out.println("PetDao#searchPetCount searchWord: " + searchWord);
+		
+		int cnt = 0;
+
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "SELECT COUNT(*) cnt"
+				+ " FROM pet p "
+				+ " LEFT JOIN customer c "
+				+ " ON p.customer_no = c.customer_no";
+	    if (searchWord != null) {
+	        sql += " WHERE p.pet_name LIKE ?"
+        		+ " OR c.customer_name LIKE ?";
+	    }
+	    
+	    PreparedStatement stmt = conn.prepareStatement(sql);
+	    if (searchWord != null) {
+	        stmt.setString(1, "%" + searchWord + "%");
+	        stmt.setString(2, "%" + searchWord + "%");
+	    }
+	    
+	    ResultSet rs = stmt.executeQuery();
+		
+	    if (rs.next()) {
+	        cnt = rs.getInt(1);
+	    }
+		conn.close();
+		
+		return cnt;
+	}
 	/*
 	 * 메소드: PetDao#petByCustomer()
 	 * 페이지: customerDetail.jsp
