@@ -263,6 +263,7 @@
 			%>		
 		</form>	
 		</div>
+		<!-- 리스트 페이지네이션 -->
 		<div class="pagenationContainer">
 			<div>
 			    <!-- 이전 페이지 링크 -->

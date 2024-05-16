@@ -23,6 +23,7 @@ public class PetDao {
 
 		Connection conn = DBHelper.getConnection();
 		
+		// 전체 row의 개수 구하기
 		String sql = "SELECT COUNT(*) cnt"
 				+ " FROM pet p "
 				+ " LEFT JOIN customer c "
@@ -66,10 +67,10 @@ public class PetDao {
 				+ " FROM pet p"
 				+ " LEFT JOIN registration r"
 				+ " ON p.pet_no = r.pet_no"
-				+ " WHERE customer_no = ?";
+				+ " WHERE p.customer_no = ?"
+				+ " AND r.regi_date = (SELECT MAX(r.regi_date) FROM registration r WHERE r.pet_no = p.pet_no)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, customerNo);
-		
 		// 디버깅
 		// System.out.println("PetDao#petByCustomer: " + stmt);
 		ResultSet rs = stmt.executeQuery();
