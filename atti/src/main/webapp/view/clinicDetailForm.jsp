@@ -2,6 +2,13 @@
 <%@ page import="java.util.*" %>
 <%@ page import="atti.*" %>
 
+<!-------------------- 
+ * 기능 번호  : #32, #47
+ * 상세 설명  : 진료 내용 등록(입원)
+ * 시작 날짜 : 2024-05-16
+ * 담당자 : 김인수, 김지훈, 박혜아, 한은혜
+ -------------------->
+
 <!-- Controller layer  -->
 <%
 	//로그인한 사용자인지 검증
@@ -10,21 +17,54 @@
 		return;
 	}
 	
-	//int regiNo = Integer.parseInt(request.getParameter("regiNo"));
+	//사용자의 진료 번호 
+	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
 
 %>
 
 <!-- Model layer -->
+
+<% 
+	//진료
+%>
+
+
+<% 
+	//수술
+%>
+
+
+<% 
+	//처방
+%>
+
+<% 
+	//검사
+%>
+
+
+
 <%
-	HashMap<String, Object> hospitalizationDetail = HospitalizationDao.hospitalizationDetail(11);
+	//입원
+	
+	//사용 가능한 입원실 정보 조회
+	ArrayList<HashMap<String, Object>>  hospitalRoomList = HospitalizationDao.hospitalRoomList();
+
+	//진료 번호를 통해 입원 환자 정보 조회 
+	HashMap<String, Object> hospitalizationDetail = HospitalizationDao.hospitalizationDetail(5);
+
 	
 	//디버깅
+	//System.out.println(hospitalRoomList);
 	//System.out.println(hospitalizationDetail);
 	
+	  // 입원 환자 정보가 없는 경우 초기화
 	if( hospitalizationDetail == null){
 		hospitalizationDetail = new HashMap<>();
 	}
-		System.out.println(hospitalizationDetail);
+	
+	//디버깅
+	//System.out.println(hospitalizationDetail);
 	
 %>
 
@@ -59,10 +99,13 @@
 		<!-- 입원 환자 호실 선택 및 입원 내용 입력 폼 -->
 		<form action="/atti/action/clinicAction.jsp" method="post" id="HospitalizationRegiForm">
 			
+			<input type="hidden" value="<%=regiNo%>" name="regiNo">
+			
 			<div id="animalSelectBoxDiv">
 				
 				<%
-					if(hospitalizationDetail.isEmpty()){
+					//입원실 정보 유무에 따라 다른 처리
+					if(hospitalizationDetail.get("roomName") == null){
 				  		String empMajor = (String) hospitalizationDetail.get("empMajor");
                         String roomName = (String) hospitalizationDetail.get("roomName");
 				%>
@@ -71,50 +114,50 @@
 					<%
 						if("포유류".equals(empMajor)){ 
 					%>
-						<!-- 포유류 입원 호실 선택하기 -->
+						<!-- 포유류 입원실 침대 선택하기 -->
 						<select name="mammalRoom">
-							<option value="A01">A01</option>
-							<option value="A02">A02</option>
-							<option value="A03">A03</option>
-							<option value="A04">A04</option>
-							<option value="A05">A05</option>
-							<option value="A06">A06</option>
-							<option value="A07">A07</option>
-							<option value="A08">A08</option>
-							<option value="A09">A09</option>
-							<option value="A10">A10</option>
+							<%
+								for(HashMap<String, Object> room : hospitalRoomList){
+									String roomNames = (String) room.get("room_name");
+                                    if(roomNames.startsWith("A")) {
+							%>
+										<option value="<%= roomNames %>"><%= roomNames %></option>
+							<%
+                                    }
+								}
+							%>
 						</select>				
 					<%
 						}else if("파충류".equals(empMajor)){
 					%>
-						<!-- 파충류 입원 호실 선택하기 -->
+						<!-- 파충류 입원실 침대 선택하기 -->
 						<select name="reptilesRoom">
-							<option value="B01">B01</option>
-							<option value="B02">B02</option>
-							<option value="B03">B03</option>
-							<option value="B04">B04</option>
-							<option value="B05">B05</option>
-							<option value="B06">B06</option>
-							<option value="B07">B07</option>
-							<option value="B08">B08</option>
-							<option value="B09">B09</option>
-							<option value="B10">B10</option>
+							<%
+								for(HashMap<String, Object> room : hospitalRoomList){
+									String roomNames = (String) room.get("room_name");
+                                    if(roomNames.startsWith("B")) {
+							%>
+										<option value="<%= roomNames %>"><%= roomNames %></option>
+							<%
+                                    }
+								}
+							%>
 						</select>
 					<%	
 						}else{
 					%>
-						<!-- 조류 입원 호실 선택하기 -->
+						<!-- 조류 입원실 침대 선택하기 -->
 						<select name="birdRoom">
-							<option value="C01">C01</option>
-							<option value="C02">C02</option>
-							<option value="C03">C03</option>
-							<option value="C04">C04</option>
-							<option value="C05">C05</option>
-							<option value="C06">C06</option>
-							<option value="C07">C07</option>
-							<option value="C08">C08</option>
-							<option value="C09">C09</option>
-							<option value="C10">C10</option>
+							<%
+								for(HashMap<String, Object> room : hospitalRoomList){
+									String roomNames = (String) room.get("room_name");
+                                    if(roomNames.startsWith("C")) {
+							%>
+										<option value="<%= roomNames %>"><%= roomNames %></option>
+							<%
+                                    }
+								}
+							%>
 						</select>					
 					<%
 						}
@@ -124,7 +167,11 @@
 					}else{
 						
 				%>
-					
+					<div>
+						<%=hospitalizationDetail.get("empMajor")%> / 
+						<%=hospitalizationDetail.get("petKind")%>
+						"<%=hospitalizationDetail.get("roomName")%>" 입원중	
+					</div>
 				<%
 					}
 				%>
@@ -132,11 +179,21 @@
 			</div>
 			
 			<div id="HospitalizationRegiFormDetails">
-				<textarea name="hospitalizationContent" rows="4" ></textarea>		
+				<textarea name="hospitalizationContent" rows="4" >
+				<%
+					//입원 내용과 관련된 내용이 있으면 보여주기
+					if(hospitalizationDetail.get("hospitalizationContent") != null){
+				%>
+					<%=hospitalizationDetail.get("hospitalizationContent") %>					
+				<%
+					}
+				%>
+				</textarea>		
 				<button type="submit">저장</button>
 			</div>
 			
 		</form>
+		
 	</main>
 </body>
 </html>
