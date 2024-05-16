@@ -90,9 +90,9 @@ public class ExaminationDao {
 		 * + 검사 사진 정보(pthot_no, photo_name)
 		*/
 		String sql = "SELECT"
-				+ " e.examination_no examinationNo, examination_kind examinationKind, examination_content examinationContent, examination_date examinationDate"
+				+ " e.examination_no examinationNo, examination_kind examinationKind, examination_content examinationContent, examination_date examinationDate,"
 				+ " pet_kind petKind, pet_name petName, "
-				+ " photo_no photoNo, photo_name photoName, "
+				+ " photo_name photoName "
 				+ " FROM examination e"
 				+ " LEFT JOIN registration r"
 				+ " ON e.regi_no = r.regi_no"
@@ -104,12 +104,11 @@ public class ExaminationDao {
 				
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, examinationNo);
-		//System.out.println(stmt + " ====== ExaminationDao#examinationDetail stmt");
+		System.out.println(stmt + " ====== ExaminationDao#examinationDetail stmt");
 		
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			HashMap<String, Object> d = new HashMap<String, Object>();
-			d.put("photoNo", rs.getInt("photoNo"));								// 사진 번호 
 			d.put("photoName", rs.getString("photoName"));						// 사진 이름(파일이름)
 			d.put("petKind", rs.getString("petKind"));							// 반려동물 종류
 			d.put("petName", rs.getString("petName"));							// 반려동물 이름

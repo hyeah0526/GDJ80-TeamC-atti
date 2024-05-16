@@ -20,9 +20,8 @@
 	// 값 받아오기 -> 검사 번호
 	int examinationNo = Integer.parseInt(request.getParameter("examinationNo"));
 	//System.out.println(examinationDetail + " ====== examinationDetail");
-	// 검사 번호에 대한 검사 상세 내용 
+	// 검사 상세 정보 DAO 호출
 	ArrayList<HashMap<String, Object>> examinationDetail = ExaminationDao.examinationDetail(examinationNo);
-
 %>
 <!DOCTYPE html>
 <html>
@@ -55,38 +54,40 @@
 	
 	<!-------------------- main -------------------->
 	<main>
-	<div>
-		<h2>검사 상세 정보</h2>
-	</div>
-	
-	<div>
-		<table border="1">
-		<!-- 검사 상세 정보 보여죽 -->
-		<%
-			for(HashMap<String, Object> d : examinationDetail) {
-		%>
+		<div>
+			<h2>검사 상세 정보</h2>
+		</div>
 		
-			<tr>
-				<td><%= d.get("examinationNo")%></td>
-				<td><%= d.get("petKind")%></td>
-				<td><%= d.get("petName")%></td>
-			</tr>
-			<tr>
-				<td><%= d.get("examinationKind")%></td>
-				<td><%= d.get("examinationDate")%></td>
-			</tr>
-			<tr>
-				<td><%= d.get("examinationContent")%></td>
-			</tr>
-			<tr>
-				<td><%= d.get("photoName")%></td>
-			</tr>
-		
-		<%
-			}
-		%>
-		</table>
-	</div>
+		<!-- 검사 상세 정보 보여주기 -->
+		<div>
+			<%
+				for(HashMap<String, Object> ed : examinationDetail) {
+			%>
+			<div>
+				<label>검사 번호</label>
+				<%=(Integer)(ed.get("examinationNo"))%>
+				<label>검사 종류</label>
+				<%=(String)(ed.get("examinationKind"))%>
+				<label>검사 날짜</label>
+				<%=(String)(ed.get("examinationDate"))%>
+			</div>
+			<div>
+				<label>검사 내용</label>
+				<%=(String)(ed.get("examinationContent"))%>
+			</div>
+			<div>
+				<label>동물 정보</label>
+				<%=(String)(ed.get("petName"))%>
+				(<%=(String)(ed.get("petKind"))%>)
+			</div>
+			<div>
+				<label>사진 번호</label>
+				<%=(String)(ed.get("photoName"))%>
+			</div>
+			<%
+				}
+			%>
+		</div>
 	</main>
 </body>
 </html>

@@ -87,8 +87,6 @@ public class SurgeryDao {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		// DB연결
 		Connection conn = DBHelper.getConnection();
-		// TODO : [한은혜] 값 받아오는지 다시 확인 
-		System.out.println(surgeryNo + " ====== SurgeryDao#surgeryDetail surgeryNo");
 		
 		/* 
 		* 수술 상세보기 쿼리 
@@ -96,22 +94,24 @@ public class SurgeryDao {
 		* + 접수번호(regi_no) 
 		* + 동물 정보(pet_no, pet_kind, pet_name) 
 		* + 담당 의사 정보(emp_no, emp_grade, emp_name)
-		* + 해당 수술 번호
-		* + 페이징
+		* + 보호자 정보(customer_no, customer_tel)
 		*/
 		String sql = "SELECT"
 				+ " surgery_no surgeryNo, surgery_kind surgeryKind, surgery_date surgeryDate,surgery_content surgeryContent, "
-				+ " s.regi_no regiNo, "
-				+ " r.pet_no petNo, pet_kind petKind, pet_name petName, "
-				+ " r.emp_no empNo, emp_grade empGrade, emp_name empName "
-				+ " FROM surgery s "
-				+ " LEFT JOIN registration r "
-				+ " ON s.regi_no = r.regi_no "	// 수술의 접수 번호 = 접수의 접수 번호
-				+ " LEFT JOIN pet p "
-				+ " ON r.pet_no = p.pet_no "	// 접수의 반려동물 번호 = 반려동물의 반려동물 번호
-				+ " LEFT JOIN employee e "
-				+ " ON r.emp_no = e.emp_no "	// 접수의 사원 번호 = 직원의 사원 번호
-				+ " WHERE s.surgery_no = ? ";	// 해당 수술의 수술 번호 
+				+ " s.regi_no regiNo,"
+				+ " r.pet_no petNo, pet_kind petKind, pet_name petName,"
+				+ " r.emp_no empNo, emp_grade empGrade, emp_name empName,"
+				+ " customer_name customerName, customer_tel customerTel"
+				+ " FROM surgery s"
+				+ " INNER JOIN registration r"
+				+ " ON s.regi_no = r.regi_no"			// 수술에서 접수번호 = 접수에서 접수 번호 
+				+ " LEFT JOIN pet p"
+				+ " ON r.pet_no = p.pet_no"				
+				+ " LEFT JOIN employee e"
+				+ " ON r.emp_no = e.emp_no"
+				+ " LEFT JOIN customer c"
+				+ " ON p.customer_no = c.customer_no"
+				+ " WHERE s.surgery_no = 5";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, surgeryNo);
@@ -127,17 +127,18 @@ public class SurgeryDao {
 			surDetail.put("surgeryContent", rs.getString("surgeryContent"));	// 수술 내용 
 			surDetail.put("regiNo", rs.getInt("regiNo"));						// 접수 번호 
 			surDetail.put("petNo", rs.getInt("petNo"));							// 반려동물 번호 
-			surDetail.put("petKind", rs.getInt("petKind"));						// 반려동물 종류
-			surDetail.put("petName", rs.getInt("petName"));						// 반려동물 이름
+			surDetail.put("petKind", rs.getString("petKind"));					// 반려동물 종류
+			surDetail.put("petName", rs.getString("petName"));					// 반려동물 이름
 			surDetail.put("empNo", rs.getInt("empNo"));							// 직원 사번
-			surDetail.put("empGrade", rs.getInt("empGrade"));					// 직원 역할
-			surDetail.put("empName", rs.getInt("empName"));						// 직원 이름
+			surDetail.put("empGrade", rs.getString("empGrade"));				// 직원 역할
+			surDetail.put("empName", rs.getString("empName"));					// 직원 이름
+			surDetail.put("customerName", rs.getString("customerName"));		// 직원 이름
+			surDetail.put("customerTel", rs.getString("customerTel"));			// 직원 이름
 		
 			list.add(surDetail);
 		}
 		conn.close();
 		return list;
 	}
-	
 	
 }
