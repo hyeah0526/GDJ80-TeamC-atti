@@ -10,10 +10,10 @@ public class PaymentDao {
 	
 	
 	/*
-	 * 메소드: #paymentList(String selectState, int startRow, int rowPerPage)
-	 * 페이지: paymentList.jsp
-	 * 시작 날짜: 2024-05-15
-	 * 담당자: 박혜아
+	 * 메소드		: #paymentList(String selectState, int startRow, int rowPerPage)
+	 * 페이지		: paymentList.jsp
+	 * 시작 날짜	: 2024-05-15
+	 * 담당자		: 박혜아
 	*/
 	public static ArrayList<HashMap<String, Object>> paymentList(String selectState, int startRow, int rowPerPage) throws Exception{
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
@@ -70,16 +70,16 @@ public class PaymentDao {
 	
 	
 	/*
-	 * 메소드: #paymentDetail(int regiNo)
-	 * 페이지: paymentDetail.jsp
-	 * 시작 날짜: 2024-05-15
-	 * 담당자: 박혜아
+	 * 메소드		: #paymentDetail(int regiNo)
+	 * 페이지		: paymentDetail.jsp
+	 * 시작 날짜	: 2024-05-15
+	 * 담당자		: 박혜아
 	*/
 	public static HashMap<String, Object> paymentDetail(int regiNo) throws Exception{
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		//받아온 값 디버깅
-		System.out.println("PaymentDao#paymentDetail() regiNo --> "+regiNo);
+		//System.out.println("PaymentDao#paymentDetail() regiNo --> "+regiNo);
 		
 		//DB연결
 		Connection conn = DBHelper.getConnection();
@@ -105,22 +105,23 @@ public class PaymentDao {
 				+ " , GROUP_CONCAT(DISTINCT md.medicine_name SEPARATOR ', ') medicineName"
 				+ " , SUM(DISTINCT md.medicine_cost) medicineCost"
 				+ " FROM payment pay"
-				+ " INNER JOIN registration regi ON pay.regi_no = regi.regi_no" // 결제의 접수번호 = 접수의 접수번호
-				+ " INNER JOIN pet pet ON regi.pet_no = pet.pet_no" // 접수의 동물번호 = 동물의 동물번호
-				+ " INNER JOIN customer c ON pet.customer_no = c.customer_no" // 동물의 보호자번호 = 보호자의 보호자번호
-				+ " LEFT JOIN clinic cn ON pay.regi_no = cn.regi_no" // 결제의 접수번호 = 진료의 접수번호
-				+ " LEFT JOIN examination ex ON pay.regi_no = ex.regi_no" // 결제의 접수번 = 검사의 접수번호
-				+ " LEFT JOIN examination_kind ek ON ex.examination_kind = ek.examination_kind" //검사의 검사종류 = 검사종류의 검사종류
-				+ " LEFT JOIN surgery sg ON pay.regi_no = sg.regi_no" //결제의 접수번호 = 수술의 접수번호
-				+ " LEFT JOIN surgery_kind sk ON sg.surgery_kind = sk.surgery_kind" //수술의 수술종류 = 수술종류의 수술종류
-				+ " LEFT JOIN hospitalization hp ON pay.regi_no = hp.regi_no" //결제의 접수번호 = 입원의 접수번호
-				+ " LEFT JOIN hospital_room hr ON hp.room_name = hr.room_name" //입원의 입원호실 = 입원호실의 입원호실
-				+ " LEFT JOIN prescription ps ON regi.regi_no = ps.regi_no" //결제의 접수번호 = 처방의 접수번호
-				+ " LEFT JOIN medicine md ON ps.medicine_no = md.medicine_no" //처방의 약번호 = 약의 약번호
+				+ " INNER JOIN registration regi ON pay.regi_no = regi.regi_no" 				// 결제의 접수번호 = 접수의 접수번호
+				+ " INNER JOIN pet pet ON regi.pet_no = pet.pet_no" 							// 접수의 동물번호 = 동물의 동물번호
+				+ " INNER JOIN customer c ON pet.customer_no = c.customer_no" 					// 동물의 보호자번호 = 보호자의 보호자번호
+				+ " LEFT JOIN clinic cn ON pay.regi_no = cn.regi_no" 							// 결제의 접수번호 = 진료의 접수번호
+				+ " LEFT JOIN examination ex ON pay.regi_no = ex.regi_no" 						// 결제의 접수번호 = 검사의 접수번호
+				+ " LEFT JOIN examination_kind ek ON ex.examination_kind = ek.examination_kind" // 검사의 검사종류 = 검사종류의 검사종류
+				+ " LEFT JOIN surgery sg ON pay.regi_no = sg.regi_no" 							// 결제의 접수번호 = 수술의 접수번호
+				+ " LEFT JOIN surgery_kind sk ON sg.surgery_kind = sk.surgery_kind" 			// 수술의 수술종류 = 수술종류의 수술종류
+				+ " LEFT JOIN hospitalization hp ON pay.regi_no = hp.regi_no" 					// 결제의 접수번호 = 입원의 접수번호
+				+ " LEFT JOIN hospital_room hr ON hp.room_name = hr.room_name" 					// 입원의 입원호실 = 입원호실의 입원호실
+				+ " LEFT JOIN prescription ps ON regi.regi_no = ps.regi_no" 					// 결제의 접수번호 = 처방의 접수번호
+				+ " LEFT JOIN medicine md ON ps.medicine_no = md.medicine_no" 					// 처방의 약번호 = 약의 약번호
 				+ " WHERE pay.regi_no = ?";
 		
 		stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, regiNo);
+		//System.out.println("PaymentDao#paymentDetail() stmt --> "+stmt);
 		
 		rs = stmt.executeQuery();
 		
@@ -141,10 +142,57 @@ public class PaymentDao {
 			map.put("medicineCost", rs.getInt("medicineCost"));				//약비용
 		}
 		
-		System.out.println("PaymentDao#paymentDetail() map--> "+map);
+		//System.out.println("PaymentDao#paymentDetail() map--> "+map);
 		
 		conn.close();
 		return map;
 	}
+	
+	
+	
+	/*
+	 * 메소드		: #paymentStateUpdate(int regiNo)
+	 * 페이지		: paymentDetail.jsp
+	 * 시작 날짜	: 2024-05-16
+	 * 담당자		: 박혜아
+	*/
+	public static int paymentStateUpdate(int regiNo, String paymentState) throws Exception{
+		int updateRow = 0;
+		
+		//받아온 값 디버깅
+		System.out.println("PaymentDao#paymentStateUpdate() regiNo--> "+regiNo);
+		System.out.println("PaymentDao#paymentStateUpdate() paymentState변경전--> "+paymentState);
+		
+		//진료상태변경에 실패할 수 있으므로 '완납<->미납'으로 변경가능하게 설정
+		if(paymentState.equals("완납")) {
+			paymentState = "미납";
+		}else if(paymentState.equals("미납")) {
+			paymentState = "완납";
+		}
+		System.out.println("PaymentDao#paymentStateUpdate() paymentState변경후--> "+paymentState);
+		
+		//DB연결
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		
+		// '미납' -> '완납'으로 상태변경
+		String sql = "UPDATE payment"
+				+ " SET payment_state = ?"
+				+ " WHERE regi_no = ?";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, paymentState);
+		stmt.setInt(2, regiNo);
+		
+		System.out.println("PaymentDao#paymentStateUpdate() stmt --> "+stmt);
+		
+		updateRow = stmt.executeUpdate();
+		System.out.println("PaymentDao#paymentStateUpdate() updateRow --> "+updateRow);
+		
+		conn.close();
+		return updateRow;
+	}
+	
+	
 	
 }
