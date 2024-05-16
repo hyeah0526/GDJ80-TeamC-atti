@@ -68,7 +68,8 @@ public class PetDao {
 				+ " LEFT JOIN registration r"
 				+ " ON p.pet_no = r.pet_no"
 				+ " WHERE p.customer_no = ?"
-				+ " AND r.regi_date = (SELECT MAX(r.regi_date) FROM registration r WHERE r.pet_no = p.pet_no)";
+				+ " AND r.regi_date = (SELECT MAX(r.regi_date) FROM registration r WHERE r.pet_no = p.pet_no)"
+				+ " ORDER BY r.regi_no DESC";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, customerNo);
 		// 디버깅

@@ -50,7 +50,9 @@
 	
 		<!-- 카테고리출력 -->
 		<div id="mainCategoryDiv">
-			<button>고객</button>
+			<button>
+				<a href="/atti/view/searchList.jsp">고객</a>
+			</button>
 			<button>접수/예약</button>
 			<button>진료</button>
 			<button>

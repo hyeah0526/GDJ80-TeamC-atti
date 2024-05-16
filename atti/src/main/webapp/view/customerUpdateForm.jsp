@@ -73,7 +73,7 @@
 	<!-------------------- main -------------------->
 	<main>
 		<div class="regiCustomerInput">
-			<h2>고객 등록</h2>
+			<h2>고객 정보 수정</h2>
 			<form action="/atti/action/customerUpdateAction.jsp">
 			<input type="hidden" name="customerNo" value="<%=customerNo%>"> 
 			<!-- form으로 customerNo를 같이 전달  -->
@@ -105,7 +105,7 @@
 					
 				}
 			%>
-			<div class="buttonContatiner">
+			<div class="buttonContainer">
 				<button class="inputButton" type="reset">초기화</button>
 				<button class="inputButton" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
 				<button class="inputButton" type="submit">수정하기</button>

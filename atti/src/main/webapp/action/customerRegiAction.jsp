@@ -38,13 +38,15 @@
 	// 고객 등록 실패 시 보여질 에러 메시지 
 	String errorMsg = null;
 	
-	if(customerName == null || customerName.trim().isEmpty()) { // customerName이 null일 시
+	if(customerName == null || customerName.trim().isEmpty()) { // customerName이 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("고객 이름이 입력되지 않았으니 확인해 주세요", "UTF-8");
-	} else if(customerTel == null || customerTel.trim().isEmpty()) { // customerTel이 null일 시
+	} else if(customerTel == null || customerTel.trim().isEmpty()) { // customerTel이 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("고객 전화번호가 입력되지 않았으니 확인해 주세요", "UTF-8");
-	} else if(customerAddress == null || customerAddress.trim().isEmpty()) { // customerAddress가 null일 시
+	} else if(customerAddress == null || customerAddress.trim().isEmpty()) { // customerAddress가 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("고객 주소가 입력되지 않았으니 확인해 주세요", "UTF-8");
 	}
+	
+	System.out.println("errorMsg: " + errorMsg);
 %>
 <!-- model layer -->
 <%	
@@ -61,10 +63,10 @@
 		} else {
 			System.out.println("고객 등록 실패");
 			response.sendRedirect("/atti/view/customerRegiForm.jsp?errorMsg=" + errorMsg);
-			// 고객 등록 실패 시 customerRegiForm으로 redirect
+			// 고객 등록 실패 시 에러 메시지와 함께 customerRegiForm으로 redirect
 		}
 	} else { // errorMsg != null일 경우
 		response.sendRedirect("/atti/view/customerRegiForm.jsp?errorMsg=" + errorMsg);
-		// 에러 메시지와 함께 customerRegiForm으로 redirect
+		// 고객 등록 실패 시 에러 메시지와 함께 customerRegiForm으로 redirect
 	}
 %>    

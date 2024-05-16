@@ -34,6 +34,7 @@
 	//System.out.println("customerTel" + customerTel);
 	//System.out.println("customerAddress" + customerAddress);
 
+	// 고객 정보 수정 실패 시 보여질 에러 메시지
 	String errorMsg = null;
 	
 	if(customerTel == null || customerTel.trim().isEmpty()) { // customerName이 null일 시
@@ -41,21 +42,27 @@
 	} else if(customerAddress == null || customerAddress.trim().isEmpty()) { // customerTel이 null일 시
 		errorMsg = URLEncoder.encode("고객 주소가 입력되지 않았으니 확인해 주세요", "UTF-8");
 	} 
+	
+	System.out.println("errorMsg: " + errorMsg);
 %>
 
 <!-- model layer -->
 <%	
+	// errorMsg가 null일 경우 메소드 실행
 	if(errorMsg == null){
 		int updateRow = CustomerDao.customerUpdate(customerNo, customerTel, customerAddress);
-		if(updateRow > 0 ) {
+		if(updateRow > 0 ) { // updateRow가 1 이상일 경우 수정 완료
 			System.out.println("고객 정보 수정 완료");
 			response.sendRedirect("/atti/view/customerDetail.jsp?customerNo=" + customerNo);
-		} else {
+			// 수정 성공 시 customerDetail로 redirect
+		} else { // updateRow가 1 미만일 경우 수정 실패
 			System.out.println("고객 정보 수정 실패");
 			response.sendRedirect("/atti/view/customerUpdateForm.jsp?customerNo=" + customerNo + "&" + "errorMsg=" + errorMsg);
+			// 수정 실패 시 에러 메시지와 함께 customerUpdateForm으로 redirect
 		}
 	} else {
-		response.sendRedirect("/atti/view/customerUpdateForm.jsp?customerNo=" + customerNo +   "&" +"errorMsg=" + errorMsg);
+		response.sendRedirect("/atti/view/customerUpdateForm.jsp?customerNo=" + customerNo + "&" +"errorMsg=" + errorMsg);
+		// 수정 실패 시 에러 메시지와 함께 customerUpdateForm으로 redirect
 	}
 	
 %>

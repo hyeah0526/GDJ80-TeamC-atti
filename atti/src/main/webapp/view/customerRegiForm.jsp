@@ -60,7 +60,7 @@
 	<!-------------------- main -------------------->
 	<main>
 		<div>
-			<h2>고객 정보 수정</h2>
+			<h2>고객 등록</h2>
 			<form method="post" action="/atti/action/customerRegiAction.jsp">
 			<table class="inputTableCustomer">
 				<tr>
