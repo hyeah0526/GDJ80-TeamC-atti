@@ -256,3 +256,36 @@ tr:hover {
 	padding: 0;
 	box-shadow: none;
 }
+
+#HospitalizationRegiForm{
+	display: flex;
+	flex-direction: unset;
+	box-shadow: 0 0;
+	width: 100%;
+	padding: 0;
+	margin-top: 0;
+	border-radius: 0;
+}
+
+#animalSelectBoxDiv{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-right: 20px;
+	width: 100px;
+}
+
+
+#HospitalizationRegiFormDetails{
+	display: flex;
+	width: 100%;
+}
+
+#HospitalizationRegiFormDetails textarea{
+	width: 100%;
+}
+
+#HospitalizationRegiFormDetails button{
+	width: 100px;
+	margin-left: 20px;
+}

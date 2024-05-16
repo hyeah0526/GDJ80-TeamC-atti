@@ -95,7 +95,7 @@ public class EmpDao {
 		if(rs.next()) {
 			resultMap = new HashMap<>();
 			resultMap.put("empNo",rs.getString("emp_no")); // 사용자의 사번 
-			resultMap.put("empGrade",rs.getString("emp_grade"));  // 사용자의 직급
+			resultMap.put("empGrade",rs.getString("emp_grade"));  // 사용자의 직책
 			resultMap.put("empName",rs.getString("emp_name"));  // 사용자의 아이디
 		}
 		
@@ -216,10 +216,10 @@ public class EmpDao {
 
 		
 		stmt = conn.prepareStatement(sql);
-		stmt.setString(1, "%"+searchWord+"%"); 
-		stmt.setString(2, empGrade);
-		stmt.setInt(3, startRow);
-		stmt.setInt(4, rowPerPage); 
+		stmt.setString(1, "%"+searchWord+"%"); // 검색어(사원 이름)
+		stmt.setString(2, empGrade); // 사원 직책
+		stmt.setInt(3, startRow); // 시작 페이지 번호
+		stmt.setInt(4, rowPerPage);  // 마지막 페이지 번호
 		rs = stmt.executeQuery();
 		
 		
@@ -227,7 +227,7 @@ public class EmpDao {
 		while(rs.next()) {
 			HashMap<String, Object> emplist = new HashMap<String, Object>();
 			emplist.put("empNo",rs.getString("emp_no")); // 사용자의 사번 
-			emplist.put("empGrade",rs.getString("emp_grade"));  // 사용자의 직급
+			emplist.put("empGrade",rs.getString("emp_grade"));  // 사용자의 직책
 			emplist.put("empName",rs.getString("emp_name"));  // 사용자의 아이디
 			emplist.put("cnt",rs.getString("cnt"));  // 전체인원
 			resultMap.add(emplist);
@@ -267,7 +267,7 @@ public class EmpDao {
 				+ "WHERE emp_no = ?";
 		
 		stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, empNo);
+		stmt.setInt(1, empNo); // 사번
 		rs = stmt.executeQuery();
 		
 		
@@ -275,7 +275,7 @@ public class EmpDao {
 			HashMap<String, Object> empList = new HashMap<String, Object>();
 			empList.put("empNo",rs.getString("emp_no")); // 사용자의 사번 
 			empList.put("empMajor",rs.getString("emp_major"));  // 사용자의 전공
-			empList.put("empGrade",rs.getString("emp_grade"));  // 사용자의 직급
+			empList.put("empGrade",rs.getString("emp_grade"));  // 사용자의 직책
 			empList.put("empName",rs.getString("emp_name"));  // 사용자의 아이디
 			empList.put("empBirth",rs.getString("emp_birth"));  // 사용자의 생일
 			empList.put("empGender",rs.getString("emp_gender"));  // 사용자의 성별
@@ -356,7 +356,7 @@ public class EmpDao {
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1, "퇴사자"); //직원 퇴사처리
 		stmt.setInt(2, empNo); // 퇴사한 직원의 사번
-		stmt.setString(3, empGrade); // 퇴사한 직원의 직급
+		stmt.setString(3, empGrade); // 퇴사한 직원의 직책
 
 		updateRow = stmt.executeUpdate();
 		
