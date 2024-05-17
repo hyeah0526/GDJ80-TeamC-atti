@@ -17,9 +17,10 @@ public class CustomerDao {
 		// 검색된 값을 확인
 		// System.out.println("CustomerDao#searchCustomerCount searchWord: " + searchWord);
 
-		int cnt = 0; // SELECT한 ROW의 총 개수
+		int cnt = 0; 
 		Connection conn = DBHelper.getConnection();
 		
+		// 전체 row의 개수 구하기
 		String sql = "SELECT COUNT(*) cnt"
 				+ " FROM customer c"
 				+ " LEFT JOIN pet p"
@@ -59,7 +60,7 @@ public class CustomerDao {
 
 		Connection conn = DBHelper.getConnection();
 		
-		// row의 개수 구하기
+		// 전체 row의 개수 구하기
 		String sql = "SELECT COUNT(*) cnt"
 				+ " FROM customer c"
 				+ " INNER JOIN pet p"

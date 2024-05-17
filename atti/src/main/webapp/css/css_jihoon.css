@@ -2,7 +2,12 @@
 h2 {
 	text-align: center;
 }
-
+.errorMsg {
+	display: flex;
+	color: red;
+	justify-content: center;
+	margin-top: 10px;
+}
 .pageButton {
 	background-color: #eedcba;
 	margin: 5px;

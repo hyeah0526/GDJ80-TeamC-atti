@@ -27,14 +27,29 @@
 
 	// 검색 시 선택한 값이 전체, 고객(보호자), 반려동물(펫)인지에 대한 값
 	String selectCategory = request.getParameter("selectCategory");
+	if(selectCategory == null || "null".equals(selectCategory)) {
+		selectCategory = "all"; // 기본값을 all로 설정
+	}
+	
 	//System.out.println("selectCategory: " + selectCategory);
 	
 	// 검색 기능
-	String searchWord = null;
-	if(request.getParameter("searchWord") != null) {
-		searchWord = request.getParameter("searchWord");
+	String searchWord = request.getParameter("searchWord");
+	if(searchWord == null || "null".equals(searchWord)) {
+		searchWord = ""; // 기본값을 공백으로 설정
 	}
 	
+	
+    String placeholder = null;
+    if ("all".equals(selectCategory)) { // selectCategory가 all일 경우의 검색어
+        placeholder = "펫 이름, 고객 이름, 고객 전화번호";
+    } else if ("customer".equals(selectCategory)) { // selectCategory가 customer일 경우의 검색어
+        placeholder = "고객 이름, 고객 전화번호";
+    } else if ("pet".equals(selectCategory)){ // selectCategory가 pet일 경우의 검색어
+		placeholder = "펫 이름, 고객 이름";
+    }
+	
+	//System.out.println("searchWord: " + searchWord);
 	
 	// 출력 리스트 페이지네이션
 	// 현재 페이지
@@ -118,16 +133,20 @@
 		</div>
 		<div>
 		<form method="post" action="/atti/view/searchList.jsp">
+			<div class="searchContainer">
+				<!-- selectCategory가 all일 경우 전체를 checked -->
+				<input type="radio" name="selectCategory" value="all" <%="all".equals(selectCategory) ? "checked" : ""%>> 전체 
+				<!-- selectCategory가 customer일 경우 전체를 checked -->
+				<input type="radio" name="selectCategory" value="customer" <%="customer".equals(selectCategory) ? "checked" : ""%>> 고객
+				<!-- selectCategory가 pet일 경우 전체를 checked -->
+				<input type="radio" name="selectCategory" value="pet" <%="pet".equals(selectCategory) ? "checked" : ""%>> 반려동물
+				<input type="text" name="searchWord" placeholder="<%=placeholder%>">
+				<button class="inputButton" type="submit">조회하기</button>
+			</div>	
+		</form>	
 			<%
-				if(selectCategory == null || "all".equals(selectCategory)){
+				if("all".equals(selectCategory)){
 			%>
-					<div class="searchContainer">
-						<input type="radio" name="selectCategory" value="all" checked="checked"> 전체
-						<input type="radio" name="selectCategory" value="customer"> 고객
-						<input type="radio" name="selectCategory" value="pet"> 반려동물
-						<input type="text" name="searchWord" placeholder="펫 이름, 고객 이름">
-						<button class="inputButton" type="submit">조회하기</button>
-					</div>	
 					<table class="listTable">
 						<tr>
 							<th>펫 번호</th>
@@ -166,15 +185,8 @@
 						%>		
 					</table>
 			<%
-				} else if(selectCategory != null && "customer".equals(selectCategory)){
+				} else if("customer".equals(selectCategory)){
 			%>
-					<div class="searchContainer"> 
-						<input type="radio" name="selectCategory" value="all" class="searchRadio"> 전체
-						<input type="radio" name="selectCategory" value="customer" checked="checked" class="searchRadio"> 고객
-						<input type="radio" name="selectCategory" value="pet" class="searchRadio"> 반려동물
-						<input type="text" name="searchWord" placeholder="고객 이름, 고객 전화번호" class="searchRadio">
-						<button class="inputButton" type="submit">조회하기</button>
-					</div>
 					<table class="listTable">
 						<tr>
 							<th>고객 번호</th>
@@ -212,15 +224,8 @@
 					
 					
 			<%
-				} else if(selectCategory != null && "pet".equals(selectCategory)){
+				} else if("pet".equals(selectCategory)){
 			%>
-					<div class="searchContainer">
-						<input type="radio" name="selectCategory" value="all"> 전체
-						<input type="radio" name="selectCategory" value="customer"> 고객
-						<input type="radio" name="selectCategory" value="pet" checked="checked"> 반려동물
-						<input type="text" name="searchWord" placeholder="펫 이름, 고객 이름">
-						<button class="inputButton" type="submit">조회하기</button>
-					</div>
 					<table class="listTable">
 						<tr>
 							<th>펫 번호</th>
@@ -261,8 +266,8 @@
 			<%
 				}
 			%>		
-		</form>	
 		</div>
+		<!-- 리스트 페이지네이션 -->
 		<div class="pagenationContainer">
 			<div>
 			    <!-- 이전 페이지 링크 -->
@@ -273,7 +278,7 @@
 			    <% } %>
 			
 			    <!-- 현재 페이지 표시 -->
-			    <b><span class="currentPage"><%=currentPage%>page</span></b>
+			    <span class="currentPage"><%=currentPage%>page</span>
 			
 			    <!-- 다음 페이지 링크 -->
 			    <% if(currentPage < lastPage) { %>

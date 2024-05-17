@@ -13,18 +13,23 @@
 %>
 <!-- Controller layer  -->
 <%
+	/* // 로그인한 사용자가 관리자인지 확인
 	// 세션을 변수로 변환
 	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
-	
-	/* // 로그인한 사용자가 관리자인지 확인
 	// 관리자, 직원 여부에 따라 보여지는 뷰가 달라짐
 	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
 		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
 		return;
 	} */
-
+	
 	int petNo = Integer.parseInt(request.getParameter("petNo"));
  	//System.out.println("petNo: " + petNo);
+ 	
+ 	// petUpdateAction -> petUpdateForm
+ 	String errorMsg = request.getParameter("errorMsg");
+ 	//System.out.println(errorMsg);
+ 	
+ 	
 %>
 <!-- model layer -->
 <%
@@ -91,6 +96,13 @@
 					}
 				%>
 			</table>
+			<%
+				if(errorMsg != null){
+			%>
+					<div class="errorMsg"><%=errorMsg%></div>			
+			<%	
+				}
+			%>
 			<div class="buttonContainer">
 				<button type="reset">초기화</button>
 				<button type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>

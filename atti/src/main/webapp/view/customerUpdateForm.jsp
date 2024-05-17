@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="atti.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="java.net.*" %>
 <!-------------------- 
  * 기능 번호  : #18
  * 상세 설명  : 고객 정보 수정 페이지
@@ -14,10 +15,9 @@
 %>
 <!-- Controller layer  -->
 <%
+	/* // 로그인한 사용자가 관리자인지 확인
 	// 세션을 변수로 변환
 	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
-	
-	/* // 로그인한 사용자가 관리자인지 확인
 	// 관리자, 직원 여부에 따라 보여지는 뷰가 달라짐
 	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
 		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
@@ -28,6 +28,13 @@
 	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
 	// 디버깅
 	//System.out.println("customerNo: " + customerNo);
+	
+	// customerUpdateAction -> customerUpdateForm
+	String errorMsg = request.getParameter("errorMsg");
+	
+	//System.out.println("errorMsg: " + errorMsg);
+	
+
 %>
 <!-- model layer -->
 <%
@@ -66,7 +73,7 @@
 	<!-------------------- main -------------------->
 	<main>
 		<div class="regiCustomerInput">
-			<h2>고객 등록</h2>
+			<h2>고객 정보 수정</h2>
 			<form action="/atti/action/customerUpdateAction.jsp">
 			<input type="hidden" name="customerNo" value="<%=customerNo%>"> 
 			<!-- form으로 customerNo를 같이 전달  -->
@@ -90,7 +97,15 @@
 					}
 				%>
 			</table>
-			<div class="buttonContatiner">
+			<%
+				if(errorMsg != null) {
+			%>
+					<div class="errorMsg"><%=errorMsg%></div>
+			<%		
+					
+				}
+			%>
+			<div class="buttonContainer">
 				<button class="inputButton" type="reset">초기화</button>
 				<button class="inputButton" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
 				<button class="inputButton" type="submit">수정하기</button>

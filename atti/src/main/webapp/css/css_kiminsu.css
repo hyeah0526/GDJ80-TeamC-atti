@@ -271,8 +271,8 @@ tr:hover {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	margin-right: 20px;
-	width: 100px;
+	margin-right: 10px;
+	width: 130px;
 }
 
 
@@ -288,4 +288,5 @@ tr:hover {
 #HospitalizationRegiFormDetails button{
 	width: 100px;
 	margin-left: 20px;
+	margin-top: 20px;
 }

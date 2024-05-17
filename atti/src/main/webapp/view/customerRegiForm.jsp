@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
+<%@ page import="java.net.*" %>
 <!-------------------- 
  * 기능 번호  : #15
  * 상세 설명  : 고객 등록 기능
@@ -23,6 +24,11 @@
 		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
 		return;
 	} */
+	
+	// customerRegiAction에서 받은 에러 메시지
+	String errorMsg = request.getParameter("errorMsg");
+	System.out.println("errorMsg: " + errorMsg);
+	
 %>
 <!-- view layer -->
 <!DOCTYPE html>
@@ -55,7 +61,7 @@
 	<main>
 		<div>
 			<h2>고객 등록</h2>
-			<form action="/atti/action/customerRegiAction.jsp">
+			<form method="post" action="/atti/action/customerRegiAction.jsp">
 			<table class="inputTableCustomer">
 				<tr>
 					<th><label for="customerName">고객 이름</label></th>
@@ -70,6 +76,13 @@
 					<td><input type="text" name="customerAddress" id="customerAddress"></td>
 				</tr>
 			</table>
+			<%
+				if(errorMsg != null) {
+			%>
+					<div class="errorMsg"><%=errorMsg%></div>
+			<%		
+				}
+			%>
 			<div class="buttonContainer">
 				<button class="inputButton" type="reset">초기화</button>
 				<button class="inputButton" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
