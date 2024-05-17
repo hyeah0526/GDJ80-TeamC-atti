@@ -18,8 +18,8 @@
 	}
 	
 	//사용자의 진료 번호 
-	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
-
+	//int regiNo = Integer.parseInt(request.getParameter("regiNo"));
+	int regiNo = 5;
 %>
 
 <!-- Model layer -->
@@ -51,7 +51,7 @@
 	ArrayList<HashMap<String, Object>>  hospitalRoomList = HospitalizationDao.hospitalRoomList();
 
 	//진료 번호를 통해 입원 환자 정보 조회 
-	HashMap<String, Object> hospitalizationDetail = HospitalizationDao.hospitalizationDetail(5);
+	HashMap<String, Object> hospitalizationDetail = HospitalizationDao.hospitalizationDetail(regiNo);
 
 	
 	//디버깅
@@ -97,9 +97,13 @@
 	<!-------------------- main -------------------->
 	<main>
 		<!-- 입원 환자 호실 선택 및 입원 내용 입력 폼 -->
-		<form action="/atti/action/clinicAction.jsp" method="post" id="HospitalizationRegiForm">
-			
+		<form action="/atti/action/clinicAction.jsp" method="post" id="hospitalizationRegiForm">			
+
 			<input type="hidden" value="<%=regiNo%>" name="regiNo">
+
+			<div id="hospitalizationTitleDiv">
+				입원			
+			</div>
 			
 			<div id="animalSelectBoxDiv">
 				
@@ -109,7 +113,7 @@
 				  		String empMajor = (String) hospitalizationDetail.get("empMajor");
                         String roomName = (String) hospitalizationDetail.get("roomName");
 				%>
-					<span>호실 선택</span>
+					<div>호실 선택</div>
 				
 					<%
 						if("포유류".equals(empMajor)){ 
@@ -168,9 +172,20 @@
 						
 				%>
 					<div>
-						<%=hospitalizationDetail.get("empMajor")%> / 
-						<%=hospitalizationDetail.get("petKind")%>
-						"<%=hospitalizationDetail.get("roomName")%>" 입원중	
+						<div>
+							<%=hospitalizationDetail.get("empMajor")%> / 
+							<%=hospitalizationDetail.get("petName")%>
+						</div>
+						<div>
+							"<%=hospitalizationDetail.get("roomName")%>" 입원중
+							<input type="hidden" name="roomName" value="<%=hospitalizationDetail.get("roomName")%>">
+						</div>
+						<div>
+							입원일: <%=hospitalizationDetail.get("createDate").toString().substring(0,10)%>
+						</div>
+						<div>
+							퇴원일: <%=hospitalizationDetail.get("dischargeDate").toString().substring(0,10)%>	
+						</div>
 					</div>
 				<%
 					}
@@ -178,18 +193,12 @@
 				
 			</div>
 			
-			<div id="HospitalizationRegiFormDetails">
-				<textarea name="hospitalizationContent" rows="4" >
-				<%
-					//입원 내용과 관련된 내용이 있으면 보여주기
-					if(hospitalizationDetail.get("hospitalizationContent") != null){
-				%>
-					<%=hospitalizationDetail.get("hospitalizationContent") %>					
-				<%
-					}
-				%>
-				</textarea>		
-				<button type="submit">저장</button>
+			<div id="hospitalizationRegiFormDetails">
+				<!-- 입원 내용과 관련된 내용이 있으면 보여주기 -->
+				<textarea name="hospitalizationContent" rows="4" ><%= hospitalizationDetail.get("hospitalizationContent") != null ? hospitalizationDetail.get("hospitalizationContent") : "" %></textarea>		
+				<div>
+					<button type="submit">저장</button>
+				</div>
 			</div>
 			
 		</form>

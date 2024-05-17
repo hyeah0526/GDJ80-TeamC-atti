@@ -22,6 +22,7 @@ public class HospitalizationDao {
 		//DB연결 
 		Connection conn = DBHelper.getConnection();
 		
+		//입원실 정보 조회 : 사용하지 않는 입원실 침대 조회: 상태가 OFF인 침대만 조회
 		String sql = "SELECT room_name FROM hospital_room WHERE state = ?";
 		
 		stmt = conn.prepareStatement(sql);
@@ -31,7 +32,7 @@ public class HospitalizationDao {
 		
 		while(rs.next()) {
 			HashMap<String, Object> empList = new HashMap<String, Object>();
-			 empList.put("room_name", rs.getString("room_name"));
+			 empList.put("room_name", rs.getString("room_name")); // 사용하지 않는 침대 이름
 			 resultMap.add(empList);
 		}
 		
@@ -67,7 +68,7 @@ public class HospitalizationDao {
 		//입원 환자 정보 조회: 접수 번호를 통해 일치하는 입원 내역, 입원 환자 정보 조회
 		 String sql = "SELECT "
 	                + "    p.emp_major,"
-	                + "    p.pet_kind,"
+	                + "    p.pet_name,"
 	                + "    CASE "
 	                + "        WHEN h.regi_no = ? THEN h.room_name "
 	                + "        ELSE NULL "
@@ -104,8 +105,8 @@ public class HospitalizationDao {
 		
 		if(rs.next()) {
 			resultMap = new HashMap<>();
-			resultMap.put("empMajor",rs.getString("emp_major")); // 입원할 동물 분류군
-			resultMap.put("petKind",rs.getString("pet_kind")); // 입원할 동물 종류
+			resultMap.put("empMajor",rs.getString("emp_major")); // 입원 동물 분류군
+			resultMap.put("petName",rs.getString("pet_name")); // 입원 동물 이름
 			resultMap.put("roomName",rs.getString("room_name")); // 입원실 베드 이름 
 			resultMap.put("hospitalizationContent",rs.getString("hospitalization_content")); // 입원 내용
 			resultMap.put("createDate",rs.getString("create_date"));  // 입원한 날짜
@@ -134,10 +135,38 @@ public class HospitalizationDao {
 	*/
 	public static int hospitalizationUpdate(String roomName, int regiNo, String hospitalizationContent) throws Exception{
 		
+		//매개변수 값 출력
+		//System.out.println("regiNo = " + regiNo);
+		//System.out.println("roomName = " + roomName);
+		//System.out.println("hospitalizationContent = " + hospitalizationContent);
+		
+		// 반환 값 변수
 		int updateRow = 0;
 		
+		PreparedStatement stmt = null;
+		
+		//DB연결 
+		Connection conn = DBHelper.getConnection();
+		
+		//입원 정보 등록 : 입원한 환자는 입원 정보를 수정하고 신규 환자는 입원 등록
+		String sql = "INSERT INTO hospitalization (room_name, regi_no, hospitalization_content, create_date, discharge_date) "
+                + "VALUES (?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 3 DAY)) "
+                + "ON DUPLICATE KEY UPDATE "
+                + "hospitalization_content = VALUES(hospitalization_content), "
+                + "room_name = VALUES(room_name), "
+                + "create_date = VALUES(create_date), "
+                + "discharge_date = VALUES(discharge_date)";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, roomName); // 침대 이름
+		stmt.setInt(2, regiNo); // 진료 번호
+		stmt.setString(3, hospitalizationContent); // 입원 내용
+		
+		updateRow = stmt.executeUpdate();
+		
+		conn.close();
 		return updateRow;
+		
 	}
-	
-	
+
 }
