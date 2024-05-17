@@ -3,7 +3,7 @@
 <%@ page import="java.net.*" %>
 <!-------------------- 
  * 기능 번호  : #15
- * 상세 설명  : 고객 등록 기능
+ * 상세 설명  : 보호자 등록 기능
  * 시작 날짜 : 2024-05-10
  * 담당자 : 김지훈
  -------------------->
@@ -60,11 +60,11 @@
 	<!-------------------- main -------------------->
 	<main>
 		<div>
-			<h2>고객 등록</h2>
+			<h2>보호자 등록</h2>
 			<form method="post" action="/atti/action/customerRegiAction.jsp">
 			<table class="inputTableCustomer">
 				<tr>
-					<th><label for="customerName">고객 이름</label></th>
+					<th><label for="customerName">보호자 이름</label></th>
 					<td><input type="text" name="customerName" id="customerName"></td>
 				</tr>
 				<tr>

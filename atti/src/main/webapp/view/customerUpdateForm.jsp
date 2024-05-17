@@ -4,7 +4,7 @@
 <%@ page import="java.net.*" %>
 <!-------------------- 
  * 기능 번호  : #18
- * 상세 설명  : 고객 정보 수정 페이지
+ * 상세 설명  : 보호자 정보 수정 페이지
  * 시작 날짜 : 2024-05-13
  * 담당자 : 김지훈
  -------------------->
@@ -73,7 +73,7 @@
 	<!-------------------- main -------------------->
 	<main>
 		<div class="regiCustomerInput">
-			<h2>고객 정보 수정</h2>
+			<h2>보호자 정보 수정</h2>
 			<form action="/atti/action/customerUpdateAction.jsp">
 			<input type="hidden" name="customerNo" value="<%=customerNo%>"> 
 			<!-- form으로 customerNo를 같이 전달  -->
@@ -82,7 +82,7 @@
 					for(HashMap<String, Object> c: customerDetail){
 				%>
 					<tr>
-						<th><label for="customerName">고객 이름</label></th>
+						<th><label for="customerName">보호자 이름</label></th>
 						<td><input type="text" name="customerName" id="customerName" value="<%=c.get("customerName")%>" readonly="readonly"></td>
 					</tr>
 					<tr>

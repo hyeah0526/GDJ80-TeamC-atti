@@ -77,11 +77,11 @@
 				%>
 				
 						<tr>
-							<th><label for="major">분류</label></th> <!-- select로 수정 예정 -->
-							<td><input type="text" name="major" id="major" value="<%=p.get("major")%>" readonly="readonly"></td>
+							<th><label for="empMajor">분류</label></th> 
+							<td><input type="text" name="empMajor" id="empMajor" value="<%=p.get("empMajor")%>" readonly="readonly"></td>
 						</tr>
 						<tr>
-							<th><label for="petKind">종류</label></th> <!-- select로 수정 예정 -->
+							<th><label for="petKind">종류</label></th> 
 							<td><input type="text" name="petKind" id="petKind" value="<%=p.get("petKind")%>" readonly="readonly"><td>
 						</tr>
 						<tr>

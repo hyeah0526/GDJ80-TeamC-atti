@@ -26,14 +26,14 @@
 	
 	// petRegiForm -> petRegiAction
 	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
-	String major = request.getParameter("major");
+	String empMajor = request.getParameter("empMajor");
 	String petKind = request.getParameter("petKind");
 	String petName = request.getParameter("petName");
 	String petBirth = request.getParameter("petBirth");
 	
 	// form -> action 파라미터값 확인
 	//System.out.println("customerNo: " + customerNo);
-	//System.out.println("major: " + major);
+	//System.out.println("empMajor: " + empMajor);
 	//System.out.println("petKind: " + petKind);
 	//System.out.println("petName: " + petName);
 	//System.out.println("petBirth: " + petBirth);
@@ -41,7 +41,7 @@
 	// 펫 등록 실패 시 보여질 에러 메시지
 	String errorMsg = null;
 	
-	if(major == null || major.trim().isEmpty()) { // major가 null이거나 공백일 시
+	if(empMajor == null || empMajor.trim().isEmpty()) { // empMajor가 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("의사 전공이 입력되지 않았으니 확인해 주세요", "UTF-8");
 	} else if(petKind == null || petKind.trim().isEmpty()) { // petKind가 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("동물 종류가 입력되지 않았으니 확인해 주세요", "UTF-8");
@@ -56,7 +56,7 @@
 <%
 	// errorMsg가 null일 경우 메소드 실행
 	if(errorMsg == null) {
-		int insertRow = PetDao.petRegistration(customerNo, major, petKind, petName, petBirth);
+		int insertRow = PetDao.petRegistration(customerNo, empMajor, petKind, petName, petBirth);
 		if(insertRow > 0) { // insertRow가 1 이상이라면
 			System.out.println("펫 등록 성공");
 			response.sendRedirect("/atti/view/customerDetail.jsp?customerNo=" + customerNo);

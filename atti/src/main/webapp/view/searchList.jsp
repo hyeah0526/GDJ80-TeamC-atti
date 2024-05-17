@@ -3,7 +3,7 @@
 <%@ page import="java.util.*" %>
 <!-------------------- 
  * 기능 번호  : #25
- * 상세 설명  : 조회 및 검색 기능 // 고객, 펫
+ * 상세 설명  : 조회 및 검색 기능 // 보호자, 펫
  * 시작 날짜 : 2024-05-13
  * 담당자 : 김지훈
  -------------------->
@@ -25,7 +25,7 @@
 		return;
 	} */
 
-	// 검색 시 선택한 값이 전체, 고객(보호자), 반려동물(펫)인지에 대한 값
+	// 검색 시 선택한 값이 전체, 보호자, 펫인지에 대한 값
 	String selectCategory = request.getParameter("selectCategory");
 	if(selectCategory == null || "null".equals(selectCategory)) {
 		selectCategory = "all"; // 기본값을 all로 설정
@@ -40,13 +40,14 @@
 	}
 	
 	
+	// selectCategory에 따른 placeholder 분기
     String placeholder = null;
     if ("all".equals(selectCategory)) { // selectCategory가 all일 경우의 검색어
-        placeholder = "펫 이름, 고객 이름, 고객 전화번호";
+        placeholder = "펫 이름, 보호자 이름, 보호자 연락처";
     } else if ("customer".equals(selectCategory)) { // selectCategory가 customer일 경우의 검색어
-        placeholder = "고객 이름, 고객 전화번호";
+        placeholder = "보호자 이름, 보호자 연락처";
     } else if ("pet".equals(selectCategory)){ // selectCategory가 pet일 경우의 검색어
-		placeholder = "펫 이름, 고객 이름";
+		placeholder = "펫 이름, 보호자 이름";
     }
 	
 	//System.out.println("searchWord: " + searchWord);
@@ -129,18 +130,18 @@
 	<!-------------------- main -------------------->
 	<main>
 		<div>
-			<h2>고객 및 펫 조회</h2>
+			<h2>보호자 및 펫 조회</h2>
 		</div>
 		<div>
 		<form method="post" action="/atti/view/searchList.jsp">
 			<div class="searchContainer">
 				<!-- selectCategory가 all일 경우 전체를 checked -->
-				<input type="radio" name="selectCategory" value="all" <%="all".equals(selectCategory) ? "checked" : ""%>> 전체 
-				<!-- selectCategory가 customer일 경우 전체를 checked -->
-				<input type="radio" name="selectCategory" value="customer" <%="customer".equals(selectCategory) ? "checked" : ""%>> 고객
-				<!-- selectCategory가 pet일 경우 전체를 checked -->
-				<input type="radio" name="selectCategory" value="pet" <%="pet".equals(selectCategory) ? "checked" : ""%>> 반려동물
-				<input type="text" name="searchWord" placeholder="<%=placeholder%>">
+				<input type="radio" name="selectCategory" onchange="this.form.submit()" value="all" <%="all".equals(selectCategory) ? "checked" : ""%>> 전체 
+				<!-- selectCategory가 customer일 경우 customer를 checked -->
+				<input type="radio" name="selectCategory" onchange="this.form.submit()" value="customer" <%="customer".equals(selectCategory) ? "checked" : ""%>> 보호자
+				<!-- selectCategory가 pet일 경우 pet을 checked -->
+				<input type="radio" name="selectCategory" onchange="this.form.submit()" value="pet" <%="pet".equals(selectCategory) ? "checked" : ""%>> 펫
+				<input type="text" name="searchWord" class="searchContent" placeholder="<%=placeholder%>">
 				<button class="inputButton" type="submit">조회하기</button>
 			</div>	
 		</form>	
@@ -151,8 +152,8 @@
 						<tr>
 							<th>펫 번호</th>
 							<th>펫 이름</th>
-							<th>고객 전화번호</th>
-							<th>고객 이름</th>
+							<th>보호자 연락처</th>
+							<th>보호자 이름</th>
 							<th>등록일</th>
 							<th>접수</th>
 						</tr>
@@ -189,12 +190,11 @@
 			%>
 					<table class="listTable">
 						<tr>
-							<th>고객 번호</th>
-							<th>고객 이름</th>
-							<th>고객 전화번호</th>
+							<th>보호자 번호</th>
+							<th>보호자 이름</th>
+							<th>보호자 연락처</th>
 							<th>등록된 펫(수)</th>
 							<th>등록일</th>
-							<th>접수</th>
 						</tr>
 						<%
 							for(HashMap<String, Object> c : searchData){
@@ -213,9 +213,6 @@
 									<td><%=c.get("customerTel")%></td>
 									<td><%=c.get("petCnt")%></td>
 									<td><%=c.get("createDate")%></td>
-									<td>
-										<button class="listButton" type="button" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=c.get("petNo")%>'">접수하기</button>
-									</td>
 								</tr>
 						<%
 							}
@@ -230,7 +227,7 @@
 						<tr>
 							<th>펫 번호</th>
 							<th>펫 이름</th>
-							<th>고객 이름</th>
+							<th>보호자 이름</th>
 							<th>등록일</th>
 							<th>접수</th>
 						</tr>

@@ -24,6 +24,7 @@
 	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
 	//System.out.println("customerNo: " + customerNo);
 	
+
 	String errorMsg = request.getParameter("errorMsg");
 	//System.out.println(errorMsg);
 	
@@ -60,18 +61,17 @@
 		<div class="regiCustomerInput">
 			<h2>펫 등록</h2>
 			<form action="/atti/action/petRegiAction.jsp">
-			<input type="hidden" name="customerNo" value="<%=customerNo %>">
+			<input type="hidden" name="customerNo" value="<%=customerNo%>">
 			<table class="inputTable">
 				<tr>
-					<th><label for="major">분류</label></th> <!-- select로 수정 예정 -->
+					<th><label for="empMajor">분류</label></th> 
 					<td>
-						<select name="major" id="major">
+						<select name="empMajor" id="empMajor">
 							<option value="">=== 선택 ===</option>
 							<option value="포유류">포유류</option>
 							<option value="파충류">파충류</option>
 							<option value="조류">조류</option>
 						</select>
-					
 					</td>
 				</tr>
 				<tr>
@@ -87,13 +87,14 @@
 					<td><input type="date" name="petBirth" id="petBirth"></td>
 				</tr>
 			</table>
-			<%
-				if(errorMsg != null) {
-			%>
-					<div class="errorMsg"><%=errorMsg%></div>
-			<%					
-				}
-			%>	
+					<!-- errorMsg 출력 -->
+				<%
+					if(errorMsg != null) {
+				%>
+						<div class="errorMsg"><%=errorMsg%></div>
+				<%					
+					}
+				%>	
 			<div class="buttonContainer">
 				<button class="inputButton" type="reset">초기화</button>
 				<button class="inputButton" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
@@ -101,7 +102,6 @@
 			</div>
 			</form>
 		</div>
-	
 	</main>
 </body>
 </html>

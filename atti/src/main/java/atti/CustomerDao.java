@@ -29,7 +29,9 @@ public class CustomerDao {
 			sql += " WHERE c.customer_name LIKE ?"
 				+ " OR c.customer_tel LIKE ?";
 		}
+		
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		
 		if(searchWord != null) {
 			stmt.setString(1, "%" + searchWord + "%");
 			stmt.setString(2, "%" + searchWord + "%");

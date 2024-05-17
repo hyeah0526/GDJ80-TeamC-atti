@@ -75,11 +75,11 @@
 							<td><%=p.get("petNo")%></td>
 						</tr>
 						<tr>
-							<th>종류</th>
-							<td><%=p.get("major")%></td>
+							<th>분류</th>
+							<td><%=p.get("empMajor")%></td>
 						</tr>
 						<tr>
-							<th>분류</th>
+							<th>종류</th>
 							<td><%=p.get("petKind")%></td>
 						</tr>
 						<tr>
@@ -105,6 +105,7 @@
 			<div class="buttonContainer">
 				<button class="inputButton" type="button" onclick="location.href='/atti/view/petUpdateForm.jsp?petNo=<%=petNo%>'">정보 수정하기</button>
 				<button class="inputButton" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+				<button class="inputButton" type="button" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=petNo%>'">접수하기</button>
 			</div>
 		</div>
 	</main>

@@ -94,15 +94,15 @@ public class PetDao {
 	 * 시작 날짜: 2024-05-13
 	 * 담당자: 김지훈
 	*/
-	public static int petRegistration(int customerNo, String major, String petKind, String petName, String petBirth) throws Exception {
+	public static int petRegistration(int customerNo, String empMajor, String petKind, String petName, String petBirth) throws Exception {
 		
 		// regiForm -> regiAction으로 넘어온 값을 확인
 		// 디버깅
-		// System.out.println("CustomerDao#petRegistration customerNo: " + customerNo);
-		// System.out.println("CustomerDao#petRegistration major: " + major);
-		// System.out.println("CustomerDao#petRegistration petKind" + petKind);
-		// System.out.println("CustomerDao#petRegistration petName" + petName);
-		// System.out.println("CustomerDao#petRegistration petBirth" + petBirth);
+		//System.out.println("CustomerDao#petRegistration customerNo: " + customerNo);
+		//System.out.println("CustomerDao#petRegistration empMajor: " + empMajor);
+		//System.out.println("CustomerDao#petRegistration petKind" + petKind);
+		//System.out.println("CustomerDao#petRegistration petName" + petName);
+		//System.out.println("CustomerDao#petRegistration petBirth" + petBirth);
 		
 		int insertRow = 0;
 		
@@ -114,7 +114,7 @@ public class PetDao {
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, customerNo);
-		stmt.setString(2, major);
+		stmt.setString(2, empMajor);
 		stmt.setString(3, petKind);
 		stmt.setString(4, petName);
 		stmt.setString(5, petBirth);
@@ -177,7 +177,7 @@ public class PetDao {
 		Connection conn = DBHelper.getConnection();
 		
 		String sql = "SELECT p.pet_no petNo, p.pet_kind petKind, p.pet_birth petBirth, p.pet_name petName,"
-				+ " p.emp_major major, c.customer_no customerNo, c.customer_name customerName,"
+				+ " p.emp_major empMajor, c.customer_no customerNo, c.customer_name customerName,"
 				+ " c.customer_tel customerTel"
 				+ " FROM pet p"
 				+ " INNER JOIN customer c"
@@ -198,7 +198,7 @@ public class PetDao {
 			m.put("petKind", rs.getString("petKind")); // pet table
 			m.put("petBirth", rs.getString("petBirth")); // pet table
 			m.put("petName", rs.getString("petName")); // pet table
-			m.put("major", rs.getString("major")); // pet table
+			m.put("empMajor", rs.getString("empMajor")); // pet table
 			m.put("customerNo", rs.getInt("customerNo")); // customer table
 			m.put("customerName", rs.getString("customerName")); // customer table
 			m.put("customerTel", rs.getString("customerTel")); // customer table

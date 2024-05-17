@@ -4,7 +4,7 @@
 
 <!-------------------- 
  * 기능 번호  : #17
- * 상세 설명  : 고객 상세 보기
+ * 상세 설명  : 보호자 상세 보기
  * 시작 날짜 : 2024-05-10
  * 담당자 : 김지훈
  -------------------->
@@ -67,26 +67,26 @@
 	<!-------------------- main -------------------->
 	<main>
 		<div >
-			<h2>고객 상세 정보</h2>
+			<h2>보호자 상세 정보</h2>
 			<table class="inputTable">
 				<%
 					for(HashMap<String, Object> c : customerDetail){
 						
 				%>
 						<tr>
-							<th>고객 번호</th>
+							<th>보호자 번호</th>
 							<td><%=c.get("customerNo")%></td>
 						</tr>
 						<tr>
-							<th>고객 이름</th>
+							<th>보호자 이름</th>
 							<td><%=c.get("customerName")%></td>
 						</tr>
 						<tr>
-							<th>고객 전화번호</th>
+							<th>보호자 연락처</th>
 							<td><%=c.get("customerTel")%></td>
 						</tr>
 						<tr>	
-							<th>고객 주소</th>
+							<th>보호자 주소</th>
 							<td><%=c.get("customerAddress")%></td>
 						</tr>	
 				<% 
@@ -106,6 +106,7 @@
 				<th>펫 번호</th>
 				<th>펫 이름</th>
 				<th>최근 방문일</th>
+				<th>상세 보기</th>
 			</tr>
 			<%
 				for(HashMap<String, Object> p : petList){
@@ -113,7 +114,23 @@
 					<tr>
 						<td><%=p.get("petNo")%></td> 
 						<td><%=p.get("petName")%></td>
-						<td><%=p.get("regiDate")%></td>
+						<td>
+							<%
+								String regiDate = (String) p.get("regiDate");
+								if(regiDate == null) {
+							%>
+									<div>진료 이력 없음</div>
+							<% 
+								} else {
+							%>
+									<%=regiDate%>
+							<%
+								}
+							%>
+						</td>
+						<td>
+							<button class="inputButton" type="button" onclick="location.href='/atti/view/petDetail.jsp?petNo=<%=p.get("petNo")%>'">상세 보기</button>
+						</td>
 					</tr>			
 			<%		
 				}

@@ -2,14 +2,20 @@
 h2 {
 	text-align: center;
 }
+
+.searchContent {
+	width: 250px;	
+}
 .errorMsg {
 	display: flex;
 	color: red;
 	justify-content: center;
 	margin-top: 10px;
 }
-.pageButton {
+.currentPage {
 	background-color: #eedcba;
+}
+.pageButton {
 	margin: 5px;
 }
 .pagenationContainer {
