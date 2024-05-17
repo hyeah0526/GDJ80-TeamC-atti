@@ -193,6 +193,73 @@ public class PaymentDao {
 		return updateRow;
 	}
 	
+	/*
+	 * 메소드		: #income(String year, String month)
+	 * 페이지		: income.jsp
+	 * 시작 날짜	: 2024-05-17
+	 * 담당자		: 박혜아
+	*/
+	public static HashMap<String, Integer> income(String year, String month) throws Exception{
+		HashMap<String, Integer> map = new HashMap<>();
+		
+		// 값 디버깅
+		//System.out.println("PaymentDao#income() year--> "+year);
+		//System.out.println("PaymentDao#income() month--> "+month);
+		
+		//DB연결
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		/* SELECT(조회화면에서 보여줄 것)
+		 * pay : 해당하는 년도/달의 각 매출액 및 총 매출액
+		*/
+		String sql = "SELECT IFNULL(sum(cn.clinic_cost), 0) clinicSum,"
+				+ " IFNULL(sum(ek.examination_cost), 0) examinationSum,"
+				+ " IFNULL(sum(sk.surgery_cost), 0) surgerySum,"
+				+ " IFNULL(sum(hr.cost), 0) hospitalSum,"
+				+ " IFNULL(sum(md.medicine_cost), 0) medicineSum,"
+				+ " IFNULL(sum(cn.clinic_cost)+sum(ek.examination_cost)+sum(sk.surgery_cost)+sum(hr.cost)+sum(md.medicine_cost),0) monthSum"
+				+ " FROM payment pay"
+				+ " INNER JOIN registration regi ON pay.regi_no = regi.regi_no"
+				+ " INNER JOIN pet pet ON regi.pet_no = pet.pet_no"
+				+ " INNER JOIN customer c ON pet.customer_no = c.customer_no"
+				+ " LEFT JOIN clinic cn ON pay.regi_no = cn.regi_no"
+				+ " LEFT JOIN examination ex ON pay.regi_no = ex.regi_no"
+				+ " LEFT JOIN examination_kind ek ON ex.examination_kind = ek.examination_kind"
+				+ " LEFT JOIN surgery sg ON pay.regi_no = sg.regi_no"
+				+ " LEFT JOIN surgery_kind sk ON sg.surgery_kind = sk.surgery_kind"
+				+ " LEFT JOIN hospitalization hp ON pay.regi_no = hp.regi_no"
+				+ " LEFT JOIN hospital_room hr ON hp.room_name = hr.room_name"
+				+ " LEFT JOIN prescription ps ON regi.regi_no = ps.regi_no"
+				+ " LEFT JOIN medicine md ON ps.medicine_no = md.medicine_no"
+				+ " WHERE pay.payment_state = '완납'"
+				+ " AND DATE_FORMAT(pay.create_date, '%Y-%m') = ?";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, year + "-" + month);
+		//stmt.setString(1, year);
+		//stmt.setString(2, month);
+		//System.out.println("PaymentDao#income() stmt--> "+stmt);
+		
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			map = new HashMap<>();
+			map.put("clinicSum", rs.getInt("clinicSum"));
+			map.put("examinationSum", rs.getInt("examinationSum"));
+			map.put("surgerySum", rs.getInt("surgerySum"));
+			map.put("hospitalSum", rs.getInt("hospitalSum"));
+			map.put("medicineSum", rs.getInt("medicineSum"));
+			map.put("monthSum", rs.getInt("monthSum"));
+			
+		}
+		//System.out.println("PaymentDao#income() map--> "+map);
+		//System.out.println("===================================");
+		
+		conn.close();
+		return map;
+	}
 	
 	
 }

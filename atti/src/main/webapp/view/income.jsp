@@ -1,3 +1,5 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="atti.PaymentDao"%>
 <%@ page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- 
@@ -14,11 +16,9 @@
 <%
 	// 매출계산을 위한 달/년 설정
 	Calendar cal = Calendar.getInstance( );
-	int targetMonth = cal.get(Calendar.MONTH)+1;
-	System.out.println(targetMonth+" <--todayMonth");
-	System.out.println("====================");
 	
 	// 현재 달을 기준으로 전달(-1)과 전전달(-2) 구하기
+	int targetMonth = cal.get(Calendar.MONTH)+1;
 	int firstMonth = 0;		//전달(현재 달-1)
 	int middleMonth = 0;	//전전달(현재 달-2)
 	
@@ -51,15 +51,57 @@
 		firstMonth = targetMonth-2;
 		middleMonth = targetMonth-1;
 	}
-	System.out.println("income.jsp firstYear--> "+firstYear);
-	System.out.println("income.jsp firstMonth(-2)--> "+firstMonth);
-	System.out.println("====================");
-	System.out.println("income.jsp middleYear--> "+middleYear);
-	System.out.println("income.jsp middleMonth(-1)--> "+middleMonth);
-	System.out.println("====================");
-	System.out.println("income.jsp targetMonth--> "+targetYear);
-	System.out.println("income.jsp targetYear--> "+targetMonth);
-	System.out.println("====================");
+	
+	// String으로 형변환(1~9월까지는 앞에 0을 붙여주기)
+	String targetYearStr = Integer.toString(targetYear);
+	String firstYearStr = Integer.toString(firstYear);
+	String middleYearStr = Integer.toString(middleYear);
+	
+	String targetMonthStr = String.format("%02d", targetMonth);
+    String firstMonthStr = String.format("%02d", firstMonth);
+    String middleMonthStr = String.format("%02d", middleMonth);
+	
+	
+	// First
+	HashMap<String, Integer> first = PaymentDao.income(firstYearStr, firstMonthStr);
+	System.out.println("income.jsp First 년 달 --> "+firstYearStr+"년"+firstMonthStr+"달--> "+first);
+	System.out.println("===================================");
+	
+	// Middle
+	HashMap<String, Integer> middle = PaymentDao.income(middleYearStr, middleMonthStr);
+	System.out.println("income.jsp middle 년 달 --> "+middleYearStr+"년"+middleMonthStr+"달--> "+middle);
+	System.out.println("===================================");
+	
+	// Target
+	HashMap<String, Integer> target = PaymentDao.income(targetYearStr, targetMonthStr);
+	System.out.println("income.jsp target 년 달 --> "+targetYearStr+"년"+targetMonthStr+"달--> "+target);
+	System.out.println("===================================");
+	
+	// norang 
+	double totalIncome = first.get("monthSum") + middle.get("monthSum") + target.get("monthSum");
+	double firstIncome = (first.get("monthSum")/totalIncome)*100;
+	double middleIncome = (middle.get("monthSum")/totalIncome)*100;
+	double targetIncome = (target.get("monthSum")/totalIncome)*100;
+	
+	System.out.println(totalIncome+"<--totalIncome");
+	System.out.println(firstIncome+"<--firstIcome");
+	System.out.println(middleIncome+"<--middleIcome");
+	System.out.println(targetIncome+"<--targetIncome");
+	System.out.println(middle.get("monthSum")+"<--middle get monthSum55555");
+	
+	// 디버깅
+	//System.out.println(targetMonth현재달+" <--todayMonth");
+	//System.out.println("===================================");
+	//System.out.println("income.jsp firstYear--> "+firstYearStr);
+	//System.out.println("income.jsp firstMonth(-2)전전월--> "+firstMonthStr);
+	//System.out.println("===================================");
+	//System.out.println("income.jsp middleYear--> "+middleYearStr);
+	//System.out.println("income.jsp middleMonth(-1)전월--> "+middleMonthStr);
+	//System.out.println("===================================");
+	//System.out.println("income.jsp targetMonth-->해당월 "+targetMonthStr);
+	//System.out.println("income.jsp targetYear--> "+targetYearStr);
+	//System.out.println("===================================");
+	//System.out.println(target+" <--target");
 	System.out.println("-----------------------------------------------------------------------------------------------");
 %>
 <!DOCTYPE html>

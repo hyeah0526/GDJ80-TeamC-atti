@@ -147,7 +147,7 @@
 					<td><%=medicineCost%></td>
 				</tr>
 				<tr>
-					<th>전제요금</th>
+					<th>전체요금</th>
 					<td><%=totalPrice%></td>
 				</tr>
 				<%
