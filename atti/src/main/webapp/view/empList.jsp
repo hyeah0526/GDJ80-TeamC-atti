@@ -133,8 +133,8 @@
 			    	</select>
 		    	</form>
 		    </div>
+		</div>
 		
-		</div>	
 		<table>
 			<tr>
 				<th>사번</th>
@@ -163,6 +163,7 @@
 			%>
 		</table>
 		
+		<!-- 페이징 시작 -->
 		<div id="paginationDiv">
 			<div>
 			    <!-- 이전 페이지 링크 -->

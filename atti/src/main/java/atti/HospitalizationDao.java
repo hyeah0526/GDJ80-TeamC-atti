@@ -47,7 +47,7 @@ public class HospitalizationDao {
 	
 	/*
   		메소드: HospitalizationDao#hospitalizationDetail()
-	  	페이지: clinicDetailForm.jsp
+	  	페이지: clinicAction.jsp
 	  	시작날짜: 2024-05-16
 	  	담당자: 김인수
 	*/
@@ -74,9 +74,9 @@ public class HospitalizationDao {
 	                + "        ELSE NULL "
 	                + "    END AS room_name,"
 	                + "    CASE "
-	                + "        WHEN h.regi_no = ? THEN h.hospitalization_content "
+	                + "        WHEN h.regi_no = ? THEN h.state "
 	                + "        ELSE NULL "
-	                + "    END AS hospitalization_content,"
+	                + "    END AS state,"
 	                + "    CASE "
 	                + "        WHEN h.regi_no = ? THEN h.create_date "
 	                + "        ELSE NULL "
@@ -108,7 +108,7 @@ public class HospitalizationDao {
 			resultMap.put("empMajor",rs.getString("emp_major")); // 입원 동물 분류군
 			resultMap.put("petName",rs.getString("pet_name")); // 입원 동물 이름
 			resultMap.put("roomName",rs.getString("room_name")); // 입원실 베드 이름 
-			resultMap.put("hospitalizationContent",rs.getString("hospitalization_content")); // 입원 내용
+			resultMap.put("state",rs.getString("state")); // 입원 상태
 			resultMap.put("createDate",rs.getString("create_date"));  // 입원한 날짜
 			resultMap.put("dischargeDate",rs.getString("discharge_date"));  // 퇴원할 날짜
 		}
@@ -129,16 +129,15 @@ public class HospitalizationDao {
 	
 	/*
 		메소드: HospitalizationDao#hospitalizationUpdate()
-	  	페이지: clinicDetailAction.jsp
+	  	페이지: clinicAction.jsp
 	  	시작날짜: 2024-05-16
 	  	담당자: 김인수
 	*/
-	public static int hospitalizationUpdate(String roomName, int regiNo, String hospitalizationContent) throws Exception{
+	public static int hospitalizationUpdate(String roomName, int regiNo) throws Exception{
 		
 		//매개변수 값 출력
-		//System.out.println("regiNo = " + regiNo);
 		//System.out.println("roomName = " + roomName);
-		//System.out.println("hospitalizationContent = " + hospitalizationContent);
+		//System.out.println("regiNo = " + regiNo);
 		
 		// 반환 값 변수
 		int updateRow = 0;
@@ -150,17 +149,17 @@ public class HospitalizationDao {
 		
 		//입원 정보 등록 : 입원한 환자는 입원 정보를 수정하고 신규 환자는 입원 등록
 		String sql = "INSERT INTO hospitalization (room_name, regi_no, hospitalization_content, create_date, discharge_date) "
-                + "VALUES (?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 3 DAY)) "
-                + "ON DUPLICATE KEY UPDATE "
-                + "hospitalization_content = VALUES(hospitalization_content), "
-                + "room_name = VALUES(room_name), "
-                + "create_date = VALUES(create_date), "
-                + "discharge_date = VALUES(discharge_date)";
-		
+	            + "VALUES (?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 3 DAY)) "
+	            + "ON DUPLICATE KEY UPDATE "
+	            + "state = '입원', "
+	            + "room_name = VALUES(room_name), "
+	            + "create_date = VALUES(create_date), "
+	            + "discharge_date = VALUES(discharge_date)";
+	         
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1, roomName); // 침대 이름
 		stmt.setInt(2, regiNo); // 진료 번호
-		stmt.setString(3, hospitalizationContent); // 입원 내용
+		stmt.setString(3, ""); // 입원 내용
 		
 		updateRow = stmt.executeUpdate();
 		
@@ -168,5 +167,37 @@ public class HospitalizationDao {
 		return updateRow;
 		
 	}
-
+	
+	
+	/*
+		메소드: HospitalizationDao#hospitalRoomUpdate()
+	  	페이지: clinicAction.jsp
+	  	시작날짜: 2024-05-20
+	  	담당자: 김인수
+	*/
+	public static int hospitalRoomUpdate(String roomName) throws Exception{
+		
+		//매개변수 값 출력
+		//System.out.println("roomName = " + roomName);
+		
+		// 반환 값 변수
+		int updateRow = 0;
+		
+		PreparedStatement stmt = null;
+		
+		//DB연결 
+		Connection conn = DBHelper.getConnection();
+		
+		//입원 호실 상태 수정 : 환자가 입원하면 입원 침대 상태를 수정
+		String sql = "UPDATE hospital_room SET state = 'ON' WHERE room_name = ?";
+	         
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, roomName); // 침대 이름
+		
+		updateRow = stmt.executeUpdate();
+		
+		conn.close();
+		return updateRow;
+		
+	}
 }

@@ -56,10 +56,10 @@
 	<!-------------------- main -------------------->
 	<main>
 		<div class="userFormDiv">
-				<h2>비빌번호 수정</h2>
+				<h2>비밀번호 수정</h2>
 				<form action="/atti/action/empPwUpdateAction.jsp" method="post">
 					<div class="inputDiv">
-						<label>기존 비빌번호</label>
+						<label>기존 비밀번호</label>
 						<input type="password" name="currentPw">
 					</div>
 					<div class="inputDiv">

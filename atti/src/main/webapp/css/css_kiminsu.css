@@ -277,34 +277,32 @@ tr:hover {
 	align-items: center;
 	width: 100px;
 	font-weight: bold;
+	flex-grow: 2;
 }
 
 #animalSelectBoxDiv{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 	margin-right: 10px;
 	padding: 10px;
 	width: 220px;
 	border: 1px solid #ced4da;
 	border-radius: 10px;
+	flex-grow: 8;
 }
 
-#animalSelectBoxDiv div{
-	text-align: center;
-	 color: #343a40;
+
+
+#animalSelectBoxDiv select{
+	width: 50%
 }
 
-#hospitalizationRegiFormDetails{
-	display: flex;
-	width: 100%;
+#animalSelectBoxDiv button{
+	width: 50%
 }
 
-#hospitalizationRegiFormDetails textarea{
-	width: 100%;
-	 border: 1px solid #ced4da;
-    border-radius: 5px;
-}
 
 #hospitalizationRegiFormDetails div{
 	display: flex;

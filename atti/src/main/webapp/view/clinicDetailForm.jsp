@@ -4,7 +4,7 @@
 
 <!-------------------- 
  * 기능 번호  : #32, #47
- * 상세 설명  : 진료 내용 등록(입원)
+ * 상세 설명  : 진료 내용 등록(처방,입원)
  * 시작 날짜 : 2024-05-16
  * 담당자 : 김인수, 김지훈, 박혜아, 한은혜
  -------------------->
@@ -19,7 +19,7 @@
 	
 	//사용자의 진료 번호 
 	//int regiNo = Integer.parseInt(request.getParameter("regiNo"));
-	int regiNo = 5;
+	int regiNo = 30;
 %>
 
 <!-- Model layer -->
@@ -96,6 +96,8 @@
 	
 	<!-------------------- main -------------------->
 	<main>
+		
+		
 		<!-- 입원 환자 호실 선택 및 입원 내용 입력 폼 -->
 		<form action="/atti/action/clinicAction.jsp" method="post" id="hospitalizationRegiForm">			
 
@@ -109,7 +111,7 @@
 				
 				<%
 					//입원실 정보 유무에 따라 다른 처리
-					if(hospitalizationDetail.get("roomName") == null){
+					if("퇴원".equals(hospitalizationDetail.get("state"))){
 				  		String empMajor = (String) hospitalizationDetail.get("empMajor");
                         String roomName = (String) hospitalizationDetail.get("roomName");
 				%>
@@ -166,7 +168,9 @@
 					<%
 						}
 					%>
-				
+					<input type="hidden" name="state" value="<%=hospitalizationDetail.get("state")%>">
+					<button type="submit">저장</button>
+			
 				<%		
 					}else{
 						
@@ -178,7 +182,6 @@
 						</div>
 						<div>
 							"<%=hospitalizationDetail.get("roomName")%>" 입원중
-							<input type="hidden" name="roomName" value="<%=hospitalizationDetail.get("roomName")%>">
 						</div>
 						<div>
 							입원일: <%=hospitalizationDetail.get("createDate").toString().substring(0,10)%>
@@ -190,17 +193,7 @@
 				<%
 					}
 				%>
-				
 			</div>
-			
-			<div id="hospitalizationRegiFormDetails">
-				<!-- 입원 내용과 관련된 내용이 있으면 보여주기 -->
-				<textarea name="hospitalizationContent" rows="4" ><%= hospitalizationDetail.get("hospitalizationContent") != null ? hospitalizationDetail.get("hospitalizationContent") : "" %></textarea>		
-				<div>
-					<button type="submit">저장</button>
-				</div>
-			</div>
-			
 		</form>
 		
 	</main>

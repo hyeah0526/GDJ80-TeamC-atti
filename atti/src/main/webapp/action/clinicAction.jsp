@@ -4,7 +4,7 @@
 
 <!-------------------- 
  * 기능 번호  : #33
- * 상세 설명  : 진료 내용 수정(입원)
+ * 상세 설명  : 진료 내용 등록(수술,입원)
  * 시작 날짜 : 2024-05-16
  * 담당자 : 김인수, 김지훈, 박혜아, 한은혜
  -------------------->
@@ -31,7 +31,7 @@
 	
 	
 	
-	
+	/*--------------------------------------------------------------------------------------------*/
 	
 	/*입원*/
 	// 입원 환자의 입원 정보, 입원 내용 등록 
@@ -39,7 +39,7 @@
 	String reptilesRoom = request.getParameter("reptilesRoom"); // 파충류 입원실 침대
 	String birdRoom = request.getParameter("birdRoom"); // 조류 입원실 침대
 	String roomName = request.getParameter("roomName"); // 이미 선택된 입원실 침대
-	String hospitalizationContent = request.getParameter("hospitalizationContent"); // 입원 정보
+	String state = request.getParameter("state"); // 입원 정보
 
 	//디버깅
 	//System.out.println("mammalRoom = " + mammalRoom);
@@ -52,7 +52,6 @@
 	if (mammalRoom == null) mammalRoom = "";
 	if (reptilesRoom == null) reptilesRoom = "";
 	if (birdRoom == null) birdRoom = "";
-	if (hospitalizationContent == null) hospitalizationContent = "";
 	if (roomName == null) roomName = "";
 
 	//빈값 체크
@@ -71,8 +70,12 @@
 <% 
 
 	// 입원 정보 등록과 수정 
-	HospitalizationDao.hospitalizationUpdate(roomName, regiNo, hospitalizationContent);
+	int updateRow = HospitalizationDao.hospitalizationUpdate(roomName, regiNo);
 	
+	if(updateRow > 0){
+		HospitalizationDao.hospitalRoomUpdate(roomName);
+	}
+
 	//디버깅
 	//System.out.println("updateRow = " + updateRow);
 	
