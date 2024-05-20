@@ -1,3 +1,4 @@
+<%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="atti.PaymentDao"%>
 <%@ page import="java.util.Calendar"%>
@@ -65,43 +66,38 @@
 	// First
 	HashMap<String, Integer> first = PaymentDao.income(firstYearStr, firstMonthStr);
 	System.out.println("income.jsp First 년 달 --> "+firstYearStr+"년"+firstMonthStr+"달--> "+first);
-	System.out.println("===================================");
+	System.out.println("=======================================");
 	
 	// Middle
 	HashMap<String, Integer> middle = PaymentDao.income(middleYearStr, middleMonthStr);
 	System.out.println("income.jsp middle 년 달 --> "+middleYearStr+"년"+middleMonthStr+"달--> "+middle);
-	System.out.println("===================================");
+	System.out.println("=======================================");
 	
 	// Target
 	HashMap<String, Integer> target = PaymentDao.income(targetYearStr, targetMonthStr);
 	System.out.println("income.jsp target 년 달 --> "+targetYearStr+"년"+targetMonthStr+"달--> "+target);
-	System.out.println("===================================");
+	System.out.println("=======================================");
 	
-	// norang 
+	// 각달에 매출 %로 변환 
 	double totalIncome = first.get("monthSum") + middle.get("monthSum") + target.get("monthSum");
-	double firstIncome = (first.get("monthSum")/totalIncome)*100;
-	double middleIncome = (middle.get("monthSum")/totalIncome)*100;
-	double targetIncome = (target.get("monthSum")/totalIncome)*100;
+	double firstIncome = Math.round((first.get("monthSum")/totalIncome)*100);
+	double middleIncome = Math.round((middle.get("monthSum")/totalIncome)*100);
+	double targetIncome = Math.round((target.get("monthSum")/totalIncome)*100);
 	
-	System.out.println(totalIncome+"<--totalIncome");
-	System.out.println(firstIncome+"<--firstIcome");
-	System.out.println(middleIncome+"<--middleIcome");
-	System.out.println(targetIncome+"<--targetIncome");
-	System.out.println(middle.get("monthSum")+"<--middle get monthSum55555");
+	// 상세 금액 표시를 위해 천단위마다 콤마(,)붙여기
+	NumberFormat numberFormat = NumberFormat.getNumberInstance();	// 콤마(,)표시를 위한 NumberFormat 클래스사용
+	String firstIncomeStr = numberFormat.format((first.get("monthSum")));		// 전전달 총 매출 금액
+	String middleIncomeStr = numberFormat.format((middle.get("monthSum")));		// 전달 총 매출 금액
+	String targetIncomeStr = numberFormat.format((target.get("monthSum")));		// 해당달 총 매출 금액
 	
 	// 디버깅
-	//System.out.println(targetMonth현재달+" <--todayMonth");
-	//System.out.println("===================================");
-	//System.out.println("income.jsp firstYear--> "+firstYearStr);
-	//System.out.println("income.jsp firstMonth(-2)전전월--> "+firstMonthStr);
-	//System.out.println("===================================");
-	//System.out.println("income.jsp middleYear--> "+middleYearStr);
-	//System.out.println("income.jsp middleMonth(-1)전월--> "+middleMonthStr);
-	//System.out.println("===================================");
-	//System.out.println("income.jsp targetMonth-->해당월 "+targetMonthStr);
-	//System.out.println("income.jsp targetYear--> "+targetYearStr);
-	//System.out.println("===================================");
-	//System.out.println(target+" <--target");
+	//System.out.println("income.jsp 전전달 총매출 콤마표시 firstIncomeStr--> "+firstIncomeStr);
+	//System.out.println("income.jsp 전달 총매출 콤마표시 middleIncomeStr--> "+middleIncomeStr);
+	//System.out.println("income.jsp 해당달 총매출 콤마표시 targetIncomeStr--> "+targetIncomeStr);
+	//System.out.println("income.jsp 3개월 총 매출금액totalIncome--> "+totalIncome);
+	//System.out.println("income.jsp 전전달 firstIncome--> "+middleIcome);
+	//System.out.println("income.jsp 전달 middleIcome--> "+middleIcome);
+	//System.out.println("income.jsp 해당달 targetIncome--> "+targetIncome);
 	System.out.println("-----------------------------------------------------------------------------------------------");
 %>
 <!DOCTYPE html>
@@ -120,6 +116,7 @@
 		.wrap {
 		  position: relative;
 		  padding: 2%;
+		  float: left;
 		}
 		
 		.container {
@@ -130,8 +127,8 @@
 		
 		.chart {
 		  position: relative;
-		  width: 80px;
-		  height: 80px;
+		  width: 100px;
+		  height: 100px;
 		  border-radius: 50%;
 		  transition: 0.3s;
 		}
@@ -173,11 +170,39 @@
 		<h2>매출관리</h2>
 		<div>
 			<div class='wrap'>
+				<!-- 현재달(target)을 기준으로 전달과 전전달의 매출이 총 3개의 달이 100%로 계산되어 출력 -->
 				<div class=''>
-					<div class="chart doughnut1"><span class="center"><%=norang%>%</span></div>
-				    <div class="chart doughnut2"><span class="center"><%=nam%>%</span></div>
-				    <div class="chart doughnut3"><span class="center"><%=soda%>%</span></div>
+					<!-- 첫번째달 -->
+					<div style="text-align: center; width: 100px;">
+						<h5><%=firstYear%>년 <%=firstMonth%>월</h5>
+					</div>
+					<div class="chart doughnut1">
+						<span class="center"><%=firstIncome%>%</span>
+					</div>
+					<div style="text-align: center; width: 100px;"><%=firstIncomeStr%>원</div><br>
+					
+				    <!-- 두번째달 -->
+				    <div style="text-align: center; width: 100px;">
+				    	<h5><%=middleYear%>년 <%=middleMonth%>월</h5>
+				    </div>
+				    <div class="chart doughnut2">
+				    	<span class="center"><%=middleIncome%>%</span>
+				    </div>
+					<div style="text-align: center; width: 100px;"><%=middleIncomeStr%>원</div><br>
+				    
+				    <!-- 세번째달 -->
+				    <div style="text-align: center; width: 100px;">
+				    	<h5><%=targetYear%>년 <%=targetMonth%>월</h5>
+				    </div>
+				    <div class="chart doughnut3">
+				    	<span class="center"><%=targetIncome%>%</span>
+				    </div>
+				    <div style="text-align: center; width: 100px;"><%=targetIncomeStr%>원</div><br><br>
 				</div>
+			</div>
+			
+			<div style="float: right; width: 70%; padding: 2%; background-color: yellow;">
+				클릭시 상세 매출 표시 예정
 			</div>
 		
 		</div>
@@ -204,8 +229,8 @@
 	  classname.style.background = "conic-gradient(" + color + " 0% " + i + "%, #dedede " + i + "% 100%)";
 	}
 	
-	makeChart(<%=norang%>, chart1, '#f5b914');
-	makeChart(<%=nam%>, chart2, '#0A174E');
-	makeChart(<%=soda%>, chart3, '#66d2ce');
+	makeChart(<%=firstIncome%>, chart1, '#f5b914');
+	makeChart(<%=middleIncome%>, chart2, '#0A174E');
+	makeChart(<%=targetIncome%>, chart3, '#66d2ce');
 </script>
 </html>

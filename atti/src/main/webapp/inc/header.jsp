@@ -62,8 +62,12 @@
 				<a href="/atti/view/surgeryList.jsp">수술</a>
 			</button>
 			<button>처방</button>
-			<button>입원</button>
-			<button>결제</button>
+			<button>
+				<a href="/atti/view/hospitalRoomList.jsp">입원</a>
+			</button>
+			<button>
+				<a href="/atti/view/paymentList.jsp">결제</a>
+			</button>
 			<%
 				if(session.getAttribute("loginEmp") != null){
 					
@@ -76,9 +80,11 @@
 					//로그인한 사용자의 권한에 따라 버튼 다르게 보여주기(관리자만)
 					if(loginEmp.get("empNo") != null && loginEmp.get("empNo").toString().charAt(0) == '1'){					
 			%>		
-						<button>매출관리</button>
 						<button>
-							<a href="/atti/view/empList.jsp">직원관리</a>
+							<a href="/atti/view/empList.jsp">매출관리</a>
+						</button>
+						<button>
+							<a href="/atti/view/income.jsp">직원관리</a>
 						</button>					
 			<%
 					}

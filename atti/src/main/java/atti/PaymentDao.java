@@ -212,14 +212,14 @@ public class PaymentDao {
 		ResultSet rs = null;
 		
 		/* SELECT(조회화면에서 보여줄 것)
-		 * pay : 해당하는 년도/달의 각 매출액 및 총 매출액
+		 * pay : 해당하는 년도/달의 각 매출액 및 총 매출액 (null일 경우 0으로 치환 후 계산)
 		*/
 		String sql = "SELECT IFNULL(sum(cn.clinic_cost), 0) clinicSum,"
 				+ " IFNULL(sum(ek.examination_cost), 0) examinationSum,"
 				+ " IFNULL(sum(sk.surgery_cost), 0) surgerySum,"
 				+ " IFNULL(sum(hr.cost), 0) hospitalSum,"
 				+ " IFNULL(sum(md.medicine_cost), 0) medicineSum,"
-				+ " IFNULL(sum(cn.clinic_cost)+sum(ek.examination_cost)+sum(sk.surgery_cost)+sum(hr.cost)+sum(md.medicine_cost),0) monthSum"
+				+ " IFNULL(sum(cn.clinic_cost),0)+IFNULL(sum(ek.examination_cost), 0)+IFNULL(sum(sk.surgery_cost), 0)+IFNULL(sum(hr.cost), 0)+IFNULL(sum(md.medicine_cost), 0) monthSum"
 				+ " FROM payment pay"
 				+ " INNER JOIN registration regi ON pay.regi_no = regi.regi_no"
 				+ " INNER JOIN pet pet ON regi.pet_no = pet.pet_no"
