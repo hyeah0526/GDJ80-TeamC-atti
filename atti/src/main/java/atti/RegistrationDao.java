@@ -117,7 +117,7 @@ public class RegistrationDao {
 	 * 시작 날짜	: 2024-05-20
 	 * 담당자		: 한은혜
 	*/
-	public static int regiCancel(int regiNo) throws Exception{
+	public static int regiCancel(int regiNo, String regiState) throws Exception{
 		int updateRow = 0;
 		
 		//받아온 값 디버깅
@@ -127,17 +127,18 @@ public class RegistrationDao {
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		
-		// 접수 대기/예약 취소
+		// 접수 상태 변경 쿼리
 		String sql = "UPDATE registration"
-				+ "SET regi_state = '취소'"
-				+ "WHERE regi_no = ?";
+				+ " SET regi_state = ?"
+				+ " WHERE regi_no = ?";
 		
 		stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, regiNo);
-		System.out.println("PaymentDao#regiStateStateUpdate() stmt --> "+stmt);
+		stmt.setString(1, regiState);
+		stmt.setInt(2, regiNo);
+		System.out.println(stmt + " ====== RegistrationDao##regiCancel() stmt");
 		
 		updateRow = stmt.executeUpdate();
-		System.out.println(updateRow + " ====== ");
+		System.out.println(updateRow + " ====== RegistrationDao##regiCancel() updateRow");
 		
 		conn.close();
 		return updateRow;

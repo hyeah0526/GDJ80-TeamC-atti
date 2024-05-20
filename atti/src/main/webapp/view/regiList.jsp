@@ -20,10 +20,10 @@
 	//오늘 날짜 값	가져오기
 	LocalDate today = LocalDate.now();	
 	
-	//String date = today.toString();
-	String date = "2024-05-14";
-	
-	
+	String date = today.toString();
+
+	// 에러메세지 가져오기
+	String errMsg = request.getParameter("errMsg");
 	// 페이징 
 	// 현재 페이지 기본값
 	int currentPage = 1;
@@ -96,7 +96,14 @@
 		<div>
 			<h2>접수 리스트</h2>
 		</div>
-		
+		<!-- 에러 메세지 -->
+		<div>
+			<% 
+				if(errMsg != null){
+			%>
+				<h6><%=errMsg%></h6>
+			<%}%>
+		</div>
 		<!-- 점수 리스트 출력 -->
 		<div>
 			<table>
@@ -120,8 +127,22 @@
 					<td><%= r.get("regiContent") %></td>				
 					<td><%= r.get("regiDate") %></td>				
 					<td><%= r.get("regiState") %></td>				
-					<td><button>대기하기</button></td>
-					<td><button>취소하기</button></td>
+					<td>
+						<% if(r.get("regiState").equals("예약")) { %>
+							<form action="/atti/action/regiStateAction.jsp" method="post">
+								<input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
+								<input type="hidden" name="regiState" value="대기">
+								<button type="submit">대기하기</button>
+							</form>
+						<% } %>	
+					</td>
+					<td>
+						<form action="/atti/action/regiStateAction.jsp" method="post">
+							<input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
+							<input type="hidden" name="regiState" value="취소">
+							<button type="submit">취소하기</button>
+						</form>					
+					</td>
 				</tr>
 			<%
 				}
