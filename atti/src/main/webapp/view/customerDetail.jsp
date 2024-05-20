@@ -105,31 +105,20 @@
 			<tr>
 				<th>펫 번호</th>
 				<th>펫 이름</th>
-				<th>최근 방문일</th>
-				<th>상세 보기</th>
+				<th>최근 진료일</th>
+				<th>접수</th>
 			</tr>
 			<%
 				for(HashMap<String, Object> p : petList){
 			%>
 					<tr>
 						<td><%=p.get("petNo")%></td> 
-						<td><%=p.get("petName")%></td>
 						<td>
-							<%
-								String regiDate = (String) p.get("regiDate");
-								if(regiDate == null) {
-							%>
-									<div>진료 이력 없음</div>
-							<% 
-								} else {
-							%>
-									<%=regiDate%>
-							<%
-								}
-							%>
+							<a href="/atti/view/petDetail.jsp?petNo=<%=p.get("petNo")%>"><%=p.get("petName") %></a>
 						</td>
+						<td><%=p.get("regiDate")%></td>
 						<td>
-							<button class="inputButton" type="button" onclick="location.href='/atti/view/petDetail.jsp?petNo=<%=p.get("petNo")%>'">상세 보기</button>
+							<button class="inputButton" type="button" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=p.get("petNo")%>'">접수하기</button>
 						</td>
 					</tr>			
 			<%		

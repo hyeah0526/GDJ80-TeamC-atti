@@ -63,13 +63,16 @@ public class PetDao {
 		
 		
 		Connection conn = DBHelper.getConnection();
-		String sql = "SELECT p.pet_no petNo, p.pet_name petName, r.regi_date regiDate"
+		String sql = "SELECT p.pet_no petNo, p.pet_name petName,"
+				+ " COALESCE(r.regi_date, '진료 이력 없음') regiDate" // registration table에 생성된 row가 없거나, null이거나, 일치하지 않는 경우 모두 '진료 이력 없음'으로 대체
 				+ " FROM pet p"
-				+ " LEFT JOIN registration r"
+				+ " LEFT JOIN (SELECT r.pet_no,"
+				+ 	" MAX(r.regi_date) regi_date"
+				+ 	" FROM registration r"
+				+ 	" GROUP BY r.pet_no) r"
 				+ " ON p.pet_no = r.pet_no"
 				+ " WHERE p.customer_no = ?"
-				+ " AND r.regi_date = (SELECT MAX(r.regi_date) FROM registration r WHERE r.pet_no = p.pet_no)"
-				+ " ORDER BY r.regi_no DESC";
+				+ " ORDER BY p.pet_no DESC";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, customerNo);
 		// 디버깅
