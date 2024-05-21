@@ -124,7 +124,14 @@
 	<!-------------------- aside-------------------->
 	<aside>
 		<!-- 서브메뉴나오는 부분 -->
-		<jsp:include page="/inc/subMenu.jsp"></jsp:include>
+		
+		<div id="subMenu">
+			<div id="subMenuBtnContainer">
+				<button type="button" onclick="location.href='./searchList.jsp'">고객 / 펫 조회</button><br><br>
+				<button type="button" onclick="location.href='./customerRegiForm.jsp'">고객 등록</button><br><br>
+			
+			</div>
+		</div>
 	</aside>
 	
 	<!-------------------- main -------------------->
@@ -152,7 +159,6 @@
 						<tr>
 							<th>펫 번호</th>
 							<th>펫 이름</th>
-							<th>보호자 연락처</th>
 							<th>보호자 이름</th>
 							<th>등록일</th>
 							<th>접수</th>
@@ -170,10 +176,10 @@
 											<%=a.get("petName")%>
 										</a>
 									</td>
-									<td><%=a.get("customerTel")%></td>
 									<td>
 										<a href="/atti/view/customerDetail.jsp?customerNo=<%=a.get("customerNo")%>">
-											<%=a.get("customerName")%>
+											<%=a.get("customerName")%>(<%=a.get("customerTel").toString().substring(7,11)%>)
+											<!-- 보호자 이름(연락처 뒷자리)로 출력 -->
 										</a>
 									</td>
 									<td><%=a.get("createDate")%></td>
@@ -192,12 +198,13 @@
 						<tr>
 							<th>보호자 번호</th>
 							<th>보호자 이름</th>
-							<th>보호자 연락처</th>
 							<th>등록된 펫(수)</th>
 							<th>등록일</th>
 						</tr>
 						<%
 							for(HashMap<String, Object> c : searchData){
+								String customerTel = (String)c.get("customerTel");
+								// 연락처 네 자리 추출을 위해 형 변환
 						%>		
 								<tr>
 									<td>
@@ -207,10 +214,9 @@
 									</td>
 									<td>
 										<a href="/atti/view/customerDetail.jsp?customerNo=<%=c.get("customerNo")%>">
-											<%=c.get("customerName")%>
+											<%=c.get("customerName")%>(<%=c.get("customerTel").toString().substring(7,11)%>)
 										</a>
 									</td>
-									<td><%=c.get("customerTel")%></td>
 									<td><%=c.get("petCnt")%></td>
 									<td><%=c.get("createDate")%></td>
 								</tr>

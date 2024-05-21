@@ -68,6 +68,7 @@
 			<table class="inputTable">
 				<%
 					for(HashMap<String, Object> p : petDetail){
+						String originalTel = (String)(p.get("customerTel")); 
 						
 				%>
 						<tr>
@@ -96,7 +97,9 @@
 						</tr>
 						<tr>
 							<th>보호자 연락처</th>
-							<td><%=p.get("customerTel")%></td>
+							<td>
+								<%=originalTel.replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3")%>
+							</td>
 						</tr>
 				<% 
 					}
