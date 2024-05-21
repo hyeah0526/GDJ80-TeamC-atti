@@ -74,6 +74,7 @@
 			<%
 				//선택된 직원정보 출력하기
 				for(HashMap<String, Object> m : detailList){
+					
 			%>
 				<div>
 					<label>사번</label>
@@ -106,7 +107,9 @@
 				</div>
 				<div>
 					<label>전화번호</label>
-					<input type="text" name="empTel" value=<%=(String)(m.get("empTel")) %>>
+					<input class="telInput" type="text" name="empTelFirst" value=<%=(String)(m.get("empTel")).toString().substring(0,3) %>>-
+					<input class="telInput" type="text" name="empTelSecond" value=<%=(String)(m.get("empTel")).toString().substring(3,7) %>>-
+					<input class="telInput" type="text" name="empTelThrid" value=<%=(String)(m.get("empTel")).toString().substring(7,11) %>>
 				</div>
 			
 				<div>							

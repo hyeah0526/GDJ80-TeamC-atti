@@ -28,22 +28,30 @@
 	//선택된 직원의 사번, 전공, 전화번호
 	int empNo = Integer.parseInt(request.getParameter("empNo")); 
 	String empMajor = request.getParameter("empMajor");
-	String empTel = request.getParameter("empTel");
+	String empTelFirst = request.getParameter("empTelFirst");
+	String empTelSecond = request.getParameter("empTelSecond");
+	String empTelThrid = request.getParameter("empTelThrid");
 	
 	
 	//디버깅
 	//System.out.println(empNo);
 	//System.out.println(empMajor);
-	//System.out.println(empTel);
+	//System.out.println(empTelFirst);
+	//System.out.println(empTelSecond);
+	//System.out.println(empTelThrid);
 	
 %>
 
 <!-- Model layer -->
 <% 
 	int updateRow = 0;
-
-	//직원의 변경할 전화번호 검증 (null, 빈값, 숫자가 아닌 경우, 010으로 시작하지 않는 경우, 길이가 11자리가 아닌 경우)
-	if(empTel == null || empTel.trim().isEmpty() || !empTel.matches("^010\\d{8}$")){
+	
+	//직원의 변경할 전화번호 검증 (null, 빈값, 숫자가 아닌 경우, 010으로 시작하지 않는 경우, 길이가 4자리가 아닌 경우)
+	if(empTelFirst == null || empTelFirst.trim().isEmpty() || !empTelFirst.matches("^010$") ||
+		empTelSecond == null || empTelSecond.trim().isEmpty() || !empTelSecond.matches("^\\d{4}$") ||
+		empTelThrid == null || empTelThrid.trim().isEmpty() || !empTelThrid.matches("^\\d{4}$")
+	){
+		
 		
 %>
 		<!-- 직원 정보 수정 페이지 이동 -->
@@ -55,6 +63,9 @@
 		</form>
 <%
 	}else{
+		
+		//전화번호 조합
+		String empTel = empTelFirst+empTelSecond+empTelThrid;
 		
 		//선택된 직원의 사번을 확인하고 직무 또는 전화번호 변경
 		updateRow = EmpDao.empUpdate(empNo, empMajor, empTel);

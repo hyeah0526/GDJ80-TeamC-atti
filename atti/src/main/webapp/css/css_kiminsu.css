@@ -141,6 +141,8 @@ tr:hover {
 	margin-top: 20px;
 }
 
+
+
 .empForm input{
 	padding: 0px;
 	width: 80%;
@@ -152,6 +154,10 @@ tr:hover {
 
 .empForm select{
 	width: 80%;
+}
+
+.telInput{
+	width: 25% !important;
 }
 
 #errorMessageDiv{
