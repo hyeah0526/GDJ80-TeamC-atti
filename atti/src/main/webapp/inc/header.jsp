@@ -53,7 +53,9 @@
 			<button>
 				<a href="/atti/view/searchList.jsp">고객</a>
 			</button>
-			<button>접수/예약</button>
+			<button>
+				<a href="/atti/view/regiList.jsp">접수/예약</a>
+			</button>
 			<button>진료</button>
 			<button>
 				<a href="/atti/view/examinationList.jsp">검사</a>
@@ -61,7 +63,9 @@
 			<button>
 				<a href="/atti/view/surgeryList.jsp">수술</a>
 			</button>
-			<button>처방</button>
+			<button>
+				<a href="/atti/view/prescriptionList.jsp">처방</a>
+			</button>
 			<button>
 				<a href="/atti/view/hospitalRoomList.jsp">입원</a>
 			</button>

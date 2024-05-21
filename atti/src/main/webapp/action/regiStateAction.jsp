@@ -13,24 +13,28 @@
 	// input 값 가져오기 
 	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
 	String regiState = request.getParameter("regiState");
+	String buttonRegiState = regiState;
 	// 디버깅
-	System.out.println(regiNo + " ====== regiStateAction regiNo");
-	System.out.println(regiState + " ====== regiStateAction regiState");
+	//System.out.println(regiNo + " ====== regiStateAction regiNo");
+	//System.out.println(regiState + " ====== regiStateAction regiState");
+	System.out.println(buttonRegiState + " ====== regiStateAction buttonRegiState");
 	
-	String errMsg = "";
 	// 상태 변경 메서드 호출 
 	int updateRow = RegistrationDao.regiCancel(regiNo, regiState);
 	
-	// 업데이트 실패 시 
-	if(updateRow == 0){
-		
-		errMsg = URLEncoder.encode("상태 변경에 실패했습니다. 다시 시도해주세요.", "UTF-8");
-		System.out.println("resiStateAction 상태 변경 실패");
-		
-	} else {
-		// 업데이트 성공 시
-		System.out.println("resiStateAction 상태 변경 성공");
-		response.sendRedirect("/atti/view/regiList.jsp");
+	if (updateRow == 1) {
+	    if (buttonRegiState.equals("접수취소")) {
+	    	// 접수 취소 성공시
+	        //System.out.println(regiState + " ====== regiStateAction regiList regiState");
+	        System.out.println("regiList 접수 취소 성공");
+	        response.sendRedirect("/atti/view/regiList.jsp");
+	        
+	    } else if (buttonRegiState.equals("예약취소")) {
+	    	// 예약 취소 성공시
+	        //System.out.println(regiState + " ====== regiStateAction reservationList regiState");
+	        System.out.println("reservationList 예약 취소 성공");
+	        response.sendRedirect("/atti/view/reservationList.jsp");
+	    }
 	}
 	
 %>

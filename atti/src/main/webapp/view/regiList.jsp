@@ -19,9 +19,8 @@
 <%
 	//오늘 날짜 값	가져오기
 	LocalDate today = LocalDate.now();	
-	
 	String date = today.toString();
-
+	
 	// 에러메세지 가져오기
 	String errMsg = request.getParameter("errMsg");
 	// 페이징 
@@ -85,7 +84,7 @@
 		<div id="subMenu">
 			<div id="subMenuBtnContainer">
 				<button type="button" onclick="location.href='./regiList.jsp'">접수 조회</button><br><br>
-				<button type="button" onclick="location.href='./reservationList.jsp'">접수 조회</button><br><br>
+				<button type="button" onclick="location.href='./reservationList.jsp'">예약 조회</button><br><br>
 			
 			</div>
 		</div>
@@ -132,14 +131,20 @@
 							<form action="/atti/action/regiStateAction.jsp" method="post">
 								<input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
 								<input type="hidden" name="regiState" value="대기">
-								<button type="submit">대기하기</button>
+								<button type="submit" class="btn">대기하기</button>
 							</form>
-						<% } %>	
+						<% } else { %>	
+							<form action="/atti/action/regiStateAction.jsp" method="post">
+								<input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
+								<input type="hidden" name="regiState" value="대기">
+								<button type="submit" class="btn" disabled="disabled">대기하기</button>
+							</form>
+						<% } %>
 					</td>
 					<td>
 						<form action="/atti/action/regiStateAction.jsp" method="post">
 							<input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
-							<input type="hidden" name="regiState" value="취소">
+							<input type="hidden" name="regiState" value="접수취소">
 							<button type="submit">취소하기</button>
 						</form>					
 					</td>
