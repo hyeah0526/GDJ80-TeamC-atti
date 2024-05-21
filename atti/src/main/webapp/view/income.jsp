@@ -1,6 +1,6 @@
-<%@page import="java.text.NumberFormat"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="atti.PaymentDao"%>
+<%@ page import="java.text.NumberFormat"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="atti.PaymentDao"%>
 <%@ page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- 
@@ -100,6 +100,17 @@
 	//System.out.println("income.jsp 해당달 targetIncome--> "+targetIncome);
 	System.out.println("-----------------------------------------------------------------------------------------------");
 %>
+<%
+	/* 상세보기 */
+	String incomeDetail = request.getParameter("incomeDetail");
+
+	if(incomeDetail == null)
+	{
+		incomeDetail = "";
+	}
+	System.out.println("income.jsp incomeDetail--> "+incomeDetail);
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -175,25 +186,28 @@
 					<!-- 첫번째달 -->
 					<div style="text-align: center; width: 100px;">
 						<h5><%=firstYear%>년 <%=firstMonth%>월</h5>
-					</div>
+						<button value="firstDetail" name="incomeDetail" type="submit" onClick="location.href='./income.jsp?incomeDetail=firstDetail'">상세보기</button><br>
+					</div><br>
 					<div class="chart doughnut1">
 						<span class="center"><%=firstIncome%>%</span>
 					</div>
-					<div style="text-align: center; width: 100px;"><%=firstIncomeStr%>원</div><br>
+					<div style="text-align: center; width: 100px;"><%=firstIncomeStr%>원</div><br><br>
 					
 				    <!-- 두번째달 -->
 				    <div style="text-align: center; width: 100px;">
 				    	<h5><%=middleYear%>년 <%=middleMonth%>월</h5>
-				    </div>
+				    	<button value="middleDetail" name="incomeDetail" type="submit" onClick="location.href='./income.jsp?incomeDetail=middleDetail'">상세보기</button><br>
+				    </div><br>
 				    <div class="chart doughnut2">
 				    	<span class="center"><%=middleIncome%>%</span>
 				    </div>
-					<div style="text-align: center; width: 100px;"><%=middleIncomeStr%>원</div><br>
+					<div style="text-align: center; width: 100px;"><%=middleIncomeStr%>원</div><br><br>
 				    
 				    <!-- 세번째달 -->
 				    <div style="text-align: center; width: 100px;">
 				    	<h5><%=targetYear%>년 <%=targetMonth%>월</h5>
-				    </div>
+				    	<button value="targetDetail" name="incomeDetail" type="submit" onClick="location.href='./income.jsp?incomeDetail=targetDetail'">상세보기</button><br>
+				    </div><br>
 				    <div class="chart doughnut3">
 				    	<span class="center"><%=targetIncome%>%</span>
 				    </div>
@@ -202,9 +216,86 @@
 			</div>
 			
 			<div style="float: right; width: 70%; padding: 2%; background-color: yellow;">
-				클릭시 상세 매출 표시 예정
+			<h5>상세 매출보기</h5>
+			<%
+				if(incomeDetail.equals("firstDetail")){
+			%>
+					<table>
+						<tr>
+							<th>진료비</th>
+							<td><%=first.get("clinicSum")%></td>
+						</tr>
+						<tr>
+							<th>검사비</th>
+							<td><%=first.get("examinationSum")%></td>
+						</tr>
+						<tr>
+							<th>수술비</th>
+							<td><%=first.get("surgerySum")%></td>
+						</tr>
+						<tr>
+							<th>입원비</th>
+							<td><%=first.get("hospitalSum")%></td>
+						</tr>
+						<tr>
+							<th>처방비</th>
+							<td><%=first.get("medicineSum")%></td>
+						</tr>
+					</table>
+			<%
+				}else if(incomeDetail.equals("middleDetail")){
+			%>
+					<table>
+						<tr>
+							<th>진료비</th>
+							<td><%=middle.get("clinicSum")%></td>
+						</tr>
+						<tr>
+							<th>검사비</th>
+							<td><%=middle.get("examinationSum")%></td>
+						</tr>
+						<tr>
+							<th>수술비</th>
+							<td><%=middle.get("surgerySum")%></td>
+						</tr>
+						<tr>
+							<th>입원비</th>
+							<td><%=middle.get("hospitalSum")%></td>
+						</tr>
+						<tr>
+							<th>처방비</th>
+							<td><%=middle.get("medicineSum")%></td>
+						</tr>
+					</table>
+			<%
+				}else if(incomeDetail.equals("targetDetail")){
+			%>
+					<table>
+						<tr>
+							<th>진료비</th>
+							<td><%=target.get("clinicSum")%></td>
+						</tr>
+						<tr>
+							<th>검사비</th>
+							<td><%=target.get("examinationSum")%></td>
+						</tr>
+						<tr>
+							<th>수술비</th>
+							<td><%=target.get("surgerySum")%></td>
+						</tr>
+						<tr>
+							<th>입원비</th>
+							<td><%=target.get("hospitalSum")%></td>
+						</tr>
+						<tr>
+							<th>처방비</th>
+							<td><%=target.get("medicineSum")%></td>
+						</tr>
+					</table>			
+			<%
+				}
+			%>
 			</div>
-		
 		</div>
 	</main>
 </body>
