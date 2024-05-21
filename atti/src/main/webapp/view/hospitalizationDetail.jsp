@@ -90,9 +90,9 @@
 								<td><%=(String)p.get("empName")%></td>
 							</tr>
 							<%
-								// 진료상태가 '진행'중일 경우에만 퇴원버튼 활성화
-								String regiState = (String)p.get("regiState");
-								if(regiState.equals("진행")){
+								// 입원상태가 '입원'중일 경우에만 퇴원버튼 활성화
+								String hospitalState = (String)p.get("hospitalState");
+								if(hospitalState.equals("입원")){
 							%>
 									<tr>
 										<th>현재상태</th>
@@ -171,8 +171,8 @@
 						
 						<!-- 입원내용 추가등록 -->
 						<%
-							// 입원상태가 '진행'중일때만 작성 가능
-							if(regiState.equals("진행")){
+							// 입원상태가 '입원'중일때만 작성 가능
+							if(hospitalState.equals("입원")){
 						%>
 								<div>
 									<form action="/atti/action/hospitalContentAction.jsp" method="post">

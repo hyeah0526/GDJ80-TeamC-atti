@@ -81,10 +81,10 @@
 					if(loginEmp.get("empNo") != null && loginEmp.get("empNo").toString().charAt(0) == '1'){					
 			%>		
 						<button>
-							<a href="/atti/view/empList.jsp">매출관리</a>
+							<a href="/atti/view/income.jsp">매출관리</a>
 						</button>
 						<button>
-							<a href="/atti/view/income.jsp">직원관리</a>
+							<a href="/atti/view/empList.jsp">직원관리</a>
 						</button>					
 			<%
 					}

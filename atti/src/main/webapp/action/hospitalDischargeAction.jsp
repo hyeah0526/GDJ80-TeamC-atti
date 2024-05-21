@@ -13,16 +13,16 @@
 	//System.out.println("hospitalContentAction.jsp 입원실번호--> "+roomName);
 	//System.out.println("hospitalContentAction.jsp 접수번호--> "+regiNo);
 	
-	//
-	int result = HospitalRoomDao.hospitalizationDischarge(roomName);
+	// 퇴원시 상태변경 (입원실 'ON->OFF' / 입원상태 '입원->퇴원')
+	int result = HospitalRoomDao.hospitalizationDischarge(roomName, regiNo);
 	
-	// 상태변경 성공 - 입원실목록 / 실패 - 해당환자입원상베로 redirect
-	if(result == 1){
+	// 상태변경 성공 - 입원실목록, 실패 - 해당환자입원상베로 redirect
+	if(result == 2){
 		System.out.println("hospitalContentAction.jsp 퇴원 입원실 상태변경 완료");
 		response.sendRedirect("/atti/view/hospitalRoomList.jsp");
 	}else{
 		System.out.println("hospitalContentAction.jsp 퇴원 입원실 상태변경 실패");
 		String errMsg = URLEncoder.encode("입원실 퇴원처리 실패. 다시 시도해주세요.","UTF-8");
-		response.sendRedirect("/atti/view/hospitalizationDetail.jsp?regiNo="+regiNo+errMsg);
+		response.sendRedirect("/atti/view/hospitalizationDetail.jsp?regiNo="+regiNo+"&errMsg="+errMsg);
 	}
 %>

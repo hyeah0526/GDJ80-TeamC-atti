@@ -36,16 +36,16 @@ public class HospitalRoomDao {
 					+ ", p.pet_name petName, p.pet_kind petKind, p.pet_birth petBirth, p.emp_major empMajor"
 					+ " FROM hospital_room r"
 					+ " LEFT JOIN hospitalization h"
-					+ " ON r.room_name = h.room_name" //입원실번호 = 입원환자의 입원실번호
+					+ " ON r.room_name = h.room_name" 							//입원실번호 = 입원환자의 입원실번호
 					+ " LEFT JOIN registration regi"
-					+ " ON h.regi_no = regi.regi_no" //입원환자의 접수번호 = 접수의 접수번호
+					+ " ON h.regi_no = regi.regi_no" 							//입원환자의 접수번호 = 접수의 접수번호
 					+ " LEFT JOIN pet p"
-					+ " ON p.pet_no = regi.pet_no"	//동물의 동물번호 = 접수의 동물번호
-					+ " WHERE h.discharge_date IS NULL OR h.discharge_date =" //퇴원일이 null인 것 OR 퇴원일이 제일 먼 것을 가져오기
+					+ " ON p.pet_no = regi.pet_no"								//동물의 동물번호 = 접수의 동물번호
+					+ " WHERE h.discharge_date IS NULL OR h.discharge_date =" 	//퇴원일이 null인 것 OR 퇴원일이 제일 먼 것을 가져오기
 					+ " (SELECT MAX(discharge_date)"
 					+ " FROM hospitalization h"
 					+ " WHERE h.room_name = r.room_name)"
-					+ " ORDER BY roomName ASC"; //입원실 이름순으로 정렬
+					+ " ORDER BY roomName ASC"; 								//입원실 이름순으로 정렬
 		
 		stmt = conn.prepareStatement(sql);
 		//System.out.println("HospitalRoomDao #hospitalRoomList() sql ---> "+stmt);
@@ -115,7 +115,7 @@ public class HospitalRoomDao {
 		 */
 		
 		String sql = "SELECT regi.regi_state regiState, regi.regi_no regiNo, h.hospitalization_no hospitalNo, h.room_name roomName,"
-				+ " h.hospitalization_content hospitalContent, h.create_date createDate, h.discharge_date dischargeDate ,"
+				+ " h.hospitalization_content hospitalContent, h.create_date createDate, h.discharge_date dischargeDate, h.state hospitalState,"
 				+ " e.emp_name empName, e.emp_major empMajor,"
 				+ " p.pet_name petName, p.pet_birth petBirth, p.pet_kind petKind,"
 				+ " c.customer_name customerName, c.customer_tel customerTel"
@@ -144,6 +144,7 @@ public class HospitalRoomDao {
 			hashMap.put("regiState", rs.getString("regiState"));				//접수상태
 			hashMap.put("hospitalNo", rs.getInt("hospitalNo"));					//입원번호
 			hashMap.put("roomName", rs.getString("roomName"));					//입원실번호
+			hashMap.put("hospitalState", rs.getString("hospitalState"));		//입원상태
 			hashMap.put("hospitalContent", rs.getString("hospitalContent"));	//입원내용
 			hashMap.put("createDate", rs.getString("createDate"));				//입원날짜
 			hashMap.put("dischargeDate", rs.getString("dischargeDate"));		//퇴원날짜
@@ -197,29 +198,38 @@ public class HospitalRoomDao {
 
 	
 	/*
-	 * 메소드: #hospitalizationDischarge(String roomName) 
+	 * 메소드: #hospitalizationDischarge(String roomName, int regiNo) 
 	 * 페이지: hospitalizationDetail.jsp
 	 * 시작 날짜: 2024-05-13
 	 * 담당자: 박혜아
 	*/
-	public static int hospitalizationDischarge(String roomName) throws Exception{
+	public static int hospitalizationDischarge(String roomName, int regiNo) throws Exception{
 		int row = 0;
 		
 		// 받아온 값 디버깅
-		System.out.println("HospitalRoomDao #hospitalizationContent() roomName--> "+roomName);
+		System.out.println("HospitalRoomDao #hospitalizationDischarge() roomName--> "+roomName);
 		
 		// DB연결
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		
 		// 퇴원시 입원실 상태변경 'ON' -> 'OFF'
-		String sql = "UPDATE hospital_room h SET state = 'OFF'"
-				+ " WHERE h.room_name = ?";
+		// 퇴원시 입원상태변경 '입원' -> '퇴원'
+		String sql = "UPDATE hospital_room h"
+				+ " JOIN hospitalization hp ON h.room_name = hp.room_name"
+				+ " SET h.state = 'OFF',"
+				+ " hp.state = '퇴원'"
+				+ " WHERE h.room_name = ? "
+				+ " AND hp.regi_no = ?";
 		
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1, roomName);
+		stmt.setInt(2, regiNo);
+		
+		System.out.println("HospitalRoomDao #hospitalizationDischarge() stmt--> "+stmt);
 		
 		row = stmt.executeUpdate();
+		System.out.println("성공 실패 확인하기"+row);
 		
 		conn.close();
 		return row;
