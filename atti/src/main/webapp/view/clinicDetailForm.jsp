@@ -44,7 +44,16 @@
 
 <% 
 	//처방
+	String selectPrescription = request.getParameter("selectPrescription");
+	if(selectPrescription == null){
+		selectPrescription = "";
+	}
 	
+/* 	String prescriptionUpdate = request.getParameter("prescriptionUpdate");
+	if(prescriptionUpdate == null){
+		prescriptionUpdate = "";
+	}
+	 */
 	//약선택을 위해 전체 약 조회
 	ArrayList<HashMap<String, Object>> medicineList = PrescriptionDao.medicineList();
 	
@@ -54,17 +63,12 @@
 	//디버깅
 	//System.out.println("clinicDetailForm.jsp medicineList--> "+medicineList);
 	//System.out.println("clinicDetailForm.jsp prescriptionDetail--> "+prescriptionDetail);
+	System.out.println("clinicDetailForm.jsp selectPrescription--> "+selectPrescription);
 %>
 
 
 <%
 	//입원
-	//변수가져오기
-	String prescriptionUpdate = request.getParameter("prescriptionUpdate");
-	if(prescriptionUpdate == null){
-		prescriptionUpdate = "";
-	}
-	
 	//사용 가능한 입원실 정보 조회
 	ArrayList<HashMap<String, Object>>  hospitalRoomList = HospitalizationDao.hospitalRoomList();
 
@@ -142,18 +146,27 @@
 			<div style="border: 1px solid red;">
 				<h6>처방받은 약</h6>
 				<%
-						// 등록된 처방을 전체보여주기
 						for(HashMap pd2 : prescriptionDetail){
 				%>
 							<table>
 								<tr>
 									<th>약</th>
 									<td><%=pd2.get("medicineName")%></td>
-									<th rowspan="3"><button type="submit">삭제</button></th>
+									<td rowspan="3">
+										<form action="">
+											<input type="hidden" name="regiNo" value="<%=regiNo%>">
+											<input type="hidden" name="prescriptionNo" value="<%=pd2.get("prescriptionNo")%>">
+											<input type="hidden" name="selectPrescription" value="prescriptionUpdate">
+											
+											<button type="submit">수정</button>
+										</form>
+									</td>
 								</tr>
 								<tr>
 									<th>내용</th>
-									<td><%=pd2.get("prescriptionContent")%></td>
+									<td>
+										<%=pd2.get("prescriptionContent")%>
+									</td>
 								</tr>
 								<tr>
 									<th>처방날짜</th>
@@ -167,12 +180,9 @@
 			
 			<div style="border: 1px solid red;">
 				<h6>약 신규 등록</h6>
-				<form action="/atti/action/clinicAction.jsp" method="post" id="prescriptionForm">
+				<form action="/atti/action/clinicPrescrptionAction.jsp" method="post" id="prescriptionForm">
 					<input type="hidden" value="<%=regiNo%>" name="regiNo">
-					<input type="hidden" value="prescription" name="selectBtn">
 					<input type="hidden" value="prescriptionInsert" name="selectPrescription">
-					<input type="hidden" value="prescriptionUpdate" name="selectPrescription">
-					
 					
 					<div id="">
 						<!-- 처방받을 약코드를 선택 -->
@@ -203,9 +213,7 @@
 		
 		<!-- 입원 환자 호실 선택 및 입원 내용 입력 폼 -->
 		<form action="/atti/action/clinicHospitalAction.jsp" method="post" id="hospitalizationRegiForm">			
-		
 			<input type="hidden" value="<%=regiNo%>" name="regiNo">
-			<input type="hidden" value="hospitalization" name="selectBtn">
 
 			<div id="hospitalizationTitleDiv">
 				입원			

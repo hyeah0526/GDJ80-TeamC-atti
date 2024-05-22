@@ -189,7 +189,8 @@ public class PrescriptionDao {
 				+ " , m.medicine_no medicineNo, m.medicine_name medicineName"
 				+ " FROM prescription p"
 				+ " INNER JOIN medicine m ON p.medicine_no = m.medicine_no"
-				+ " WHERE p.regi_no = ?";
+				+ " WHERE p.regi_no = ?"
+				+ " ORDER BY p.prescription_date DESC";
 		
 		stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, regiNo);
@@ -201,7 +202,7 @@ public class PrescriptionDao {
 			HashMap<String, Object> map = new HashMap<>();
 			map.put("prescriptionContent", rs.getString("prescriptionContent"));	//처방내용
 			map.put("prescriptionDate", rs.getString("prescriptionDate"));			//처방날짜
-			map.put("prescriptionNo", rs.getInt("prescriptionNo"));				//처방번호
+			map.put("prescriptionNo", rs.getInt("prescriptionNo"));					//처방번호
 			map.put("medicineNo", rs.getInt("medicineNo"));							//약번호
 			map.put("medicineName", rs.getString("medicineName"));					//약이름
 			
@@ -212,5 +213,29 @@ public class PrescriptionDao {
 		
 		conn.close();
 		return list;
+	}
+	
+	
+	/*
+	 * 메소드 : PrescrptionDao#prescrptionUpdate()
+	 * 페이지 : clinicDetailForm.jsp
+	 * 시작 날짜 : 2024-05-22
+	 * 담당자 : 박혜아 
+	 */
+	public static int prescrptionUpdate(int regiNo) throws Exception{
+		int updateRow = 0;
+		
+		// 값 디버깅
+		System.out.println("PrescrptionDao#prescrptionUpdate() regiNo--> "+regiNo);
+				 
+		// DB연결
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		
+		String sql = "";
+		
+		
+		conn.close();
+		return updateRow;
 	}
 }
