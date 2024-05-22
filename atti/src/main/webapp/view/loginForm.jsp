@@ -28,7 +28,6 @@
 	//System.out.println("errorMessage = " + errorMessage);
 %>
  
- 
 <!-- view layer -->
 <!DOCTYPE html>
 <html>
@@ -57,10 +56,10 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
+	<main id="fontSet">
 		<div class="userFormDiv">
 			<h2>로그인</h2>
-			<form action="/atti/action/loginAction.jsp" method="post">
+			<form action="/atti/action/loginAction.jsp" method="post" >
 				<div class="inputDiv">
 					<label>아이디</label>
 					<input type="text" name="empNo">

@@ -261,5 +261,42 @@ public class PaymentDao {
 		return map;
 	}
 	
+	/*
+	  	메소드: payment#paymentSend()
+	  	
+	  	페이지: clinicAtcion.jsp, clinicSurgeryAction.jsp , 
+  			  clinicPrescrptionAction.jsp, clinicExaminationAction.jsp
+  			  clinicHospitalAction.jsp
+	  			
+	  	시작날짜: 2024-05-22
+	  	담당자: 김인수, 김지훈, 박헤아, 한은혜
+	*/
+	public static int paymentSend(int regiNo, String paymentCategory) throws Exception{
+		
+		//매개변수 값 출력
+		//System.out.println("regeNo = " + regeNo);
+		//System.out.println("paymentCategory = " + paymentCategory);
+		
+		//반환 값 변수
+		int insertRow = 0;
+		
+		PreparedStatement stmt = null;
+		
+		//DB연결 
+		Connection conn = DBHelper.getConnection();
+		
+		//결제 정보 저장: 환자가 이용한 서비스(수술, 처방, 진료, 검사, 입원) 
+		String sql = "INSERT INTO payment(regi_no, payment_category, create_date) VALUES (?,?,NOW())";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1,regiNo); // 접수 번호
+		stmt.setString(2, paymentCategory); // 환자가 이용한 서비스(수술, 처방, 진료, 검사, 입원)
+		
+		insertRow = stmt.executeUpdate();
+		
+		conn.close();
+		return insertRow;
+	}
+	
 	
 }

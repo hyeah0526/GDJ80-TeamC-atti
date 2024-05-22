@@ -141,8 +141,6 @@ tr:hover {
 	margin-top: 20px;
 }
 
-
-
 .empForm input{
 	padding: 0px;
 	width: 80%;
@@ -179,7 +177,6 @@ tr:hover {
 	flex-direction: column;
 	height: 50px;
 }
-
 
 #paginationForm{
 	display: flex;
@@ -263,7 +260,6 @@ tr:hover {
 	box-shadow: none;
 }
 
-
 #hospitalizationRegiForm{
 	display: flex;
 	flex-direction: unset;
@@ -299,8 +295,6 @@ tr:hover {
 	flex-grow: 8;
 }
 
-
-
 #animalSelectBoxDiv select{
 	width: 50%
 }
@@ -308,7 +302,6 @@ tr:hover {
 #animalSelectBoxDiv button{
 	width: 50%
 }
-
 
 #hospitalizationRegiFormDetails div{
 	display: flex;
@@ -320,5 +313,4 @@ tr:hover {
 	width: 100px;
 	margin: 10px;
 }
-
 
