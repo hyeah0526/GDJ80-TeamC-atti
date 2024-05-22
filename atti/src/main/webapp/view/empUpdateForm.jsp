@@ -65,7 +65,7 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
+	<main class="userFormMain">
 	
 		<h2>직원 정보 수정</h2>
 		

@@ -56,7 +56,7 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main id="fontSet">
+	<main class="userFormMain">
 		<div class="userFormDiv">
 			<h2>로그인</h2>
 			<form action="/atti/action/loginAction.jsp" method="post" >

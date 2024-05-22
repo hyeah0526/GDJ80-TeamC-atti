@@ -68,7 +68,7 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
+	<main class="userFormMain">
 		<h2>직원 개인 정보 </h2>
 		<div id="detailDiv">
 		

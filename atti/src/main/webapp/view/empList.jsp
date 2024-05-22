@@ -109,7 +109,7 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
+	<main class="userFormMain">
 	
 		<div id="searchDiv">
 			
@@ -135,7 +135,7 @@
 		    </div>
 		</div>
 		
-		<table>
+		<table class="searchTable">
 			<tr>
 				<th>사번</th>
 				<th>직책</th>

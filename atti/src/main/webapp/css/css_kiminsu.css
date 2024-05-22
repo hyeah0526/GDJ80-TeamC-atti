@@ -1,19 +1,30 @@
 @charset "UTF-8";
 
-h2{
+.userFormMain{
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.userFormDiv{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-top: 5%;
+	
+}
+
+.userFormDiv h2{
 	font-size: 32px;
 	color: #333; 
 	background-color: #fff;  
     position: relative;
 }
 
-main{
-	display: flex;
-	justify-content:center;
-	align-items: center;
-	flex-direction: column;
-}
-form{
+
+.userFormDiv form{
 	display: flex;
 	flex-direction: column;
 	margin-top: 40px;
@@ -23,7 +34,7 @@ form{
     padding: 30px;
 }
 
-form button{
+.userFormDiv form button{
 	margin-top: 30px;
 	background-color: #eedcba;
 	border: 1px solid black;
@@ -32,50 +43,43 @@ form button{
 	height: 50px;
 }	
 
-form button:hover, form button:active{
+.userFormDiv form button:hover, .userFormDiv form button:active{
 	background-color: #bed8cb;
 }
 
-label{
+.userFormDiv label{
  	font-size: 16px;
 	margin-right: 50px;
 }
 
-input{
+.userFormDiv input{
 	width: 100%;
 	padding: 8px;
 	border: 1px solid #ccc; 
  	border-radius: 4px; 
 }
 
-table{
+.searchTable{
 	width: 80%;            
     border-collapse: collapse;
     margin: 20px;    
     box-shadow: 0 2px 3px #ccc; 
 }
-th, td {
+.searchTable th, .searchTable td {
     padding: 8px 12px;     
     text-align: center;      
     border-bottom: 1px solid #ddd; 
 }
 
-th {
+.searchTable th {
     background-color: #eedcba;; 
     font-weight: bold; 
 }
 
-tr:hover {
+.searchTable tr:hover {
     background-color: #e8e8e8; 
 }
 
-.userFormDiv{
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	margin-top: 5%;
-}
 
 .inputDiv{
 	display: flex;
@@ -131,6 +135,13 @@ tr:hover {
 }
 
 .empForm{
+	display: flex;
+	flex-direction: column;
+	margin-top: 40px;
+ 	box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+    border-radius: 8px; 
+    width: 550px;
+    padding: 30px;
 	font-size: 20px;
 }
 
@@ -176,6 +187,7 @@ tr:hover {
 	align-items: center;
 	flex-direction: column;
 	height: 50px;
+	width: 80%;
 }
 
 #paginationForm{
