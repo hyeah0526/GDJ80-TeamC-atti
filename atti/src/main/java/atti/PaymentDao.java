@@ -262,7 +262,7 @@ public class PaymentDao {
 	}
 	
 	/*
-	  	메소드: payment#paymentSend()
+	  	메소드: payment#paymentInsert()
 	  	
 	  	페이지: clinicAtcion.jsp, clinicSurgeryAction.jsp , 
   			  clinicPrescrptionAction.jsp, clinicExaminationAction.jsp
@@ -271,7 +271,7 @@ public class PaymentDao {
 	  	시작날짜: 2024-05-22
 	  	담당자: 김인수, 김지훈, 박헤아, 한은혜
 	*/
-	public static int paymentSend(int regiNo, String paymentCategory) throws Exception{
+	public static int paymentInsert(int regiNo, String paymentCategory) throws Exception{
 		
 		//매개변수 값 출력
 		//System.out.println("regeNo = " + regeNo);
@@ -282,11 +282,12 @@ public class PaymentDao {
 		
 		PreparedStatement stmt = null;
 		
-		//DB연결 
+		//DB연결  
 		Connection conn = DBHelper.getConnection();
 		
 		//결제 정보 저장: 환자가 이용한 서비스(수술, 처방, 진료, 검사, 입원) 
-		String sql = "INSERT INTO payment(regi_no, payment_category, create_date) VALUES (?,?,NOW())";
+		String sql = "INSERT INTO payment(regi_no, payment_category, create_date) "
+				+ "VALUES (?,?,NOW())";
 		
 		stmt = conn.prepareStatement(sql);
 		stmt.setInt(1,regiNo); // 접수 번호
@@ -298,5 +299,88 @@ public class PaymentDao {
 		return insertRow;
 	}
 	
+	
+	/*
+	  	메소드: payment#paymentSelect()
+	  	
+	  	페이지: clinicAtcion.jsp, clinicSurgeryAction.jsp , 
+			  clinicPrescrptionAction.jsp, clinicExaminationAction.jsp
+			  clinicHospitalAction.jsp
+	  			
+	  	시작날짜: 2024-05-22
+	  	담당자: 김인수
+	*/
+	public static HashMap<String, Object> paymentSelect(int regiNo, String paymentCategory) throws Exception{
+		
+		//매개변수 값 출력
+		//System.out.println("regeNo = " + regeNo);
+		//System.out.println("paymentCategory = " + paymentCategory);
+		
+		//반환 값 변수
+		HashMap<String, Object> resultMap = null;
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		
+		//DB연결 
+		Connection conn = DBHelper.getConnection();
+		
+		//결제 정보 조회: 같은 접수번호에 환자가 이용한 서비스(수술, 처방, 진료, 검사, 입원) 중 중복이 있는지 조회 
+		String sql = "SELECT payment_no FROM payment WHERE regi_no = ? AND payment_category = ?";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1,regiNo); // 접수 번호
+		stmt.setString(2, paymentCategory); // 환자가 이용한 서비스(수술, 처방, 진료, 검사, 입원)
+		
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			resultMap = new HashMap<String, Object>();
+			resultMap.put("paymentNo",rs.getInt("payment_no")); 
+		}
+		
+		
+		conn.close();
+		return resultMap;
+	}
+	
+	
+	/*
+	  	메소드: payment#paymentUpdate()
+	  	
+	  	페이지: clinicAtcion.jsp, clinicSurgeryAction.jsp , 
+			  clinicPrescrptionAction.jsp, clinicExaminationAction.jsp
+			  clinicHospitalAction.jsp
+	  			
+	  	시작날짜: 2024-05-22
+	  	담당자: 김인수
+	*/
+	public static int paymentUpdate(int regiNo, String paymentCategory) throws Exception{
+			
+			//매개변수 값 출력
+			//System.out.println("regeNo = " + regeNo);
+			//System.out.println("paymentCategory = " + paymentCategory);
+			
+			//반환 값 변수
+			int updateRow = 0;
+			
+			PreparedStatement stmt = null;
+			
+			//DB연결 
+			Connection conn = DBHelper.getConnection();
+			
+			//결제 정보 수정: 같은 접수번호에 환자가 이용한 서비스(수술, 처방, 진료, 검사, 입원)가 중복이 있는 경우 수정 
+			String sql = "UPDATE payment SET create_date = NOW() "
+					+ "WHERE regi_no = ? AND payment_category = ?";
+			
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1,regiNo); // 접수 번호
+			stmt.setString(2, paymentCategory); // 환자가 이용한 서비스(수술, 처방, 진료, 검사, 입원)
+			
+			updateRow = stmt.executeUpdate();
+			
+			conn.close();
+			return updateRow;
+		}
 	
 }

@@ -17,11 +17,15 @@
 		response.sendRedirect("/atti/view/loginForm.jsp");
 		return;
 	}
+	
+	//카테고리 정보
+	String paymentCategory = request.getParameter("paymentCategory");
 
 	//사용자의 진료 번호 
 	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
 	
 	//디버깅
+	//System.out.println(paymentCategory);
 	//System.out.println(regiNo);
 	
 	// 입원 환자의 입원 정보, 입원 내용 등록 
@@ -61,17 +65,33 @@
 	//입원 정보 등록과 수정 
 	int updateRow = HospitalizationDao.hospitalizationUpdate(roomName, regiNo);
 	
-	if(updateRow > 0){
-		
-		//payment 테이블 카테고리 종류 
-		String paymentCategory = "입원";
-		
-		//결제 정보 저장
-		PaymentDao.paymentSend(regiNo, paymentCategory);
-	}
-
 	//디버깅
 	//System.out.println("updateRow = " + updateRow);
+
+	if(updateRow > 0){
+		// 입원 호실 상태 수정 
+		HospitalizationDao.hospitalRoomUpdate(roomName);
+	}
+	
+	// 중복된 결제 정보 조회 
+	HashMap<String, Object> paymentSelect = PaymentDao.paymentSelect(regiNo, paymentCategory);
+
+	//디버깅
+	//System.out.println(paymentSelect);
+	//System.out.println(paymentSelect.size());
+	
+	//중복된 결제 정보가 없는 경우
+	if(paymentSelect.size() < 1){
+		
+		//결제 정보 저장
+		PaymentDao.paymentInsert(regiNo, paymentCategory);
+		
+	}else{
+		
+		//결제 정보 수정
+		PaymentDao.paymentUpdate(regiNo, paymentCategory);
+	}
+
 	
 	response.sendRedirect("/atti/view/clinicDetailForm.jsp"); // 진료 페이지로 이동
 	

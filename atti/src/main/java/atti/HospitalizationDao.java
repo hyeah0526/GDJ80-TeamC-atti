@@ -47,7 +47,7 @@ public class HospitalizationDao {
 	
 	/*
   		메소드: HospitalizationDao#hospitalizationDetail()
-	  	페이지: clinicAction.jsp
+	  	페이지: clinicDetailForm.jsp
 	  	시작날짜: 2024-05-16
 	  	담당자: 김인수
 	*/
@@ -129,7 +129,7 @@ public class HospitalizationDao {
 	
 	/*
 		메소드: HospitalizationDao#hospitalizationUpdate()
-	  	페이지: clinicAction.jsp
+	  	페이지: clinicHospitalAction.jsp
 	  	시작날짜: 2024-05-16
 	  	담당자: 김인수
 	*/
@@ -171,7 +171,7 @@ public class HospitalizationDao {
 	
 	/*
 		메소드: HospitalizationDao#hospitalRoomUpdate()
-	  	페이지: clinicAction.jsp
+	  	페이지: clinicHospitalAction.jsp
 	  	시작날짜: 2024-05-20
 	  	담당자: 김인수
 	*/

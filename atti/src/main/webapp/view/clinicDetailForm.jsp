@@ -21,7 +21,7 @@
 	
 	//사용자의 진료 번호 
 	//int regiNo = Integer.parseInt(request.getParameter("regiNo"));
-	int regiNo = 15;
+	int regiNo = 3;
 	
 %>
 
@@ -214,6 +214,7 @@
 		<!-- 입원 환자 호실 선택 및 입원 내용 입력 폼 -->
 		<form action="/atti/action/clinicHospitalAction.jsp" method="post" id="hospitalizationRegiForm">			
 			<input type="hidden" value="<%=regiNo%>" name="regiNo">
+			<input type="hidden" value="입원" name="paymentCategory">
 
 			<div id="hospitalizationTitleDiv">
 				입원			
