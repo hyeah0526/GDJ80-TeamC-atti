@@ -89,4 +89,128 @@ public class PrescriptionDao {
 		conn.close();
 		return list;
 	}
+	
+	/*
+	 * 메소드 : PrescrptionDao#medicineList()
+	 * 페이지 : clinicDetailForm.jsp
+	 * 시작 날짜 : 2024-05-22
+	 * 담당자 : 박혜아 
+	 */
+	public static ArrayList<HashMap<String, Object>> medicineList() throws Exception{
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		
+		// DB연결
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		// 약 리스트 : 약번호, 약이름
+		String sql = "SELECT medicine_no medicineNo, medicine_name medicineName"
+				+ " FROM medicine";
+		
+		stmt = conn.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		//System.out.println("PrescrptionDao#medicineList() stmt--> "+stmt);
+		
+		while(rs.next()) {
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("medicineNo", rs.getInt("medicineNo"));			// 약 고유번호
+			map.put("medicineName",rs.getString("medicineName"));	// 약 이름
+			
+			list.add(map);
+		}
+		
+		//System.out.println("PrescrptionDao#medicineList() list--> "+list);
+		
+		conn.close();
+		return list;
+	}
+	
+	
+	/*
+	 * 메소드 : PrescrptionDao#prescrptionInsert()
+	 * 페이지 : clinicDetailForm.jsp
+	 * 시작 날짜 : 2024-05-22
+	 * 담당자 : 박혜아 
+	 */
+	public static int prescrptionInsert(int regiNo, int medicineNo, String prescriptionContent) throws Exception{
+		int insertRow = 0;
+		
+		// 값 디버깅
+		//System.out.println("PrescrptionDao#prescrptionInsert() regiNo--> "+regiNo);
+		//System.out.println("PrescrptionDao#prescrptionInsert() medicineNo--> "+medicineNo);
+		//System.out.println("PrescrptionDao#prescrptionInsert() prescriptionContent--> "+prescriptionContent);
+		
+		// DB연결
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		
+		// 처방등록
+		String sql = "INSERT INTO prescription(regi_no, medicine_no, prescription_content, prescription_date)"
+				+ " VALUES (?, ?, ?, NOW())";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, regiNo);
+		stmt.setInt(2, medicineNo);
+		stmt.setString(3, prescriptionContent);
+		//System.out.println("PrescrptionDao#prescrptionInsert() stmt--> "+stmt);
+		
+		insertRow = stmt.executeUpdate();
+		
+		conn.close();
+		return insertRow;
+	}
+	
+	
+	
+	/*
+	 * 메소드 : PrescrptionDao#prescrptionDetail(int regiNo)
+	 * 페이지 : clinicDetailForm.jsp
+	 * 시작 날짜 : 2024-05-22
+	 * 담당자 : 박혜아 
+	 */
+	public static ArrayList<HashMap<String, Object>> prescrptionDetail(int regiNo) throws Exception{
+		 ArrayList<HashMap<String, Object>> list = new  ArrayList<HashMap<String, Object>>();
+		 
+		// 값 디버깅
+		//System.out.println("PrescrptionDao#prescrptionDetail() regiNo--> "+regiNo);
+		 
+		// DB연결
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		/*
+		 * SELECT
+		 * 처방prescription : 접수번호, 처방내용, 처방날짜, 처방번호
+		 * 약medicine : 약번호, 약이름
+		 */
+		String sql = "SELECT p.regi_no regiNo, p.prescription_content prescriptionContent, p.prescription_date prescriptionDate, p.prescription_no prescriptionNo"
+				+ " , m.medicine_no medicineNo, m.medicine_name medicineName"
+				+ " FROM prescription p"
+				+ " INNER JOIN medicine m ON p.medicine_no = m.medicine_no"
+				+ " WHERE p.regi_no = ?";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, regiNo);
+		//System.out.println("PrescrptionDao#prescrptionDetail() stmt--> "+stmt);
+		
+		rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("prescriptionContent", rs.getString("prescriptionContent"));	//처방내용
+			map.put("prescriptionDate", rs.getString("prescriptionDate"));			//처방날짜
+			map.put("prescriptionNo", rs.getInt("prescriptionNo"));				//처방번호
+			map.put("medicineNo", rs.getInt("medicineNo"));							//약번호
+			map.put("medicineName", rs.getString("medicineName"));					//약이름
+			
+			list.add(map);
+		}
+		
+		//System.out.println("PrescrptionDao#prescrptionDetail() list--> "+list);
+		
+		conn.close();
+		return list;
+	}
 }

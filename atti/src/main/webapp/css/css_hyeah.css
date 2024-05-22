@@ -14,3 +14,14 @@
 }
 
 
+/* clinicDetailForm.jsp */
+#clinicDetailMainDiv{
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	width: 100%
+	
+}
+
+#prescriptionForm{
+	width: 80%;
+}
