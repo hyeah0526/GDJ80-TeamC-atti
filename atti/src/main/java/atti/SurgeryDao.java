@@ -6,6 +6,68 @@ import java.util.*;
 public class SurgeryDao {
 	
 	/*
+	 * 메소드 : SurgeryDao#surgeryInsert() 
+	 * 페이지 : clinicSurgeryAction.jsp
+	 * 시작 날짜 : 2024-05-22
+	 * 담당자 : 김지훈 
+	 */
+	
+	public static int surgeryInsert(int regiNo, String surgeryKind, String surgeryContent, String surgeryDate) throws Exception {
+		
+		// clinicDetailForm -> clinicSurgeryAction
+		// 디버깅
+		System.out.println(regiNo  + " ====== SurgeryDao#surgeryInsert() regiNo");
+		System.out.println(surgeryKind  + " ====== SurgeryDao#surgeryInsert() regiNo");
+		System.out.println(surgeryContent  + " ====== SurgeryDao#surgeryInsert() regiNo");
+		System.out.println(surgeryDate  + " ====== SurgeryDao#surgeryInsert() regiNo");
+		
+		int insertRow = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		String sql = "INSERT INTO surgery(regi_no, surgery_kind, surgery_content, surgery_date)"
+				+ " VALUES(?, ?, ?, ?)";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, regiNo); 			// 접수 번호
+		stmt.setString(2, surgeryKind); 	// 수술 종류 
+		stmt.setString(3, surgeryContent);	// 수술 내용
+		stmt.setString(4, surgeryDate);		// 수술 일자
+		
+		insertRow = stmt.executeUpdate();
+		
+		conn.close(); // db 자원 반납
+		return insertRow; // insertRow를 반환
+	}
+	
+	
+	/*
+	 * 메소드 : SurgeryDao#surgeryStateUpdate() 
+	 * 페이지 : surgeryStateAction.jsp
+	 * 시작 날짜 : 2024-05-22
+	 * 담당자 : 김지훈 
+	 */
+	
+	public static int surgeryStateUpdate(int surgeryNo) throws Exception {
+		
+		System.out.println(surgeryNo  + " ====== SurgeryDao#surgeryStateUpdate() surgeryNo");
+		
+		int updateRow = 0;
+
+		Connection conn = DBHelper.getConnection();
+		String sql = "UPDATE surgery"
+				+ " SET surgery_state = '완료'"
+				+ " WHERE surgery_no = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, surgeryNo);
+		
+		updateRow = stmt.executeUpdate();
+		
+		conn.close();
+		return updateRow;
+	}
+	
+	/*
 	 * 메소드 : SurgeryDao#surgeryList() 
 	 * 페이지 : surgeryList.jsp
 	 * 시작 날짜 : 2024-05-14
@@ -32,8 +94,8 @@ public class SurgeryDao {
 		 * + 페이징
 		 */
 		String sql = "SELECT "
-				+ " surgery_no surgeryNo, surgery_kind surgeryKind, surgery_date surgeryDate, "
-				+ " s.regi_no regiNo, "	 
+				+ " surgery_no surgeryNo, surgery_kind surgeryKind, surgery_state surgeryState, "
+				+ " surgery_date surgeryDate, s.regi_no regiNo, "	 
 				+ " pet_kind petKind, pet_name petName, " 
 				+ " r.emp_no empNo, emp_name empName, "
 				+ " (SELECT COUNT(surgery_no) FROM surgery"
@@ -63,6 +125,7 @@ public class SurgeryDao {
 			surgerylist.put("surgeryNo", rs.getInt("surgeryNo"));			// 수술 번호 
 			surgerylist.put("surgeryKind", rs.getString("surgeryKind"));	// 수술 종류
 			surgerylist.put("surgeryDate", rs.getString("surgeryDate"));	// 수술 날짜
+			surgerylist.put("surgeryState", rs.getString("surgeryState"));  // 수술 대기 / 완료의 상태
 			surgerylist.put("regiNo", rs.getInt("regiNo"));					// 접수 번호
 			surgerylist.put("petKind", rs.getString("petKind"));			// 반려동물 종류
 			surgerylist.put("petName", rs.getString("petName"));			// 반려동물 이름
