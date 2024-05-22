@@ -184,7 +184,14 @@
 									</td>
 									<td><%=a.get("createDate")%></td>
 									<td>
-										<button class="listButton" type="button" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=a.get("petNo")%>'">접수하기</button>
+										<form method="post" action="/atti/view/regiForm.jsp">
+											<input type="hidden" name="petNo" value="<%=a.get("petNo")%>">
+											<input type="hidden" name="petName" value="<%=a.get("petName")%>">
+											<input type="hidden" name="customerNo" value="<%=a.get("customerNo")%>">
+											<input type="hidden" name="customerName" value="<%=a.get("customerName")%>">
+											<input type="hidden" name="customerTel" value="<%=a.get("customerTel")%>">
+											<button class="listButton" type="submit" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=a.get("petNo")%>'">접수하기</button>
+										</form>
 									</td>
 								</tr>
 						<%
@@ -259,7 +266,14 @@
 									</td>
 									<td><%=p.get("createDate")%></td>
 									<td>
-										<button class="listButton" type="button" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=p.get("petNo")%>'">접수하기</button>
+										<form method="post" action="/atti/view/regiForm.jsp">
+											<input type="hidden" name="petNo" value="<%=p.get("petNo")%>">
+											<input type="hidden" name="petName" value="<%=p.get("petName")%>">
+											<input type="hidden" name="customerNo" value="<%=p.get("customerNo")%>">
+											<input type="hidden" name="customerName" value="<%=p.get("customerName")%>">
+											<input type="hidden" name="customerTel" value="<%=p.get("customerTel")%>">
+											<button class="listButton" type="submit" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=p.get("petNo")%>'">접수하기</button>
+										</form>
 									</td>
 								</tr>
 						<%
