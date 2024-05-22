@@ -122,7 +122,9 @@
 				<th>담당 의사(사번)</th>		
 				<th>수술 종류</th>		
 				<th>수술 날짜</th>		
-				<th>반려동물 이름(종류)</th>		
+				<th>반려동물 이름(종류)</th>
+				<th>상세 보기</th>
+				<th>상태</th>		
 			</tr>
 			<!-- 수술 리스트 값 호출 -->
 			<%
@@ -135,7 +137,16 @@
 				<td><%= s.get("surgeryKind") %></td>
 				<td><%= s.get("surgeryDate") %></td>
 				<td><%= s.get("petName") %>(<%= s.get("petKind") %>)</td>
-				<td><a href="/atti/view/surgeryDetail.jsp?surgeryNo=<%=s.get("surgeryNo") %>">상세보기</a></td>
+				<td><a href="/atti/view/surgeryDetail.jsp?surgeryNo=<%=s.get("surgeryNo") %>">상세 보기</a></td>
+				<td><%=s.get("surgeryState") %>
+					<%
+						if("대기".equals(s.get("surgeryState"))) {
+					%>
+							<button type="button" onclick="location.href='/atti/action/surgeryStateAction.jsp?surgeryNo=<%=s.get("surgeryNo")%>'">상태 변경</button>
+					<%		
+						}
+					%>
+				</td>
 			</tr>
 			<%
 				}
