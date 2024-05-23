@@ -1,13 +1,58 @@
-/* hospitalRoomList.jsp #38 입원실조회 페이지 */
+/* hospitalRoomList.jsp */
+#hospitalRoomList button{
+	background-color: #eedcba;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+#hospitalRoomList button:hover{
+	background-color: #bed8cb;
+}
+
+#hospitalRmON{
+	border: 3px solid #bed8cb;
+	border-radius: 10px;
+	background-color : #ddc5c8;
+	text-align: center;
+	width: 120px;
+	height: 160px;
+	float: left;
+	margin:5px;
+}
+
+#hospitalRmOFF{
+	border: 3px solid #bed8cb;
+	border-radius: 10px;
+	background-color : #eedcba;
+	opacity: 0.6;
+	text-align: center;
+	width: 120px;
+	height: 160px;
+	float: left;
+	margin:5px;
+}
+
+#hospitalRmName{
+	font-weight: bold;
+}
+
+#offRmLight{
+	font-weight: bold;
+	font-size:15pt;
+	color: #595959;
+}
+
+#onRmLight{
+	font-weight: bold;
+	font-size:15pt;
+	color: #55aa00;
+}
+
+/* hospitalizationList.jsp */
 
 
 
-/* hospitalizationList.jsp #39 입원환자 존회 페이지 */
-
-
-
-/* hospitalizationDetail.jsp #40 입원실 입원환자 상세 페이지 */
-
+/* hospitalizationDetail.jsp */
 #iconAnimal{ /* 동물아이콘 */
 	width: 150px;
 	height: 150px;

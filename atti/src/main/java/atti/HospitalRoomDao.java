@@ -31,8 +31,8 @@ public class HospitalRoomDao {
 		 * hospitalization : 입원번호, 접수번호, 퇴원날짜
 		 * pet : 동물이름, 동물종류
 		*/
-		String sql = "SELECT r.room_name roomName, r.state state, r.update_date updateDate"
-					+ ", h.hospitalization_no hospitalizationNo, h.regi_no regiNo, h.discharge_date dischargeDate"
+		String sql = "SELECT r.room_name roomName, r.state state, r.update_date updateDate, DATE(h.create_date) createDate"
+					+ ", h.hospitalization_no hospitalizationNo, h.regi_no regiNo, DATE(h.discharge_date) dischargeDate"
 					+ ", p.pet_name petName, p.pet_kind petKind, p.pet_birth petBirth, p.emp_major empMajor"
 					+ " FROM hospital_room r"
 					+ " LEFT JOIN hospitalization h"
@@ -60,15 +60,16 @@ public class HospitalRoomDao {
 		// 담아주기
 		while(rs.next()) {
 			HashMap<String, Object> hashMap = new HashMap<>();
-			hashMap.put("roomName", rs.getString("roomName")); //입원실번호(A01, A02, A03...)
-			hashMap.put("state", rs.getString("state")); //입원실상태(on 혹은 off)
-			hashMap.put("updateDate", rs.getString("updateDate")); //입원실 수정날짜
-			hashMap.put("hospitalizationNo", rs.getInt("hospitalizationNo")); //입원번호
-			hashMap.put("regiNo", rs.getInt("regiNo")); //접수번호
-			hashMap.put("dischargeDate", rs.getString("dischargeDate")); //퇴원날짜
-			hashMap.put("petName", rs.getString("petName")); //동물이름
-			hashMap.put("petKind", rs.getString("petKind")); //동물 세부종류
-			hashMap.put("empMajor", rs.getString("empMajor")); //포유류, 파충류, 조류 구분
+			hashMap.put("roomName", rs.getString("roomName"));					//입원실번호(A01, A02, A03...)
+			hashMap.put("state", rs.getString("state"));						//입원실상태(on 혹은 off)
+			hashMap.put("updateDate", rs.getString("updateDate")); 				//입원실 수정날짜
+			hashMap.put("hospitalizationNo", rs.getInt("hospitalizationNo")); 	//입원번호
+			hashMap.put("regiNo", rs.getInt("regiNo")); 						//접수번호
+			hashMap.put("createDate", rs.getString("createDate")); 				//입원날짜
+			hashMap.put("dischargeDate", rs.getString("dischargeDate")); 		//퇴원날짜
+			hashMap.put("petName", rs.getString("petName")); 					//동물이름
+			hashMap.put("petKind", rs.getString("petKind")); 					//동물 세부종류
+			hashMap.put("empMajor", rs.getString("empMajor")); 					//포유류, 파충류, 조류 구분
 			
 			if(rs.getString("petBirth") != null) {
 				//동물나이구하기
@@ -246,9 +247,9 @@ public class HospitalRoomDao {
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		
 		//받아온 값 디버깅
-		System.out.println("HospitalRoomDao #hospitalizationList() searchName ---> "+searchName);
-		System.out.println("HospitalRoomDao #hospitalizationList() startRow ---> "+startRow);
-		System.out.println("HospitalRoomDao #hospitalizationList() rowPerPage ---> "+rowPerPage);
+		//System.out.println("HospitalRoomDao #hospitalizationList() searchName ---> "+searchName);
+		//System.out.println("HospitalRoomDao #hospitalizationList() startRow ---> "+startRow);
+		//System.out.println("HospitalRoomDao #hospitalizationList() rowPerPage ---> "+rowPerPage);
 		
 		//DB연결
 		Connection conn = DBHelper.getConnection();
@@ -275,7 +276,7 @@ public class HospitalRoomDao {
 		stmt.setString(1, "%"+searchName+"%");
 		stmt.setInt(2, startRow);
 		stmt.setInt(3, rowPerPage);
-		System.out.println("HospitalRoomDao #hospitalizationList() sql ---> "+stmt);
+		//System.out.println("HospitalRoomDao #hospitalizationList() sql ---> "+stmt);
 		
 		rs = stmt.executeQuery();
 		
@@ -325,7 +326,7 @@ public class HospitalRoomDao {
 		if(rs.next()) {
 			row = rs.getInt("totalRow");
 		}
-		System.out.println("HospitalRoomDao #hospitalizationListCnt()--> "+row);
+		//System.out.println("HospitalRoomDao #hospitalizationListCnt()--> "+row);
 		
 		conn.close();
 		return row;

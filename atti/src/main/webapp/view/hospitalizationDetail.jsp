@@ -8,6 +8,15 @@
 	 * 담당자 : 박혜아
  -->
  <%
+ /* 
+	//로그인한 사용자인지 검증
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
+		return;
+	}
+*/
+ %>
+ <%
  	// 입원환자의 해당하는 접수번호
  	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
  	//System.out.println("hospitalizationDetail.jsp regiNo--> " + regiNo);

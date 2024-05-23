@@ -8,11 +8,16 @@
 	 * 담당자 : 박혜아
  -->
  <%
+	//로그인한 사용자인지 검증
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
+		return;
+	}
+ %>
+ <%
  	// 입원실 리스트 전체 출력
  	ArrayList<HashMap<String, Object>> hospitalRmsList = HospitalRoomDao.hospitalRoomList();
  	//System.out.println("입원실리스트 출력hospitalRoomList.jsp --> "+hospitalRmsList);
- 	
- 	
  %>
 <!DOCTYPE html>
 <html>
@@ -25,7 +30,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	
 	<!-- CSS 공통적용CSS파일 -->
-	<link rel="stylesheet" href="../css/css_all.css">
+	<link type="text/css" rel="stylesheet" href="../css/css_all.css">
+	<link type="text/css" rel="stylesheet" href="../css/css_hyeah.css">
 </head>
 <body id="fontSet">
 	
@@ -46,8 +52,9 @@
 	<!-------------------- main -------------------->
 	<main>
 		<!-- 내용출력되는 부분 -->
-		<div>
+		<div id="hospitalRoomList">
 			<h2>입원실 현황</h2>
+			<h5>포유류</h5>
 			<%
 				for(HashMap<String, Object> rms : hospitalRmsList){
 					String state = (String)rms.get("state");
@@ -59,44 +66,66 @@
 						// 입원실의 입원 환자 ON / OFF 구분
 						if(state.equals("ON")){
 			%>
-							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:5px;">
-								<%=roomName%> <span style="color: green;">&#9679;</span><br>
+							<div id="hospitalRmON">
+								<span id="hospitalRmName">[ <%=roomName%> ] </span>
+								<span id="onRmLight">&#9679;</span><br>
 								<!-- 접수번호로 상세보기이동 -->
-								<a href="/atti/view/hospitalizationDetail.jsp?regiNo=<%=(Integer)rms.get("regiNo")%>">
-									<%=(String)rms.get("petName")%> (<%=(Integer)rms.get("petAge")%>살)
-								</a><br>
-								<%=(String)rms.get("petKind")%>
+								<%=(String)rms.get("petName")%> (<%=(Integer)rms.get("petAge")%>살)<br>
+								<%=(String)rms.get("petKind")%><br>
+								<%=(String)rms.get("createDate")%> ~
+								<br><%=(String)rms.get("dischargeDate")%>
+								<button>
+									<a href="/atti/view/hospitalizationDetail.jsp?regiNo=<%=(Integer)rms.get("regiNo")%>">상세보기</a>
+								</button>
 							</div>
 			<%
 						}else if(state.equals("OFF")){
 			%>
-							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:5px; background-color: gray;">
-								<%=roomName%> <span style="color: red;">&#9679;</span>
+							<div id="hospitalRmOFF">
+								<span id="hospitalRmName">[ <%=roomName%> ] </span>
+								<span id="offRmLight">&#9679;</span>
 								<br>비어있음
 							</div>
 			<%
 						}
 			%>
-						<div style="clear: both;"></div>
+						<div style="clear: both;"></div><br>
+						<!-- 호실에 따른 동물 종류 -->
+						<%
+							if(roomName.equals("A10")){
+						%>
+								<div><h5>파충류</h5></div>
+						<%
+							}else if(roomName.equals("B10")){
+						%>
+								<div><h5>조류</h5></div>
+						<%		
+							}
+						%>
 			<%
 					}else{
 					// 입원실이 1~09으로 끝남
 						// 입원실의 입원 환자 ON / OFF 구분					
 						if(state.equals("ON")){
 			%>
-							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:5px;">
-								<%=roomName%> <span style="color: green;">&#9679;</span><br>
+							<div id="hospitalRmON">
+								<span id="hospitalRmName">[ <%=roomName%> ] </span>
+								<span id="onRmLight">&#9679;</span><br>
 								<!-- 접수번호로 상세보기이동 -->
-								<a href="/atti/view/hospitalizationDetail.jsp?regiNo=<%=(Integer)rms.get("regiNo")%>">
-									<%=(String)rms.get("petName")%> (<%=(Integer)rms.get("petAge")%>살)
-								</a><br>
-								<%=(String)rms.get("petKind")%>
+								<%=(String)rms.get("petName")%> (<%=(Integer)rms.get("petAge")%>살)<br>
+								<%=(String)rms.get("petKind")%><br>
+								<%=(String)rms.get("createDate")%> ~
+								<br><%=(String)rms.get("dischargeDate")%><br>
+								<button>
+									<a href="/atti/view/hospitalizationDetail.jsp?regiNo=<%=(Integer)rms.get("regiNo")%>">상세보기</a>
+								</button>
 							</div>
 			<%
 						}else if(state.equals("OFF")){
 			%>
-							<div style="border: 1px solid red; width: 100px; height: 100px; float: left; margin:5px; background-color: gray;">
-								<%=roomName%> <span style="color: red;">&#9679;</span>
+							<div id="hospitalRmOFF">
+								<span id="hospitalRmName">[ <%=roomName%> ] </span>
+								<span id="offRmLight">&#9679;</span>
 								<br>비어있음
 							</div>
 			<%
