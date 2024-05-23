@@ -95,7 +95,9 @@
 				</div>
 				<div>
 					<label>전화번호</label>
-					<input type="text" name="empTel">
+					<input class="telInput" type="text" name="empTelFirst">-
+					<input class="telInput" type="text" name="empTelSecond">-
+					<input class="telInput" type="text" name="empTelThrid">
 				</div>
 				<div>
 					<label>입사일</label>
