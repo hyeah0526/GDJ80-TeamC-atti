@@ -1,6 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="atti.HospitalRoomDao"%>
 <%@ page import="java.util.*"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- 
 	 * 기능 번호  : #39
 	 * 상세 설명  : 입원환자 전체 조회기능
@@ -8,13 +8,11 @@
 	 * 담당자 : 박혜아
  -->
  <%
- /* 
 	//로그인한 사용자인지 검증
 	if(session.getAttribute("loginEmp") == null){
 		response.sendRedirect("/atti/view/loginForm.jsp");
 		return;
 	}
-*/
  %>
  <%
  	/* 페이징 및 검색  */
@@ -34,7 +32,7 @@
  	//System.out.println("hospitalList.jsp currentPage --> "+currentPage);
 	
 	// 한페이지에 보여줄 개수
-	int rowPerPage = 10;
+	int rowPerPage = 8;
 	int startRow = (currentPage-1)*rowPerPage;
 	
 	// 전체목록 뿌려주기 DAO
@@ -66,6 +64,8 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
+	<link rel="stylesheet" href="../css/css_hyeah.css">
+	<link rel="stylesheet" href="../css/css_kiminsu.css">
 </head>
 
 <body id="fontSet">
@@ -85,20 +85,21 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
+	<main id="hospitalListMain">
 		<h2>입원환자 목록</h2>
 			
 		<!-- 이름으로 환자 검색 -->
-		<div>
+		<div id="hospitalSearchForm">
 			<form action="/atti/view/hospitalizationList.jsp?currentPage=1&searchName=<%=searchName%>">
+				<label>동물이름</label>
 				<input type="text" name="searchName" value="<%=searchName%>">
-				<button type="submit">동물이름검색</button>
+				<button type="submit" id="paginationBtn">검색</button>
 			</form>
 		</div><br>
 			
 		<!-- 입원했던 환자 전체목록 출력  -->
-		<div>
-			<table border="1">
+		<div id="hospitalListTable">
+			<table>
 				<tr>
 					<th>접수번호</th>
 					<th>동물이름</th>
@@ -107,7 +108,7 @@
 					<th>입원날짜</th>
 					<th>퇴원날짜</th>
 					<th>상세보기</th>
-				</tr>
+				</tr>					
 				<%
 					for(HashMap<String, Object> h : hospitalList){
 				%>
@@ -119,7 +120,8 @@
 							<td><%=(String)h.get("createDate")%></td>
 							<td><%=(String)h.get("dischargeDate")%></td>
 							<td>
-								<a href="/atti/view/hospitalizationDetail.jsp?regiNo=<%=(Integer)h.get("regiNo")%>">
+								<!-- 상세보기로이동 -->
+								<a id="hospitalListDetail" class="btn" href="/atti/view/hospitalizationDetail.jsp?regiNo=<%=(Integer)h.get("regiNo")%>">
 									상세보기
 								</a>
 							</td>

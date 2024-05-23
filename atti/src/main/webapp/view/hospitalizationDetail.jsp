@@ -8,13 +8,11 @@
 	 * 담당자 : 박혜아
  -->
  <%
- /* 
 	//로그인한 사용자인지 검증
 	if(session.getAttribute("loginEmp") == null){
 		response.sendRedirect("/atti/view/loginForm.jsp");
 		return;
 	}
-*/
  %>
  <%
  	// 입원환자의 해당하는 접수번호
@@ -59,7 +57,7 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
+	<main id="hospitalDetailMain">
 		<!-- 내용출력되는 부분 -->
 		<div>
 			<h2>입원실 환자 상세보기</h2>
@@ -76,9 +74,9 @@
 			<%
 				for(HashMap<String, Object> p : hospitalOne){
 			%>
-					<div style="float: left; width: 50%; box-sizing: border-box;">
+					<div id="hospitalOneLeft">
 						<!-- 입원정보 -->
-						<table border="1">
+						<table id="hospitalRoomOne">
 							<tr>
 								<th colspan="2"><h5>입원 정보</h5></th>
 							</tr>
@@ -106,7 +104,11 @@
 									<tr>
 										<th>현재상태</th>
 										<td>
-											입원중<a href="/atti/action/hospitalDischargeAction.jsp?roomName=<%=(String)p.get("roomName")%>&regiNo=<%=regiNo%>">[퇴원처리]</a>
+											입원중
+											<a class="btn" id="hospitalDischarge" 
+												href="/atti/action/hospitalDischargeAction.jsp?roomName=<%=(String)p.get("roomName")%>&regiNo=<%=regiNo%>">
+												퇴원하기
+											</a>
 										</td>
 									</tr>
 							<%
@@ -122,7 +124,7 @@
 						</table><br>
 						
 						<!-- 입원 환자정보 -->
-						<table border="1">
+						<table id="hospitalRoomPet">
 							<tr>
 								<th colspan="2"><h5>환자 정보</h5></th>
 							</tr>
@@ -166,10 +168,10 @@
 					</div>
 					
 					<!-- 입원내용 출력 및 작성 -->
-					<div style="float: right; width: 50%; box-sizing: border-box; border: 1px solid red;">
+					<div id="hospitalOneRight">
 						<h5>입원 간호기록</h5><br>
 						<!-- 작성된 입원내용 전부 출력 -->
-						<div>
+						<div id="hospitalDetailContent">
 							<%
 								// hospitalContent값을 \n -> <br>엔터 치환
 								String hospiContent = (String)p.get("hospitalContent");
@@ -183,16 +185,15 @@
 							// 입원상태가 '입원'중일때만 작성 가능
 							if(hospitalState.equals("입원")){
 						%>
-								<div>
+								<div id="hospitalContentDiv">
 									<form action="/atti/action/hospitalContentAction.jsp" method="post">
-										<input type="datetime-local" id="hospiContentToday" name="hospiContentDate" readonly="readonly">
-										
-										<textarea rows="" cols="" name="hospiContent"></textarea>
-										
 										<input type="hidden" value="<%=(Integer)p.get("hospitalNo") %>" name="hospitalNo">
 										<input type="hidden" value="<%=regiNo%>" name="regiNo">
 										<input type="hidden" value="박임시" name="hospiEmpName">
-										<button type="submit">추가등록</button>
+										
+										<textarea rows="" cols="" name="hospiContent" placeholder="내용을 작성해주세요."></textarea><br>
+										<input type="datetime-local" id="hospiContentToday" name="hospiContentDate" readonly="readonly">
+										<button type="submit">등록</button>
 									</form>
 								</div>
 						<%

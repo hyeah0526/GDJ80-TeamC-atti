@@ -48,14 +48,282 @@
 	color: #55aa00;
 }
 
-/* hospitalizationList.jsp */
 
+/* hospitalizationList.jsp */
+#hospitalListMain{
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#hospitalSearchForm{
+	display: flex;
+	justify-content: center;
+}
+
+#hospitalSearchForm label{
+	padding-top: 10px;
+    margin-right: 0px;
+}
+
+#hospitalSearchForm input{
+	padding: 0px;
+    width: 300px;
+    height: 40px;
+    margin-left: 30px;
+}
+
+#hospitalSearchForm button{
+	margin-top: 0px;
+	width: 100px;
+	height: 40px;
+	margin-left: 30px;
+	border: 0;
+}
+
+#hospitalListTable{
+	width: 80%;            
+    border-collapse: collapse;
+    margin: 20px;    
+    box-shadow: 0 2px 3px #ccc; 
+}
+
+#hospitalListTable table{
+	width: 100%;
+}
+
+#hospitalListTable th, td{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
+}
+
+#hospitalListTable th{
+	background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+#hospitalListTable tr:hover{
+	background-color: #e8e8e8; 
+}
+
+#hospitalListDetail{
+	margin-top: 0px;
+    width: 100px;
+    padding: 10px;
+    background-color: #eedcba;
+    border: 0;
+    border-radius: 10px;
+}
+
+#hospitalListDetail:hover{
+	 background-color: #bed8cb; 
+}
 
 
 /* hospitalizationDetail.jsp */
 #iconAnimal{ /* 동물아이콘 */
 	width: 150px;
 	height: 150px;
+}
+
+#hospitalOneLeft{
+	float: left;
+	width: 50%; 
+	box-sizing: border-box;
+	padding: 20px;
+}
+
+#hospitalRoomOne{
+	width: 100%;
+	border-radius: 10px;
+	text-align: center;
+}
+
+#hospitalRoomOne th{
+	background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+#hospitalRoomPet{
+	width: 100%;
+	border-radius: 10px;
+	text-align: center;
+}
+
+#hospitalRoomPet th{
+	background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+#hospitalOneRight{
+	float: right; 
+	width: 50%; 
+	box-sizing: border-box; 
+	padding:20px;
+}
+
+#hospitalOneRight h5{
+	background-color: #eedcba;
+	height: 35px;
+	text-align: center;
+}
+
+#hospitalContentDiv textarea{
+	width: 100%;
+	padding: 0px;
+    height: 80px;
+}
+
+#hospitalContentDiv{
+	text-align: center;
+}
+
+#hospitalContentDiv button{
+	margin-top: 0px;
+    width: 100px;
+    height: 40px;
+    border: 0;
+}
+
+#hospiContentToday{
+	margin-top: 0px;
+    width: 200px;
+    height: 40px;
+    border: 0;
+}
+
+#hospitalDischarge{
+	margin-top: 0px;
+    width: 80px;
+    padding: 5px;
+    background-color: #eedcba;
+    border: 0;
+    border-radius: 10px;
+}
+
+#hospitalDischarge:hover{
+	background-color: #bed8cb;
+}
+
+/* paymentList.jsp */
+#paymentListMain{
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#paymentListSearchForm{
+	display: flex;
+	justify-content: center;
+	margin: 10px;
+}
+
+#paymentListSearchForm select{
+	width: 100px;
+	height: 30px;
+}
+
+#paymentListTable{
+	width: 80%;            
+    border-collapse: collapse;
+    margin: 20px;    
+    box-shadow: 0 2px 3px #ccc;
+}
+
+#paymentListTable table{
+	width: 100%;
+}
+
+#paymentListTable th, td{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd;
+}
+
+#paymentListTable th{
+	background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+#paymentListTable tr:hover{
+	background-color: #e8e8e8; 
+}
+
+
+#paymentDetail{
+	margin-top: 0px;
+    width: 100px;
+    padding: 10px;
+    background-color: #eedcba;
+    border: 0;
+    border-radius: 10px;
+}
+
+#paymentDetail:hover{
+	 background-color: #bed8cb; 
+}
+
+
+/* paymentDetail.jsp */
+#paymentDetailMain{
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#paymentDetailTable{
+	width: 80%;            
+    border-collapse: collapse;
+    margin: 10px;    
+    box-shadow: 0 2px 3px #ccc; 
+}
+
+#paymentDetailTable table{
+	width: 100%;
+}
+
+#paymentDetailTable th, td{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
+}
+
+#paymentDetailTable th{
+	background-color: #eedcba;
+    font-weight: bold; 
+}
+
+#paymentDetailTable tr:hover{
+	background-color: #e8e8e8; 
+}
+
+#paymentDetailTable input{
+	padding: 0px;
+    width: 200px;
+    height: 40px;
+    margin-left: 30%;
+}
+
+#paymentDetailTable button{
+	margin-top: 0px;
+    width: 100px;
+    padding: 10px;
+    background-color: #bed8cb;
+    border: 0;
+    border-radius: 10px;
+}
+
+#paymentDetailTable button:hover{
+	background-color: #ddc5c8;
+}
+
+#paymentDetailInfoMsg{
+	color: #aa0000;
+	font-weight: bold;
 }
 
 

@@ -53,7 +53,7 @@
 	<main>
 		<!-- 내용출력되는 부분 -->
 		<div id="hospitalRoomList">
-			<h2>입원실 현황</h2>
+			<h2 style="text-align: center;">입원실 현황</h2>
 			<h5>포유류</h5>
 			<%
 				for(HashMap<String, Object> rms : hospitalRmsList){
