@@ -219,23 +219,94 @@ public class PrescriptionDao {
 	/*
 	 * 메소드 : PrescrptionDao#prescrptionUpdate()
 	 * 페이지 : clinicDetailForm.jsp
-	 * 시작 날짜 : 2024-05-22
+	 * 시작 날짜 : 2024-05-23
 	 * 담당자 : 박혜아 
 	 */
-	public static int prescrptionUpdate(int regiNo) throws Exception{
+	public static int prescrptionUpdate(int regiNo, int prescriptionNo, int oldMedicineNo, int newMedicineNo, String prescriptionContent) throws Exception{
 		int updateRow = 0;
 		
 		// 값 디버깅
-		System.out.println("PrescrptionDao#prescrptionUpdate() regiNo--> "+regiNo);
+		//System.out.println("PrescrptionDao#prescrptionUpdate() regiNo--> "+regiNo);
+		//System.out.println("PrescrptionDao#prescrptionUpdate() prescriptionNo--> "+prescriptionNo);
+		//System.out.println("PrescrptionDao#prescrptionUpdate() oldMedicineNo--> "+oldMedicineNo);
+		//System.out.println("PrescrptionDao#prescrptionUpdate() newMedicineNo--> "+newMedicineNo);
+		//System.out.println("PrescrptionDao#prescrptionUpdate() prescriptionContent--> "+prescriptionContent);
 				 
 		// DB연결
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		
-		String sql = "";
+		String sql = "UPDATE prescription p"
+				+ " SET p.medicine_no = ?"					// 새로 변경될 약번호
+					+ ", p.prescription_content = ?"		// 새로 수정될 내용
+					+ ", p.prescription_date = NOW()"		// 수정된 날짜 입력
+				+ " WHERE p.regi_no = ?"
+					+ " AND p.prescription_no = ?"
+					+ " AND p.medicine_no = ?";
 		
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, newMedicineNo);
+		stmt.setString(2, prescriptionContent);
+		stmt.setInt(3, regiNo);
+		stmt.setInt(4, prescriptionNo);
+		stmt.setInt(5, oldMedicineNo);
+		
+		updateRow = stmt.executeUpdate();
+		//System.out.println("PrescrptionDao#prescrptionUpdate() stmt--> "+stmt);
 		
 		conn.close();
 		return updateRow;
+	}
+	
+	
+	/*
+	 * 메소드 : PrescrptionDao#prescrptionOne(int regiNo, int prescriptionNo)
+	 * 페이지 : clinicDetailForm.jsp
+	 * 시작 날짜 : 2024-05-22
+	 * 담당자 : 박혜아 
+	 */
+	public static HashMap<String, Object> prescrptionOne(int regiNo,  int prescriptionNo) throws Exception{
+		 HashMap<String, Object> list = new HashMap<String, Object>();
+		 
+		// 받아온 값 디버깅
+		//System.out.println("PrescrptionDao#prescrptionOne() regiNo--> "+regiNo);
+		//System.out.println("PrescrptionDao#prescrptionOne() prescriptionNo--> "+prescriptionNo);
+		 
+		// DB연결
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		/*
+		 * SELECT 
+		 * 처방prescription : 처방번호, 약번호, 처방내용, 처방날자
+		 * 약 medicine : 약이름
+		 */
+		String sql = "SELECT p.prescription_no prescriptionNo, p.medicine_no medicineNo, m.medicine_name medicineName"
+				+ ", p.prescription_content prescriptionContent, p.prescription_date prescriptionDate"
+				+ " FROM prescription p"
+				+ " INNER JOIN medicine m ON p.medicine_no = m.medicine_no"
+				+ " WHERE p.regi_no = ?"
+				+ " AND p.prescription_no = ?";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, regiNo);
+		stmt.setInt(2, prescriptionNo);
+		//System.out.println("PrescrptionDao#prescrptionOne() stmt--> "+stmt);
+		
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			list.put("prescriptionNo", rs.getInt("prescriptionNo"));				//처방번호
+			list.put("medicineNo", rs.getInt("medicineNo"));						//약번호
+			list.put("medicineName", rs.getString("medicineName"));					//약이름
+			list.put("prescriptionContent", rs.getString("prescriptionContent"));	//처방내용
+			list.put("prescriptionDate", rs.getString("prescriptionDate"));			//처방날짜
+		}
+		
+		//System.out.println("PrescrptionDao#prescrptionOne() list--> "+list);
+		
+		conn.close();
+		return list;
 	}
 }

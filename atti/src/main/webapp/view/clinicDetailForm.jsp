@@ -21,7 +21,7 @@
 	
 	//사용자의 진료 번호 
 	//int regiNo = Integer.parseInt(request.getParameter("regiNo"));
-	int regiNo = 3;
+	int regiNo = 15;
 	
 %>
 
@@ -45,15 +45,19 @@
 <% 
 	//처방
 	String selectPrescription = request.getParameter("selectPrescription");
+	
+	//처방 수정버튼을 누를경우 상세 정보를 가져오기
+	HashMap<String, Object> prescriptionOne = new HashMap<String, Object>();
+	
 	if(selectPrescription == null){
 		selectPrescription = "";
+	}else if(selectPrescription.equals("prescriptionUpdate")){
+		
+		//수정원하는 처방고유번호에 대한 상세보기 조회
+		int prescriptionNo = Integer.parseInt(request.getParameter("prescriptionNo"));
+		prescriptionOne = PrescriptionDao.prescrptionOne(regiNo, prescriptionNo);
 	}
 	
-/* 	String prescriptionUpdate = request.getParameter("prescriptionUpdate");
-	if(prescriptionUpdate == null){
-		prescriptionUpdate = "";
-	}
-	 */
 	//약선택을 위해 전체 약 조회
 	ArrayList<HashMap<String, Object>> medicineList = PrescriptionDao.medicineList();
 	
@@ -63,7 +67,8 @@
 	//디버깅
 	//System.out.println("clinicDetailForm.jsp medicineList--> "+medicineList);
 	//System.out.println("clinicDetailForm.jsp prescriptionDetail--> "+prescriptionDetail);
-	System.out.println("clinicDetailForm.jsp selectPrescription--> "+selectPrescription);
+	//System.out.println("clinicDetailForm.jsp selectPrescription--> "+selectPrescription);
+	//System.out.println("clinicDetailForm.jsp prescriptionOne--> "+prescriptionOne);
 %>
 
 
@@ -135,17 +140,17 @@
 		<!-- 정보등록 및 상세보기 -->
 		<h5>정보등록 및 상세보기</h5>
 		
-		<!-- 처방: 등록된 처방정보 출력 -->
 		
-		
-		<!-- 처방: 약 코드 및 내용 입력 폼 -->
+		<!-- 처방 조회/신규등록/수정 -->
 		<div id="" style="border: 1px solid #ced4da; border-radius: 10px; width: 100%;">
 			<div style="border: 1px solid red;">
-					처방하기		
+					처방	
 			</div>
 			<div style="border: 1px solid red;">
 				<h6>처방받은 약</h6>
 				<%
+					/* 처방: 처방받은 약 전체 조회 */
+					if(!selectPrescription.equals("prescriptionUpdate")){
 						for(HashMap pd2 : prescriptionDetail){
 				%>
 							<table>
@@ -153,13 +158,10 @@
 									<th>약</th>
 									<td><%=pd2.get("medicineName")%></td>
 									<td rowspan="3">
-										<form action="">
-											<input type="hidden" name="regiNo" value="<%=regiNo%>">
-											<input type="hidden" name="prescriptionNo" value="<%=pd2.get("prescriptionNo")%>">
-											<input type="hidden" name="selectPrescription" value="prescriptionUpdate">
-											
-											<button type="submit">수정</button>
-										</form>
+										<button type="submit" 
+											onclick="location.href='/atti/view/clinicDetailForm.jsp?regi_no=<%=regiNo%>&prescriptionNo=<%=pd2.get("prescriptionNo")%>&selectPrescription=prescriptionUpdate'">
+											수정
+										</button>
 									</td>
 								</tr>
 								<tr>
@@ -175,9 +177,61 @@
 							</table>
 				<%
 						}
+					}
 				%>
 			</div>
 			
+			<%
+				/* 처방: 수정원하는 약 1개 선택 후 수정 */
+				if(selectPrescription.equals("prescriptionUpdate")){
+			%>
+					<div style="border: 1px solid red;">
+						<form action="/atti/action/clinicPrescrptionAction.jsp" method="post">
+							<h6>처방 수정</h6>
+							<input type="hidden" value="prescriptionUpdate" name="selectPrescription">
+							<input type="hidden" value="<%=prescriptionOne.get("prescriptionNo")%>" name="prescriptionNo">
+							<input type="hidden" value="<%=prescriptionOne.get("medicineNo")%>" name="oldMedicineNo">
+							<input type="hidden" value="<%=regiNo%>" name="regiNo">
+							<table>
+								<tr>
+									<th>약</th>
+									<td>
+										<select name="newMedicineNo">
+									<%
+											for(HashMap mc : medicineList){
+												int medicineNo1 = (Integer)mc.get("medicineNo");
+												int medicineNo2 = (Integer)prescriptionOne.get("medicineNo");
+									%>
+												<option value="<%=medicineNo1%>" <%= medicineNo1==medicineNo2 ? "selected" : ""%>>
+													<%=(String)mc.get("medicineName")%>
+												</option>
+									<%	
+											}
+									%>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th>내용</th>
+									<td>
+										<input type="text" value="<%=prescriptionOne.get("prescriptionContent")%>" name="prescriptionContent">
+									</td>
+								</tr>
+								<tr>
+									<th>처방날짜</th>
+									<td><%=prescriptionOne.get("prescriptionDate")%></td>
+								</tr>
+								<tr>
+									<td colspan="4"><button type="submit">수정완료</button></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+			<%
+				}
+			%>
+			
+			<!-- 처방: 신규 약 등록 -->
 			<div style="border: 1px solid red;">
 				<h6>약 신규 등록</h6>
 				<form action="/atti/action/clinicPrescrptionAction.jsp" method="post" id="prescriptionForm">

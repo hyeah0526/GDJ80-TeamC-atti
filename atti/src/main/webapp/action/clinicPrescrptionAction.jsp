@@ -1,3 +1,4 @@
+<%@page import="java.util.HashMap"%>
 <%@page import="atti.PaymentDao"%>
 <%@page import="atti.PrescriptionDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -21,7 +22,7 @@ if(session.getAttribute("loginEmp") == null){
 //사용자의 진료 번호 
 int regiNo = Integer.parseInt(request.getParameter("regiNo"));
 
-//신규등록(prescriptionInsert) OR 삭제(prescriptionDelete)
+//신규등록(prescriptionInsert) OR 수정(prescriptionUpdate)
 String selectPrescription = request.getParameter("selectPrescription");	
 
 
@@ -33,7 +34,7 @@ String selectPrescription = request.getParameter("selectPrescription");
 // 처방등록
 if(selectPrescription.equals("prescriptionInsert")){
 	//값 받아오기
-	int medicineNo = Integer.parseInt(request.getParameter("medicineNo"));			//약 번호
+	int medicineNo = Integer.parseInt(request.getParameter("medicineNo"));			//약번호
 	String prescriptionContent = request.getParameter("prescriptionContent");		//약내용
 	
 	//디버깅
@@ -47,7 +48,24 @@ if(selectPrescription.equals("prescriptionInsert")){
 		//처방 등록 성공시 -> payment테이블에 추가 후 다시 진료상세 페이지로 이동
 		String paymentCategory = "처방";
 		
-		//int insertPayRow = PaymentDao.paymentSend(regiNo, paymentCategory);
+		// 중복된 결제 정보 조회 
+		HashMap<String, Object> paymentSelect = PaymentDao.paymentSelect(regiNo, paymentCategory);
+
+		//디버깅
+		//System.out.println(paymentSelect);
+		//System.out.println(paymentSelect.size());
+		
+		//중복된 결제 정보가 없는 경우
+		if(paymentSelect.size() < 1){
+			
+			//결제 정보 저장
+			PaymentDao.paymentInsert(regiNo, paymentCategory);
+			
+		}else{
+			
+			//결제 정보 수정
+			PaymentDao.paymentUpdate(regiNo, paymentCategory);
+		}
 		
 		response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo); // 진료 페이지로 이동
 	}
@@ -57,10 +75,24 @@ if(selectPrescription.equals("prescriptionInsert")){
 }else if(selectPrescription.equals("prescriptionUpdate")){
 	//값받아오기
 	int prescriptionNo = Integer.parseInt(request.getParameter("prescriptionNo"));	//처방 고유번호
-	System.out.println("clinicExaminationAction.jsp prescriptionNo --> "+prescriptionNo);
+	int oldMedicineNo = Integer.parseInt(request.getParameter("oldMedicineNo"));	//전에 선택된 약번호
+	int newMedicineNo = Integer.parseInt(request.getParameter("newMedicineNo"));	//새로 선택된 약번호
+	String prescriptionContent = request.getParameter("prescriptionContent");		//처방내용
 	
+	//디버깅
+	//System.out.println("clinicExaminationAction.jsp prescriptionNo --> "+prescriptionNo);
+	//System.out.println("clinicExaminationAction.jsp oldMedicineNo --> "+oldMedicineNo);
+	//System.out.println("clinicExaminationAction.jsp newMedicineNo --> "+newMedicineNo);
+	//System.out.println("clinicExaminationAction.jsp prescriptionContent --> "+prescriptionContent);
+	//System.out.println("clinicExaminationAction.jsp prescriptionContent --> "+prescriptionContent);
 	
-	//response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo); // 진료 페이지로 이동
+	//수정
+	int updateRow = PrescriptionDao.prescrptionUpdate(regiNo, prescriptionNo, oldMedicineNo, newMedicineNo, prescriptionContent);
+	
+	if(updateRow == 1){
+		response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo); //진료 페이지로 이동
+	}
+	
 }
 
 
