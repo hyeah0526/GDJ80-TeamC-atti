@@ -38,7 +38,6 @@ public class RegistrationDao {
 		return updateRow;
 	}
 
-	
 	/*
 	 * 메소드		: RegistrationDao#regiList()
 	 * 페이지		: regiList.jsp
@@ -108,12 +107,12 @@ public class RegistrationDao {
 	}
 	
 	/*
-	 * 메소드		: RegistrationDao#regiCancel()
+	 * 메소드		: RegistrationDao#regiState()
 	 * 페이지		: regiList.jsp
 	 * 시작 날짜	: 2024-05-20
 	 * 담당자		: 한은혜
 	*/
-	public static int regiCancel(int regiNo, String regiState) throws Exception{
+	public static int regiState(int regiNo, String regiState) throws Exception{
 		int updateRow = 0;
 		// 예약, 접수 리스트의 취소 버튼값 바꿔주기 
 		if(regiState.equals("예약취소") || regiState.equals("접수취소")) {
@@ -228,7 +227,7 @@ public class RegistrationDao {
 
 		int insertRow = 0;
 		
-		System.out.println(regiDate + "ㅎㅎㅎ확인 RegistrationDao#regiAccept() regiDate");
+		System.out.println(regiDate + " ====== RegistrationDao#regiAccept() regiDate");
 		// DB연결
 		Connection conn = DBHelper.getConnection();
 		/*
