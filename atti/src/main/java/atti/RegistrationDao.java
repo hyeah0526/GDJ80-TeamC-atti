@@ -218,4 +218,98 @@ public class RegistrationDao {
 		return list;
 	}
 	
+	/*
+	 * 메소드		: RegistrationDao#regiAccept()
+	 * 페이지		: regiAction.jsp
+	 * 시작 날짜	: 2024-05-22
+	 * 담당자		: 한은혜
+	*/
+	public static int regiAccept(int empNo, int petNo, String regiContent, String regiDate, String regiState) throws Exception{
+
+		int insertRow = 0;
+		
+		System.out.println(regiDate + "ㅎㅎㅎ확인 RegistrationDao#regiAccept() regiDate");
+		// DB연결
+		Connection conn = DBHelper.getConnection();
+		/*
+		 * 접수 등록 쿼리
+		 * 의사, 접수내용, 접수상태, 진료날짜, 진료시간
+		*/
+		String sql = "INSERT INTO registration "
+				+ "		(emp_no, pet_no, regi_content, create_date, regi_date, regi_state)"
+				+ "		VALUES(?, ?, ?, NOW(), ?, ?)";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, empNo);
+		stmt.setInt(2, petNo);
+		stmt.setString(3, regiContent);
+		stmt.setString(4, regiDate);
+		stmt.setString(5, regiState);
+		
+		System.out.println(stmt + " ====== RegistrationDao#regiAccept() stmt");
+	
+		insertRow = stmt.executeUpdate();
+		System.out.println(insertRow + " ====== RegistrationDao#regiAccept() insertRow");
+		
+		conn.close();
+		return insertRow;
+	}
+	
+	/*
+	 * 메소드		: RegistrationDao#regiInfo() 
+	 * 페이지		: regiAction.jsp
+	 * 시작 날짜	: 2024-05-22
+	 * 담당자		: 한은혜
+	*/
+	public static HashMap<String, Object> regiInfo(int petNo) throws Exception{
+		System.out.println(petNo + " ====== RegistrationDao#regiInfo() petNo");
+		
+		// DB연결
+		Connection conn = DBHelper.getConnection();
+		
+		// petKind를 가져오는 첫번째 쿼리
+		String sql1 = "SELECT pet_kind petKind"
+				+ " FROM pet p"
+				+ " WHERE pet_no = ?";
+		PreparedStatement stmt1 = conn.prepareStatement(sql1);
+		stmt1.setInt(1, petNo);
+		
+		String petKind = null;
+		ResultSet rs1 = stmt1.executeQuery();
+		if(rs1.next()) {
+			
+			petKind = rs1.getString("petKind");
+		}
+		System.out.println(petKind + " ====== RegistrationDao#regiInfo() petKind");
+		
+		// emp 정보를 가져오는 두번째 쿼리
+		String sql2 = "SELECT emp_no empNo, emp_name empName"
+				+ " FROM employee "
+				+ " WHERE emp_no LIKE '1%'" // 의사 사번 조건 
+				+ " OR emp_no LIKE '2%'";
+		PreparedStatement stmt2 = conn.prepareStatement(sql2);
+		ResultSet rs2 = stmt2.executeQuery();
+		
+		ArrayList<HashMap<String, Object>> emplist = new ArrayList<HashMap<String, Object>>();
+		while(rs2.next()) {
+			HashMap<String, Object> empList = new HashMap<String, Object>();
+			empList.put("empNo", rs2.getInt("empNo"));		
+			empList.put("empName", rs2.getString("empName"));
+			
+			emplist.add(empList);
+		}
+		
+		System.out.println(emplist + " ====== RegistrationDao#regiInfo() list");
+		
+		// 두 쿼리의 결과값을 하나의 HashMap에 넣기
+        HashMap<String, Object> regiInfo = new HashMap<>();
+        regiInfo.put("petKind", petKind);
+        regiInfo.put("emplist", emplist);
+		
+        System.out.println(regiInfo + " ====== RegistrationDao#regiInfo() regiInfo");
+        
+		conn.close();
+		return regiInfo;
+	}
+	
 }

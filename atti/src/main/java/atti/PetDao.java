@@ -235,7 +235,7 @@ public class PetDao {
 		
 		if(searchWord != null) { // 검색어가 null이 아닐 경우
 			sql = "SELECT p.pet_no petNo, p.pet_name petName, p.customer_no customerNo,"
-				+ " p.create_date createDate, c.customer_name customerName"
+				+ " p.create_date createDate, c.customer_name customerName, c.customer_tel customerTel"
 				+ " FROM pet p"
 				+ " LEFT JOIN customer c"
 				+ " ON p.customer_no = c.customer_no"
@@ -244,7 +244,7 @@ public class PetDao {
 				+ " LIMIT ?, ?"; // n부터 n개까지
 		} else { // 검색어가 null일 경우
 			sql = "SELECT p.pet_no petNo, p.pet_name petName, p.customer_no customerNo,"
-				+ " p.create_date createDate, c.customer_name customerName"
+				+ " p.create_date createDate, c.customer_name customerName, c.customer_tel customerTel"
 				+ " FROM pet p"
 				+ " LEFT JOIN customer c"
 				+ " ON p.customer_no = c.customer_no"
@@ -276,6 +276,7 @@ public class PetDao {
 			m.put("customerNo", rs.getInt("customerNo")); // pet table
 			m.put("petName", rs.getString("petName")); // pet table
 			m.put("customerName", rs.getString("customerName")); // customer table
+			m.put("customerTel", rs.getString("customerTel")); // customer table
 			m.put("createDate", rs.getString("createDate")); // pet table
 			petSearch.add(m);
 		}
