@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="atti.*" %>
+<%@ page import="java.net.*"%>
+<%@ page import="java.util.*" %>
 <!-------------------- 
  * 기능 번호  : #33
  * 상세 설명  : 수술 등록(액션)
@@ -37,9 +39,31 @@
 <!-- model layer -->
 <%
 	int insertRow = SurgeryDao.surgeryInsert(regiNo, surgeryKind, surgeryContent, surgeryDate);
+	System.out.println("SurgeryDao#surgeryInsert: " + insertRow);
 	
-	if(insertRow == 1) {
-		System.out.println("수술 등록 성공");
-		response.sendRedirect("/atti/view/clinicDetailTest.jsp?regiNo=" + regiNo);
+	if(insertRow == 1){
+	// 수술 등록 성공시 -> payment 테이블에 추가 후 다시 진료 상세 페이지로 이동
+	String paymentCategory = "수술";
+	
+	// 중복된 결제 정보 조회 
+	HashMap<String, Object> paymentSelect = PaymentDao.paymentSelect(regiNo, paymentCategory);
+
+	//디버깅
+	//System.out.println(paymentSelect);
+	//System.out.println(paymentSelect.size());
+	
+	//중복된 결제 정보가 없는 경우
+	if(paymentSelect.size() < 1){
+		
+		//결제 정보 저장
+		PaymentDao.paymentInsert(regiNo, paymentCategory);
+		
+	}else{
+		
+		//결제 정보 수정
+		PaymentDao.paymentUpdate(regiNo, paymentCategory);
 	}
+	
+	response.sendRedirect("/atti/view/clinicDetailTest.jsp?regiNo="+regiNo); // 진료 페이지로 이동
+	} 
 %>

@@ -6,68 +6,6 @@ import java.util.*;
 public class SurgeryDao {
 	
 	/*
-	 * 메소드 : SurgeryDao#surgeryInsert() 
-	 * 페이지 : clinicSurgeryAction.jsp
-	 * 시작 날짜 : 2024-05-22
-	 * 담당자 : 김지훈 
-	 */
-	
-	public static int surgeryInsert(int regiNo, String surgeryKind, String surgeryContent, String surgeryDate) throws Exception {
-		
-		// clinicDetailForm -> clinicSurgeryAction
-		// 디버깅
-		System.out.println(regiNo  + " ====== SurgeryDao#surgeryInsert() regiNo");
-		System.out.println(surgeryKind  + " ====== SurgeryDao#surgeryInsert() regiNo");
-		System.out.println(surgeryContent  + " ====== SurgeryDao#surgeryInsert() regiNo");
-		System.out.println(surgeryDate  + " ====== SurgeryDao#surgeryInsert() regiNo");
-		
-		int insertRow = 0;
-		
-		Connection conn = DBHelper.getConnection();
-		String sql = "INSERT INTO surgery(regi_no, surgery_kind, surgery_content, surgery_date)"
-				+ " VALUES(?, ?, ?, ?)";
-		
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, regiNo); 			// 접수 번호
-		stmt.setString(2, surgeryKind); 	// 수술 종류 
-		stmt.setString(3, surgeryContent);	// 수술 내용
-		stmt.setString(4, surgeryDate);		// 수술 일자
-		
-		insertRow = stmt.executeUpdate();
-		
-		conn.close(); // db 자원 반납
-		return insertRow; // insertRow를 반환
-	}
-	
-	
-	/*
-	 * 메소드 : SurgeryDao#surgeryStateUpdate() 
-	 * 페이지 : surgeryStateAction.jsp
-	 * 시작 날짜 : 2024-05-22
-	 * 담당자 : 김지훈 
-	 */
-	
-	public static int surgeryStateUpdate(int surgeryNo) throws Exception {
-		
-		System.out.println(surgeryNo  + " ====== SurgeryDao#surgeryStateUpdate() surgeryNo");
-		
-		int updateRow = 0;
-
-		Connection conn = DBHelper.getConnection();
-		String sql = "UPDATE surgery"
-				+ " SET surgery_state = '완료'"
-				+ " WHERE surgery_no = ?";
-		
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, surgeryNo);
-		
-		updateRow = stmt.executeUpdate();
-		
-		conn.close();
-		return updateRow;
-	}
-	
-	/*
 	 * 메소드 : SurgeryDao#surgeryList() 
 	 * 페이지 : surgeryList.jsp
 	 * 시작 날짜 : 2024-05-14
@@ -161,7 +99,7 @@ public class SurgeryDao {
 		*/
 		String sql = "SELECT"
 				+ " surgery_no surgeryNo, surgery_kind surgeryKind, surgery_date surgeryDate,surgery_content surgeryContent, "
-				+ " s.regi_no regiNo,"
+				+ " s.regi_no regiNo s.surgery_state surgeryState,"
 				+ " r.pet_no petNo, pet_kind petKind, pet_name petName,"
 				+ " r.emp_no empNo, emp_grade empGrade, emp_name empName,"
 				+ " customer_name customerName, customer_tel customerTel"
@@ -188,6 +126,7 @@ public class SurgeryDao {
 			surDetail.put("surgeryKind", rs.getString("surgeryKind"));			// 수술 종류
 			surDetail.put("surgeryDate", rs.getString("surgeryDate"));			// 수술 날짜 
 			surDetail.put("surgeryContent", rs.getString("surgeryContent"));	// 수술 내용 
+			surDetail.put("surgeryState", rs.getString("surgeryState"));		// 수술 대기 / 완료의 상태
 			surDetail.put("regiNo", rs.getInt("regiNo"));						// 접수 번호 
 			surDetail.put("petNo", rs.getInt("petNo"));							// 반려동물 번호 
 			surDetail.put("petKind", rs.getString("petKind"));					// 반려동물 종류
@@ -204,4 +143,164 @@ public class SurgeryDao {
 		return list;
 	}
 	
+	/*
+	 * 메소드 : SurgeryDao#surgeryKind() 
+	 * 페이지 : clinicDetailForm.jsp
+	 * 시작 날짜 : 2024-05-23
+	 * 담당자 : 김지훈 
+	 */
+	public static HashMap<String, Object> surgeryKind() throws Exception {
+		HashMap<String, Object> list = null;
+
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT surgery_kind surgeryKind"
+				+ " FROM surgery_kind";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+
+		ResultSet rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			list = new HashMap<String, Object>();
+			list.put("surgeryKind", rs.getString("surgeryKind"));
+		}
+		conn.close();
+		return list;
+	}
+	
+	/*
+	 * 메소드 : SurgeryDao#surgeryUpdate() 
+	 * 페이지 : clinicSurgeryAction.jsp
+	 * 시작 날짜 : 2024-05-23
+	 * 담당자 : 김지훈 
+	 */
+	
+	public static int surgeryUpdate(int regiNo, String surgeryContent) throws Exception {
+		int updateRow = 0;
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "UPDATE surgery"
+				+ " SET surgery_content = ?"
+				+ " WHERE regi_no = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, surgeryContent); // 수술 정보를 수정
+		stmt.setInt(2, regiNo); // regi_no에 따른 수술 정보를 수정
+		
+		System.out.println(stmt  + " ====== SurgeryDao#surgeryUpdate() stmt");
+		
+		updateRow = stmt.executeUpdate();
+		
+		conn.close();
+		return updateRow;
+	}
+	
+	/*
+	 * 메소드 : SurgeryDao#surgeryDetail() 
+	 * 페이지 : clinicDetailForm.jsp
+	 * 시작 날짜 : 2024-05-23
+	 * 담당자 : 김지훈 
+	 */
+	
+	public static ArrayList<HashMap<String, Object>> surgeryDetailByClinic(int regiNo) throws Exception {
+		
+		System.out.println(regiNo  + " ====== SurgeryDao#surgeryDetailByClinic() regiNo");
+		
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "SELECT surgery_no surgeryNo, regi_no regiNo, surgery_kind surgeryKind,"
+				+ " surgery_content surgeryContent, surgery_state surgeryState, surgery_date surgeryDate"
+				+ " FROM surgery"
+				+ " WHERE regi_no = ?;";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, regiNo);
+		
+		System.out.println(regiNo  + " ====== SurgeryDao#surgeryDetailByClinic() stmt");
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			HashMap<String, Object> surgeryList = new HashMap<String, Object>();
+			surgeryList.put("surgeryNo", rs.getInt("surgeryNo"));
+			surgeryList.put("regiyNo", rs.getInt("regiNo"));
+			surgeryList.put("surgeryKind", rs.getString("surgeryKind"));
+			surgeryList.put("surgeryContent", rs.getString("surgeryContent"));
+			surgeryList.put("surgeryState", rs.getString("surgeryState"));
+			surgeryList.put("surgeryDate", rs.getString("surgeryDate"));
+			list.add(surgeryList);
+		}
+		
+		conn.close();
+		return list;
+		
+	}
+	
+	/*
+	 * 메소드 : SurgeryDao#surgeryInsert() 
+	 * 페이지 : clinicSurgeryAction.jsp
+	 * 시작 날짜 : 2024-05-22
+	 * 담당자 : 김지훈 
+	 */
+	
+	public static int surgeryInsert(int regiNo, String surgeryKind, String surgeryContent, String surgeryDate) throws Exception {
+		
+		// clinicDetailForm -> clinicSurgeryAction
+		// 디버깅
+		System.out.println(regiNo  + " ====== SurgeryDao#surgeryInsert() regiNo");
+		System.out.println(surgeryKind  + " ====== SurgeryDao#surgeryInsert() regiNo");
+		System.out.println(surgeryContent  + " ====== SurgeryDao#surgeryInsert() regiNo");
+		System.out.println(surgeryDate  + " ====== SurgeryDao#surgeryInsert() regiNo");
+		
+		int insertRow = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		String sql = "INSERT INTO surgery(regi_no, surgery_kind, surgery_content, surgery_date)"
+				+ " VALUES(?, ?, ?, ?)";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, regiNo); 			// 접수 번호
+		stmt.setString(2, surgeryKind); 	// 수술 종류 
+		stmt.setString(3, surgeryContent);	// 수술 내용
+		stmt.setString(4, surgeryDate);		// 수술 일자
+		
+		System.out.println(stmt  + " ====== SurgeryDao#surgeryInsert() stmt");
+		
+		insertRow = stmt.executeUpdate();
+		
+		conn.close(); // db 자원 반납
+		return insertRow; // insertRow를 반환
+	}
+	
+	
+	/*
+	 * 메소드 : SurgeryDao#surgeryStateUpdate() 
+	 * 페이지 : surgeryStateAction.jsp
+	 * 시작 날짜 : 2024-05-22
+	 * 담당자 : 김지훈 
+	 */
+	
+	public static int surgeryStateUpdate(int surgeryNo) throws Exception {
+		
+		System.out.println(surgeryNo  + " ====== SurgeryDao#surgeryStateUpdate() surgeryNo");
+		
+		int updateRow = 0;
+
+		Connection conn = DBHelper.getConnection();
+		String sql = "UPDATE surgery"
+				+ " SET surgery_state = '완료'"
+				+ " WHERE surgery_no = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, surgeryNo);
+		
+		System.out.println(stmt  + " ====== SurgeryDao#surgeryInsert() surgeryStateUpdate");
+		
+		updateRow = stmt.executeUpdate();
+		
+		conn.close();
+		return updateRow;
+	}
 }
