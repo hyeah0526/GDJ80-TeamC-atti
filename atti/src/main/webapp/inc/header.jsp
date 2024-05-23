@@ -56,7 +56,7 @@
 			<button>
 				<a href="/atti/view/regiList.jsp">접수/예약</a>
 			</button>
-			<button>진료</button>
+			<button><a href="/atti/view/clinicList.jsp">진료</button>
 			<button>
 				<a href="/atti/view/examinationList.jsp">검사</a>
 			</button>
