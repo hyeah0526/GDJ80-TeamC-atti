@@ -10,9 +10,13 @@
 	 * 담당자 : 박혜아
  -->
  <%
- 	int norang = 50;
- 	int nam = 20;
- 	int soda = 80;
+ /*
+	//로그인한 사용자인지 검증
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
+		return;
+	}
+ */
  %>
 <%
 	// 매출계산을 위한 달/년 설정
@@ -65,18 +69,18 @@
 	
 	// First
 	HashMap<String, Integer> first = PaymentDao.income(firstYearStr, firstMonthStr);
-	System.out.println("income.jsp First 년 달 --> "+firstYearStr+"년"+firstMonthStr+"달--> "+first);
-	System.out.println("=======================================");
+	//System.out.println("income.jsp First 년 달 --> "+firstYearStr+"년"+firstMonthStr+"달--> "+first);
+	//System.out.println("=======================================");
 	
 	// Middle
 	HashMap<String, Integer> middle = PaymentDao.income(middleYearStr, middleMonthStr);
-	System.out.println("income.jsp middle 년 달 --> "+middleYearStr+"년"+middleMonthStr+"달--> "+middle);
-	System.out.println("=======================================");
+	//System.out.println("income.jsp middle 년 달 --> "+middleYearStr+"년"+middleMonthStr+"달--> "+middle);
+	//System.out.println("=======================================");
 	
 	// Target
 	HashMap<String, Integer> target = PaymentDao.income(targetYearStr, targetMonthStr);
-	System.out.println("income.jsp target 년 달 --> "+targetYearStr+"년"+targetMonthStr+"달--> "+target);
-	System.out.println("=======================================");
+	//System.out.println("income.jsp target 년 달 --> "+targetYearStr+"년"+targetMonthStr+"달--> "+target);
+	//System.out.println("=======================================");
 	
 	// 각달에 매출 %로 변환 
 	double totalIncome = first.get("monthSum") + middle.get("monthSum") + target.get("monthSum");
@@ -101,14 +105,14 @@
 	System.out.println("-----------------------------------------------------------------------------------------------");
 %>
 <%
-	/* 상세보기 */
+	/* 각 달 상세보기 */
 	String incomeDetail = request.getParameter("incomeDetail");
 
 	if(incomeDetail == null)
 	{
 		incomeDetail = "";
 	}
-	System.out.println("income.jsp incomeDetail--> "+incomeDetail);
+	//System.out.println("income.jsp incomeDetail--> "+incomeDetail);
 	
 %>
 <!DOCTYPE html>
@@ -122,46 +126,11 @@
 	
 	<!-- CSS 공통적용CSS파일 -->
 	<link rel="stylesheet" href="../css/css_all.css">
+	<link rel="stylesheet" href="../css/css_hyeah.css">
 	
-	<style>
-		.wrap {
-		  position: relative;
-		  padding: 2%;
-		  float: left;
-		}
-		
-		.container {
-		  display: flex;
-		  gap: 10px;
-		  margin-bottom: 10px;
-		}
-		
-		.chart {
-		  position: relative;
-		  width: 100px;
-		  height: 100px;
-		  border-radius: 50%;
-		  transition: 0.3s;
-		}
-		
-		span.center {
-		  background: #fff;
-		  position: absolute;
-		  top: 50%;
-		  left: 50%;
-		  width: 40px;
-		  height: 40px;
-		  border-radius: 50%;
-		  text-align: center;
-		  line-height: 40px;
-		  font-size: 15px;
-		  transform: translate(-50%, -50%); 
-		}
-
-</style>
 </head>
 <body id="fontSet">
-	
+
 	<!-------------------- header -------------------->
 	<jsp:include page="../inc/header.jsp"></jsp:include>
 
@@ -180,43 +149,48 @@
 	<main>
 		<h2>매출관리</h2>
 		<div>
-			<div class='wrap'>
+			<div id="wrap">
 				<!-- 현재달(target)을 기준으로 전달과 전전달의 매출이 총 3개의 달이 100%로 계산되어 출력 -->
-				<div class=''>
+				<div style="border: 1px solid red;">
 					<!-- 첫번째달 -->
-					<div style="text-align: center; width: 100px;">
+					<div id="incomeYearMonth">
 						<h5><%=firstYear%>년 <%=firstMonth%>월</h5>
-						<button value="firstDetail" name="incomeDetail" type="submit" onClick="location.href='./income.jsp?incomeDetail=firstDetail'">상세보기</button><br>
-					</div><br>
-					<div class="chart doughnut1">
+						<button value="firstDetail" name="incomeDetail" type="submit" onClick="location.href='./income.jsp?incomeDetail=firstDetail'">상세보기</button>
+					</div>
+					
+					<div id="chart" class="doughnut1">
 						<span class="center"><%=firstIncome%>%</span>
 					</div>
-					<div style="text-align: center; width: 100px;"><%=firstIncomeStr%>원</div><br><br>
+					<div style="text-align: center; width: 100px;"><%=firstIncomeStr%>원</div><br>
+					
 					
 				    <!-- 두번째달 -->
-				    <div style="text-align: center; width: 100px;">
+				    <div id="incomeYearMonth">
 				    	<h5><%=middleYear%>년 <%=middleMonth%>월</h5>
 				    	<button value="middleDetail" name="incomeDetail" type="submit" onClick="location.href='./income.jsp?incomeDetail=middleDetail'">상세보기</button><br>
 				    </div><br>
-				    <div class="chart doughnut2">
+				    
+				    <div id="chart" class="doughnut2">
 				    	<span class="center"><%=middleIncome%>%</span>
 				    </div>
-					<div style="text-align: center; width: 100px;"><%=middleIncomeStr%>원</div><br><br>
+					<div style="text-align: center; width: 100px;"><%=middleIncomeStr%>원</div><br>
+				    
 				    
 				    <!-- 세번째달 -->
-				    <div style="text-align: center; width: 100px;">
+				    <div id="incomeYearMonth">
 				    	<h5><%=targetYear%>년 <%=targetMonth%>월</h5>
 				    	<button value="targetDetail" name="incomeDetail" type="submit" onClick="location.href='./income.jsp?incomeDetail=targetDetail'">상세보기</button><br>
 				    </div><br>
-				    <div class="chart doughnut3">
+				    
+				    <div id="chart" class="doughnut3">
 				    	<span class="center"><%=targetIncome%>%</span>
 				    </div>
-				    <div style="text-align: center; width: 100px;"><%=targetIncomeStr%>원</div><br><br>
+				    <div style="text-align: center; width: 100px;"><%=targetIncomeStr%>원</div><br>
 				</div>
 			</div>
 			
-			<div style="float: right; width: 70%; padding: 2%; background-color: yellow;">
-			<h5>상세 매출보기</h5>
+			<div id="incomeDetailMain">
+			<h5>상세 매출</h5>
 			<%
 				if(incomeDetail.equals("firstDetail")){
 			%>
