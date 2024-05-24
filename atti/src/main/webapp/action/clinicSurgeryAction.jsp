@@ -24,7 +24,19 @@
 		return;
 	} */
 
+	
+	String surgeryInsert = request.getParameter("surgeryInsert");
+	String surgeryUpdate = request.getParameter("surgeryUpdate");
+	
+	
 	// clinicDetailFrom -> clinicSurgeryAction
+	String surgeryNoStr = request.getParameter("surgeryNo");
+	
+	// String surgeryNo가 null이 아니라면 형 변환 
+	int surgeryNo = 0;
+	if(surgeryNoStr != null){
+		surgeryNo = Integer.parseInt(surgeryNoStr); 
+	}
 	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
 	String surgeryKind = request.getParameter("surgeryKind");
 	String surgeryContent = request.getParameter("surgeryContent");
@@ -38,32 +50,48 @@
 %>
 <!-- model layer -->
 <%
+	// 수술 입력 시
 	int insertRow = SurgeryDao.surgeryInsert(regiNo, surgeryKind, surgeryContent, surgeryDate);
-	System.out.println("SurgeryDao#surgeryInsert: " + insertRow);
+	//System.out.println("SurgeryDao#surgeryInsert: " + insertRow);
 	
-	if(insertRow == 1){
-	// 수술 등록 성공시 -> payment 테이블에 추가 후 다시 진료 상세 페이지로 이동
-	String paymentCategory = "수술";
+	// 수술 정보 수정 시
+	int updateRow = SurgeryDao.surgeryUpdate(regiNo, surgeryNo, surgeryContent);
+	//System.out.println("SurgeryDao#surgerUpdate: " + updateRow);
 	
-	// 중복된 결제 정보 조회 
-	HashMap<String, Object> paymentSelect = PaymentDao.paymentSelect(regiNo, paymentCategory);
-
-	//디버깅
-	//System.out.println(paymentSelect);
-	//System.out.println(paymentSelect.size());
+	// 들어온 값에 따라 insertRow / updateRow를 분기
+	int resultRow = 0;
 	
-	//중복된 결제 정보가 없는 경우
-	if(paymentSelect.size() < 1){
+	if(surgeryInsert != null && "surgeryInsert".equals(surgeryInsert)) {
+		resultRow = insertRow;
+		System.out.println("SurgeryDao#surgeryInsert: " + resultRow);
+		if(resultRow == 1){
+			System.out.println("수술 등록 성공");
+			// 수술 등록 성공시 -> payment 테이블에 추가 후 다시 진료 상세 페이지로 이동
+			String paymentCategory = "수술";
+			
+			// 중복된 결제 정보 조회 
+			HashMap<String, Object> paymentSelect = PaymentDao.paymentSelect(regiNo, paymentCategory);
 		
-		//결제 정보 저장
-		PaymentDao.paymentInsert(regiNo, paymentCategory);
+			//디버깅
+			//System.out.println(paymentSelect);
+			//System.out.println(paymentSelect.size());
 		
-	}else{
-		
-		//결제 정보 수정
-		PaymentDao.paymentUpdate(regiNo, paymentCategory);
+			//중복된 결제 정보가 없는 경우
+			if(paymentSelect.size() < 1){
+				//결제 정보 저장
+				PaymentDao.paymentInsert(regiNo, paymentCategory);
+			} else {
+				//결제 정보 수정
+				PaymentDao.paymentUpdate(regiNo, paymentCategory);
+			}
+		}
+	} else if(surgeryUpdate != null && "surgeryUpdate".equals(surgeryUpdate)) {
+		resultRow = updateRow;
+		System.out.println("SurgeryDao#surgeryUpdate: " + resultRow);
+		//surgeryUpdate값이 들어온다면 정보 수정
+		if(resultRow == 1) {
+			System.out.println("수술 정보 수정 완료");			
+		}
 	}
-	
-	response.sendRedirect("/atti/view/clinicDetailTest.jsp?regiNo="+regiNo); // 진료 페이지로 이동
-	} 
+	response.sendRedirect("/atti/view/clinicDetailTest.jsp?regiNo=" + regiNo); // 진료 페이지로 이동
 %>

@@ -149,8 +149,8 @@ public class SurgeryDao {
 	 * 시작 날짜 : 2024-05-23
 	 * 담당자 : 김지훈 
 	 */
-	public static HashMap<String, Object> surgeryKind() throws Exception {
-		HashMap<String, Object> list = null;
+	public static ArrayList<HashMap<String, String>> surgeryKind() throws Exception {
+		ArrayList<HashMap<String, String>> surgeryKind = new ArrayList<HashMap<String, String>>();
 
 		Connection conn = DBHelper.getConnection();
 		String sql = "SELECT surgery_kind surgeryKind"
@@ -161,11 +161,12 @@ public class SurgeryDao {
 		ResultSet rs = stmt.executeQuery();
 		
 		while(rs.next()) {
-			list = new HashMap<String, Object>();
+			HashMap<String, String> list = new HashMap<String, String>();
 			list.put("surgeryKind", rs.getString("surgeryKind"));
+			surgeryKind.add(list);
 		}
 		conn.close();
-		return list;
+		return surgeryKind;
 	}
 	
 	/*
@@ -175,18 +176,19 @@ public class SurgeryDao {
 	 * 담당자 : 김지훈 
 	 */
 	
-	public static int surgeryUpdate(int regiNo, String surgeryContent) throws Exception {
+	public static int surgeryUpdate(int regiNo, int surgeryNo, String surgeryContent) throws Exception {
 		int updateRow = 0;
 		Connection conn = DBHelper.getConnection();
 		
 		String sql = "UPDATE surgery"
 				+ " SET surgery_content = ?"
-				+ " WHERE regi_no = ?";
+				+ " WHERE regi_no = ?"
+				+ " AND surgery_no = ?";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, surgeryContent); // 수술 정보를 수정
 		stmt.setInt(2, regiNo); // regi_no에 따른 수술 정보를 수정
-		
+		stmt.setInt(3, surgeryNo);
 		System.out.println(stmt  + " ====== SurgeryDao#surgeryUpdate() stmt");
 		
 		updateRow = stmt.executeUpdate();
@@ -225,7 +227,7 @@ public class SurgeryDao {
 		while(rs.next()) {
 			HashMap<String, Object> surgeryList = new HashMap<String, Object>();
 			surgeryList.put("surgeryNo", rs.getInt("surgeryNo"));
-			surgeryList.put("regiyNo", rs.getInt("regiNo"));
+			surgeryList.put("regiNo", rs.getInt("regiNo"));
 			surgeryList.put("surgeryKind", rs.getString("surgeryKind"));
 			surgeryList.put("surgeryContent", rs.getString("surgeryContent"));
 			surgeryList.put("surgeryState", rs.getString("surgeryState"));
