@@ -1,5 +1,32 @@
 @charset "UTF-8";
 
+.mainPageDiv{
+	height: 100%;
+}
+
+.mainContentDiv{
+	padding-bottom: 20px;
+	margin-bottom: 10px;
+	border: 1px solid black;
+	border-radius: 10px;
+}
+
+.topMainDiv{
+	display: flex;
+	width: 100%;
+}
+
+.bottomMainDiv{
+	display: flex;
+	width: 100%;
+}
+
+.bottomMainDiv div{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
 .userFormMain{
 	display: flex;
 	justify-content:center;
