@@ -45,7 +45,9 @@
 	<div id="mainCategory">
 		<!-- 이미지로고 -->
 		<div id="logoImg">
-			<img id="logo" src="../inc/logo.png">
+			<button onclick="location.href='/atti/view/main.jsp'">
+				<img id="logo" src="../inc/logo.png">
+			</button>
 		</div>
 	
 		<!-- 카테고리출력 -->

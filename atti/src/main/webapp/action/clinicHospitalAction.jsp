@@ -25,8 +25,8 @@
 	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
 	
 	//디버깅
-	//System.out.println(paymentCategory);
-	//System.out.println(regiNo);
+	System.out.println("paymentCategory = " + paymentCategory);
+	System.out.println("regiNo = " + regiNo);
 	
 	// 입원 환자의 입원 정보, 입원 내용 등록 
 	String mammalRoom = request.getParameter("mammalRoom"); // 포유류 입원실 침대
@@ -81,7 +81,7 @@
 	//System.out.println(paymentSelect.size());
 	
 	//중복된 결제 정보가 없는 경우
-	if(paymentSelect.size() < 1){
+	if(paymentSelect == null || paymentSelect.size() < 1){
 		
 		//결제 정보 저장
 		PaymentDao.paymentInsert(regiNo, paymentCategory);
@@ -93,6 +93,6 @@
 	}
 
 	
-	response.sendRedirect("/atti/view/clinicDetailForm.jsp"); // 진료 페이지로 이동
+	response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo); // 진료 페이지로 이동
 	
 %>

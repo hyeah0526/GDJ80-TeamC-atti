@@ -61,7 +61,10 @@
 	<!-------------------- aside-------------------->
 	<aside>
 		<!-- 서브메뉴나오는 부분 -->
-		<jsp:include page="/inc/empSubMenu.jsp"></jsp:include>
+		<div id="subMenu">
+			<button onclick="location.href='/atti/view/empList.jsp'">직원조회</button>
+			<button onclick="location.href='/atti/view/empRegiForm.jsp'">직원등록</button>
+		</div>
 	</aside>
 	
 	<!-------------------- main -------------------->

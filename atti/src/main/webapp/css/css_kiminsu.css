@@ -4,11 +4,17 @@
 	height: 100%;
 }
 
+.mainPageListDiv{
+	display: flex;
+}
+
+
 .mainContentDiv{
 	padding-bottom: 20px;
 	margin-bottom: 10px;
 	border: 1px solid black;
 	border-radius: 10px;
+	width: 50%;
 }
 
 .topMainDiv{
@@ -195,6 +201,8 @@
 .telInput{
 	width: 25% !important;
 }
+
+
 
 #errorMessageDiv{
 	margin-top: 30px;

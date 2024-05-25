@@ -20,8 +20,10 @@
 */
 	
 	//사용자의 진료 번호 
-	//int regiNo = Integer.parseInt(request.getParameter("regiNo"));
-	int regiNo = 15;
+	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
+	
+	//디버깅
+	//System.out.println(regiNo);
 	
 %>
 
@@ -278,9 +280,13 @@
 				
 				<%
 					//입원실 정보 유무에 따라 다른 처리
-					if("퇴원".equals(hospitalizationDetail.get("state"))){
+					if(("퇴원".equals(hospitalizationDetail.get("state")) || (hospitalizationDetail.get("state") == null))){
 				  		String empMajor = (String) hospitalizationDetail.get("empMajor");
                         String roomName = (String) hospitalizationDetail.get("roomName");
+                        
+                        //디버깅
+                        //System.out.println("roomName = " + roomName);
+                        //System.out.println("empMajor = " + empMajor);
 				%>
 					<div>호실 선택</div>
 				
@@ -339,8 +345,7 @@
 					<button type="submit">저장</button>
 			
 				<%		
-					}else{
-						
+					}else{	
 				%>
 					<div>
 						<div>
@@ -351,10 +356,24 @@
 							"<%=hospitalizationDetail.get("roomName")%>" 입원중
 						</div>
 						<div>
-							입원일: <%=hospitalizationDetail.get("createDate").toString().substring(0,10)%>
+							입원일: 
+							<%
+								if(hospitalizationDetail.get("createDate") != null){
+							%>							
+								<%=hospitalizationDetail.get("createDate").toString().substring(0,10)%>
+							<%
+								}
+							%>
 						</div>
 						<div>
-							퇴원일: <%=hospitalizationDetail.get("dischargeDate").toString().substring(0,10)%>	
+							퇴원일: 
+							<%
+								if(hospitalizationDetail.get("dischargeDate") != null){
+							%>
+								<%=hospitalizationDetail.get("dischargeDate").toString().substring(0,10)%>								
+							<%
+								}
+							%>
 						</div>
 					</div>
 				<%
