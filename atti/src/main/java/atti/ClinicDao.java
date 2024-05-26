@@ -4,7 +4,103 @@ import java.sql.*;
 import java.util.*;
 
 public class ClinicDao {
-
+	/*
+	 * 메소드 : ClinicDao#clinicUpdate() 
+	 * 페이지 : clinicAction.jsp
+	 * 시작 날짜 : 2024-05-26
+	 * 담당자 : 김지훈 
+	 */
+	public static int clinicUpdate(int regiNo, int clinicNo, String clinicContent) throws Exception {
+		int updateRow = 0;
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "UPDATE clinic"
+				+ " SET clinic_content = ?, update_date = NOW()"
+				+ " WHERE regi_no = ?"
+				+ " AND clinic_no = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, clinicContent); // 진료 정보를 수정
+		stmt.setInt(2, regiNo); // regi_no에 따른 진료 정보를 수정
+		stmt.setInt(3, clinicNo); // clinicNo에 따른 진료 정보를 수정
+		
+		System.out.println(stmt  + " ====== ClinicDao#clinicUpdate() stmt");
+		
+		updateRow = stmt.executeUpdate();
+		
+		conn.close();
+		return updateRow;
+	}
+	
+	
+	/*
+	 * 메소드 : ClinicDao#clinicInsert() 
+	 * 페이지 : clinicAction.jsp
+	 * 시작 날짜 : 2024-05-26
+	 * 담당자 : 김지훈 
+	 */
+	public static int clinicInsert(int regiNo, String clinicContent) throws Exception {
+		int insertRow = 0;
+		
+		// 디버깅
+		System.out.println("ClinicDatail#clinicInsert() regiNo: " + regiNo);
+		
+		Connection conn = DBHelper.getConnection();
+		String sql = "INSERT INTO clinic(regi_no, clinic_content, clinic_cost, create_date, update_date)"
+				+ " VALUES(?, ?, 5000, NOW(), NOW())";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, regiNo);
+		stmt.setString(2, clinicContent);
+		
+		System.out.println(stmt  + " ====== ClinicDao#clinicInsert() stmt");
+		
+		insertRow = stmt.executeUpdate();
+		
+		conn.close();
+		return insertRow;
+		
+	}
+	
+	/*
+	 * 메소드 : ClinicDatail#clinicDetail() 
+	 * 페이지 : clinicAction.jsp
+	 * 시작 날짜 : 2024-05-26
+	 * 담당자 : 김지훈 
+	 */
+	
+	public static ArrayList<HashMap<String, Object>> clinicDetail(int regiNo) throws Exception {
+		// 디버깅
+		System.out.println("ClinicDatail#clinicDetailByClinic() regiNo: " + regiNo);
+		
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT clinic_no clinicNo, regi_no regiNo,"
+				+ " clinic_content clinicContent, create_date createDate,"
+				+ " update_date updateDate"
+				+ " FROM clinic"
+				+ " WHERE regi_no = ?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, regiNo);
+		
+		// 디버깅
+		System.out.println("ClinicDatail#clinicDetailByClinic(): " + stmt);
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			HashMap<String, Object> clinicList = new HashMap<String, Object>();
+			clinicList.put("clinicNo", rs.getInt("clinicNo"));
+			clinicList.put("regiNo", rs.getInt("regiNo"));
+			clinicList.put("clinicContent", rs.getString("clinicContent"));
+			clinicList.put("createDate", rs.getString("createDate"));
+			clinicList.put("updateDate", rs.getString("updateDate"));
+			list.add(clinicList);
+		}
+		conn.close();
+		return list;
+	}
+	
 	/*
 	 * 메소드		: ClinicDao#clinicList()
 	 * 페이지		: clinicList.jsp

@@ -210,8 +210,6 @@
 						</tr>
 						<%
 							for(HashMap<String, Object> c : searchData){
-								String customerTel = (String)c.get("customerTel");
-								// 연락처 네 자리 추출을 위해 형 변환
 						%>		
 								<tr>
 									<td>
@@ -261,7 +259,7 @@
 									</td>
 									<td>
 										<a href="/atti/view/customerDetail.jsp?customerNo=<%=p.get("customerNo")%>">
-											<%=p.get("customerName")%>
+											<%=p.get("customerName")%>(<%=p.get("customerTel").toString().substring(7,11)%>))
 										</a>
 									</td>
 									<td><%=p.get("createDate")%></td>

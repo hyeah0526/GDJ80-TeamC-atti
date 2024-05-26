@@ -98,8 +98,8 @@ public class SurgeryDao {
 		* + 보호자 정보(customer_no, customer_tel)
 		*/
 		String sql = "SELECT"
-				+ " surgery_no surgeryNo, surgery_kind surgeryKind, surgery_date surgeryDate,surgery_content surgeryContent, "
-				+ " s.regi_no regiNo s.surgery_state surgeryState,"
+				+ " surgery_no surgeryNo, surgery_kind surgeryKind, surgery_date surgeryDate, surgery_content surgeryContent,"
+				+ " s.regi_no regiNo, s.surgery_state surgeryState, s.surgery_date surgeryDate,"
 				+ " r.pet_no petNo, pet_kind petKind, pet_name petName,"
 				+ " r.emp_no empNo, emp_grade empGrade, emp_name empName,"
 				+ " customer_name customerName, customer_tel customerTel"
@@ -112,7 +112,7 @@ public class SurgeryDao {
 				+ " ON r.emp_no = e.emp_no"
 				+ " LEFT JOIN customer c"
 				+ " ON p.customer_no = c.customer_no"
-				+ " WHERE s.surgery_no = 5";
+				+ " WHERE s.surgery_no = ?";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, surgeryNo);
@@ -177,6 +177,10 @@ public class SurgeryDao {
 	 */
 	
 	public static int surgeryUpdate(int regiNo, int surgeryNo, String surgeryContent) throws Exception {
+		System.out.println(regiNo  + " ====== SurgeryDao#surgeryUpdate() regiNo");
+		System.out.println(surgeryNo  + " ====== SurgeryDao#surgeryUpdate() surgeryNo");
+		System.out.println(surgeryContent  + " ====== SurgeryDao#surgeryUpdate() surgeryContent");
+		
 		int updateRow = 0;
 		Connection conn = DBHelper.getConnection();
 		
@@ -252,9 +256,9 @@ public class SurgeryDao {
 		// clinicDetailForm -> clinicSurgeryAction
 		// 디버깅
 		System.out.println(regiNo  + " ====== SurgeryDao#surgeryInsert() regiNo");
-		System.out.println(surgeryKind  + " ====== SurgeryDao#surgeryInsert() regiNo");
-		System.out.println(surgeryContent  + " ====== SurgeryDao#surgeryInsert() regiNo");
-		System.out.println(surgeryDate  + " ====== SurgeryDao#surgeryInsert() regiNo");
+		System.out.println(surgeryKind  + " ====== SurgeryDao#surgeryInsert() surgeryKind");
+		System.out.println(surgeryContent  + " ====== SurgeryDao#surgeryInsert() surgeryContent");
+		System.out.println(surgeryDate  + " ====== SurgeryDao#surgeryInsert() surgeryDate");
 		
 		int insertRow = 0;
 		

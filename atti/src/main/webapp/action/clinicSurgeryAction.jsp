@@ -28,6 +28,8 @@
 	String surgeryInsert = request.getParameter("surgeryInsert");
 	String surgeryUpdate = request.getParameter("surgeryUpdate");
 	
+	//System.out.println("surgeryInsert: " + surgeryInsert);
+	//System.out.println("surgeryUpdate: " + surgeryUpdate);
 	
 	// clinicDetailFrom -> clinicSurgeryAction
 	String surgeryNoStr = request.getParameter("surgeryNo");
@@ -43,19 +45,27 @@
 	String surgeryDate = request.getParameter("surgeryDate");
 
 	// 디버깅
-	System.out.println("regiNo: " + regiNo);
-	System.out.println("surgeryKind: " + surgeryKind);
-	System.out.println("surgeryContent: " + surgeryContent);
-	System.out.println("surgeryDate: " + surgeryDate);
+	//System.out.println("regiNo: " + regiNo);
+	//System.out.println("surgeryKind: " + surgeryKind);
+	//System.out.println("surgeryContent: " + surgeryContent);
+	//System.out.println("surgeryDate: " + surgeryDate);
 %>
 <!-- model layer -->
 <%
 	// 수술 입력 시
-	int insertRow = SurgeryDao.surgeryInsert(regiNo, surgeryKind, surgeryContent, surgeryDate);
+	int insertRow = 0;
+	if(surgeryInsert != null && "surgeryInsert".equals(surgeryInsert)) {
+		insertRow = SurgeryDao.surgeryInsert(regiNo, surgeryKind, surgeryContent, surgeryDate);
+		System.out.println("SurgeryDao#surgeryInsert: " + insertRow);
+	}
 	//System.out.println("SurgeryDao#surgeryInsert: " + insertRow);
 	
 	// 수술 정보 수정 시
-	int updateRow = SurgeryDao.surgeryUpdate(regiNo, surgeryNo, surgeryContent);
+	int updateRow = 0;
+	if (surgeryUpdate != null && "surgeryUpdate".equals(surgeryUpdate)) {
+		updateRow = SurgeryDao.surgeryUpdate(regiNo, surgeryNo, surgeryContent);
+		System.out.println("SurgeryDao#surgeryUpdate: " + updateRow);
+	}
 	//System.out.println("SurgeryDao#surgerUpdate: " + updateRow);
 	
 	// 들어온 값에 따라 insertRow / updateRow를 분기
