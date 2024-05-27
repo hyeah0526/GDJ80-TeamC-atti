@@ -188,7 +188,15 @@
 .empForm input{
 	padding: 0px;
 	width: 80%;
+	border: none;
 }
+
+.empForm input:focus  {
+	outline: none;
+    box-shadow: none;
+    border-color: transparent;
+}
+
 
 .empForm label{
 	margin-right: 10px;
@@ -199,7 +207,8 @@
 }
 
 .telInput{
-	width: 25% !important;
+	width: 20% !important;
+	border: 1px solid black !important; 
 }
 
 
