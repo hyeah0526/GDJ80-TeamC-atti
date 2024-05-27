@@ -161,7 +161,7 @@
 									<td><%=pd2.get("medicineName")%></td>
 									<td rowspan="3">
 										<button type="submit" 
-											onclick="location.href='/atti/view/clinicDetailForm.jsp?regi_no=<%=regiNo%>&prescriptionNo=<%=pd2.get("prescriptionNo")%>&selectPrescription=prescriptionUpdate'">
+											onclick="location.href='/atti/view/clinicDetailForm.jsp?regiNo=<%=regiNo%>&prescriptionNo=<%=pd2.get("prescriptionNo")%>&selectPrescription=prescriptionUpdate'">
 											수정
 										</button>
 									</td>
