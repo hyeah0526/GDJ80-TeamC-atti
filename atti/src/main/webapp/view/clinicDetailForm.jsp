@@ -20,7 +20,8 @@
 */
 	
 	//사용자의 진료 번호 
-	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
+	//int regiNo = Integer.parseInt(request.getParameter("regiNo"));
+	int regiNo = 15;
 	
 	//디버깅
 	//System.out.println(regiNo);
@@ -144,15 +145,50 @@
 		
 		
 		<!-- 처방 조회/신규등록/수정 -->
-		<div id="" style="border: 1px solid #ced4da; border-radius: 10px; width: 100%;">
-			<div style="border: 1px solid red;">
-					처방	
+		<div id="prescrptionMainDiv">
+			<div id="prescrptionTitleDiv">
+				처방	
 			</div>
-			<div style="border: 1px solid red;">
-				<h6>처방받은 약</h6>
+			
+			<!-- 처방방: 약 신규등록 -->
+			<div id="prescrptionContentLeftDiv">
+				<span>약 신규 등록</span><br><br>
+				<form action="/atti/action/clinicPrescrptionAction.jsp" method="post" id="prescriptionForm">
+					<input type="hidden" value="<%=regiNo%>" name="regiNo">
+					<input type="hidden" value="prescriptionInsert" name="selectPrescription">
+					
+					<div id="">
+						<!-- 처방받을 약코드를 선택 -->
+						<div><h6>약 선택</h6></div>
+							<select name="medicineNo">
+								<%
+									for(HashMap mc : medicineList){
+								%>
+										<option value="<%=(Integer)mc.get("medicineNo")%>">
+											<%=(String)mc.get("medicineName")%>
+										</option>
+								<%	
+									}
+								%>
+							</select><br><br>
+							
+						<!-- 선택된 약코드에대한 처방내용 등록 -->
+						<div><h6>처방내용</h6></div>
+						<input name="prescriptionContent"><br><br>
+						
+						<button type="submit">저장</button>
+					</div>
+				</form>
+			</div>
+			
+			<div id="prescrptionContentRightDiv">
 				<%
 					/* 처방: 처방받은 약 전체 조회 */
 					if(!selectPrescription.equals("prescriptionUpdate")){
+				%>
+						<div id="prescrptionContentRightDiv">
+						<span>처방받은 약</span><br><br>
+				<%
 						for(HashMap pd2 : prescriptionDetail){
 				%>
 							<table>
@@ -179,21 +215,18 @@
 							</table>
 				<%
 						}
-					}
+						
+					/* 처방: 수정원하는 약 1개 선택 후 수정 */
+					}else if(selectPrescription.equals("prescriptionUpdate")){
 				%>
-			</div>
-			
-			<%
-				/* 처방: 수정원하는 약 1개 선택 후 수정 */
-				if(selectPrescription.equals("prescriptionUpdate")){
-			%>
-					<div style="border: 1px solid red;">
 						<form action="/atti/action/clinicPrescrptionAction.jsp" method="post">
-							<h6>처방 수정</h6>
+							<span>처방 수정</span>
+							
 							<input type="hidden" value="prescriptionUpdate" name="selectPrescription">
 							<input type="hidden" value="<%=prescriptionOne.get("prescriptionNo")%>" name="prescriptionNo">
 							<input type="hidden" value="<%=prescriptionOne.get("medicineNo")%>" name="oldMedicineNo">
 							<input type="hidden" value="<%=regiNo%>" name="regiNo">
+							
 							<table>
 								<tr>
 									<th>약</th>
@@ -228,43 +261,11 @@
 								</tr>
 							</table>
 						</form>
-					</div>
-			<%
-				}
-			%>
-			
-			<!-- 처방: 신규 약 등록 -->
-			<div style="border: 1px solid red;">
-				<h6>약 신규 등록</h6>
-				<form action="/atti/action/clinicPrescrptionAction.jsp" method="post" id="prescriptionForm">
-					<input type="hidden" value="<%=regiNo%>" name="regiNo">
-					<input type="hidden" value="prescriptionInsert" name="selectPrescription">
-					
-					<div id="">
-						<!-- 처방받을 약코드를 선택 -->
-						<div>약 선택</div>
-							<select name="medicineNo">
-								<%
-									for(HashMap mc : medicineList){
-								%>
-										<option value="<%=(Integer)mc.get("medicineNo")%>">
-											<%=(String)mc.get("medicineName")%>
-										</option>
-								<%	
-									}
-								%>
-							</select>
-							
-						<!-- 선택된 약코드에대한 처방내용 등록 -->
-						<div>처방내용</div>
-						<input name="prescriptionContent">
-						
-						<button type="submit">저장</button>
-					</div>
-				</form>
+				<%
+					}
+				%>
 			</div>
 		</div><br>
-		
 		
 		
 		<!-- 입원 환자 호실 선택 및 입원 내용 입력 폼 -->
