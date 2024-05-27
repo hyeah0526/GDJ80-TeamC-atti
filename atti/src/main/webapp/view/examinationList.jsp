@@ -14,7 +14,10 @@
 
 	System.out.println("---------------- examinationList.jsp -----------------");
 	// 로그인 세션 
-
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp"); 
+		return;
+	}
 %>
 <%
 	// 검색 날짜 값 가져오기 
@@ -60,7 +63,7 @@
 	//System.out.println(currentPage + " ====== examinationList currentPage");
 	//System.out.println(rowPerPage + " ====== examinationList rowPerPage");
 	//System.out.println(startRow + " ====== examinationList startRow");
-	//System.out.println(startRow + " ====== examinationList totalRow");
+	//System.out.println(totalRow + " ====== examinationList totalRow");
 	//System.out.println(lastPage + " ====== examinationList lastPage");
 
 %>
@@ -68,7 +71,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Main page</title>
+	<title>검사 리스트</title>
 	
 	<!-- 부트스트랩 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -94,29 +97,29 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
-		<div class="row">
+	<main id="examinationMain">
+		<div id="centerDiv">
 			<div>
 				<h2>검사 리스트</h2>
 			</div>
-			<div class="col container mb-2">
+			<div id="examinationSearchForm">
 				<!-- 날짜 선택해서 검색 -->
 				<form method="post" action="examinationList.jsp" class="inline">
 					<input type="date" name="searchDate" value="<%= searchDate %>">
-					<button type="submit">검색</button>
+					<button id="searchBtn" type="submit">검색</button>
 				</form>
 				<!-- 오늘 날짜 바로 검색 -->
 				<form method="post" action="examinationList.jsp" class="inline">
-					<button type="submit" name="searchDate" value="<%= date %>">오늘</button>
+					<button id="searchBtn" type="submit" name="searchDate" value="<%= date %>">오늘</button>
 				</form>
 				<!-- 전체 검색 -->
 				<form method="post" action="examinationList.jsp" class="inline">
-					<button type="submit" name="searchDate" value="">전체</button>
+					<button id="searchBtn" type="submit" name="searchDate" value="">전체</button>
 				</form>
 			</div>
 			
 			<!-- 검사 리스트 출력 -->
-			<table border="1" class="a">
+			<table id="examinationListTable">
 				<tr>
 					<th>검사 번호</th>
 					<th>동물 종류</th>
@@ -137,7 +140,7 @@
 					<td><%= e.get("examinationKind")%></td>
 					<td><%= e.get("examinationContent")%></td>
 					<td><%= e.get("examinationDate")%></td>
-					<td><a href="/atti/view/examinationDetail.jsp?examinationNo=<%=e.get("examinationNo") %>">상세보기</a></td>
+					<td><button id="detailBtn"><a href="/atti/view/examinationDetail.jsp?examinationNo=<%=e.get("examinationNo") %>" >상세보기</a></button></td>
 				</tr>
 				<%
 					}
@@ -146,27 +149,26 @@
 		</div>
 		
 		<!-- 페이징  -->
-		<div>
+		<div id="paginationDiv">
 			<div>
 			    <!-- 이전 페이지 링크 -->
 			    <% if(currentPage > 1){ %>
-			        <a href="/atti/view/examinationList.jsp?currentPage=<%=currentPage-1%>&searchDate=<%=searchDate%>">이전</a>
+			        <a href="/atti/view/examinationList.jsp?currentPage=<%=currentPage-1%>&searchDate=<%=searchDate%>" id="paginationBtn">이전</a>
 			    <% } else { %>
-			        <span class="disabled">이전</span>
+			        <span id="paginationBtn disabled">이전</span>
 			    <% } %>
-
+	
 			    <!-- 현재 페이지 표시 -->
-			    <span class="currentPage"><%=currentPage%></span>
-
+			    <span id="currentPage"><%=currentPage%></span>
+	
 			    <!-- 다음 페이지 링크 -->
 			    <% if(currentPage < lastPage) { %>
-			        <a href="/atti/view/examinationList.jsp?currentPage=<%=currentPage+1%>&searchDate=<%=searchDate%>">다음</a>
+			        <a href="/atti/view/examinationList.jsp?currentPage=<%=currentPage+1%>&searchDate=<%=searchDate%>" id="paginationBtn">다음</a>
 			    <% } else { %>
-			        <span class="disabled">다음</span>
+			        <span id="paginationBtn disabled">다음</span>
 			    <% } %>
-
-			</div>	
-		</div>
+			</div>
+		</div>	
 	</main>
 </body>
 </html>

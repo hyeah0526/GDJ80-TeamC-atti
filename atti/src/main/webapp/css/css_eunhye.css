@@ -1,23 +1,176 @@
 @charset "UTF-8";
-/* 롯데마트 드림 폰트 */
-@font-face {
-	font-family: 'LotteMartDream';
-	font-style: normal;
-	font-weight: 400;
-	src: url('//fastly.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2') format('woff2'), url('//fastly.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff') format('woff');
-}
-#fontSet{
-	font-family: 'LotteMartDream';
-}
 
-.button{
-	background-color: #eedcba;
-	border: none;
-	border-radius: 5px;
-	width: 110px;
-	height: 35px;
-}
 
 .inline {
     display: inline-block;
 }
+
+.listMain{
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#detailBtn{
+	margin-top: 0px;
+	width: 100px;
+	height: 50px;
+	background-color: #eedcba;
+	border: 0;
+	border-radius: 10px;
+}
+
+#detailBtn:hover{
+	background-color: #bed8cb;
+}
+
+#searchBtn{
+	margin-top: 0px;
+	width: 100px;
+	height: 40px;
+	margin-left: 30px;
+	border: 0;
+}
+
+#currentPage {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #eedcba;
+    border-radius: 5px;
+    color: black;
+    font-size: 16px;
+}
+
+#paginationDiv{
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	flex-direction: column;
+	height: 50px;
+	width: 100%;
+}
+
+#paginationForm{
+	display: flex;
+	justify-content: center;
+	width: 700px;
+	margin-top: 0px;
+	flex-direction: unset;
+	border: 0;
+	padding: 0;
+	box-shadow: none;
+}
+
+#paginationForm select{
+	margin-left: 30px;
+}
+
+#paginationLabel {
+	padding-top: 10px;
+    margin-right: 0px;
+}
+
+#paginationInput {
+    padding: 0px;
+    width: 300px;
+    height: 40px;
+    margin-left: 30px;
+}
+
+#paginationBtn {
+	margin-top: 0px;
+	width: 100px;
+	height: 40px;
+	border: 0;
+}
+
+
+#centerDiv{
+	display: block;
+	justify-content: center;
+	text-align: center;
+}
+
+
+ /* examinationList */
+#examinationMain{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+#examinationSearchForm{
+	display: flex;
+	justify-content: center;
+}
+
+#examinationSearchForm input{
+	padding: 0px;
+    width: 300px;
+    height: 40px;
+    margin-left: 30px;
+}
+
+#examinationListTable{
+	width: 100%;            
+    border-collapse: collapse;
+    margin: 20px;    
+    box-shadow: 0 2px 3px #ccc; 
+}
+
+#examinationListTable table{
+	width: 100%;
+}
+
+#examinationListTable th, td{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
+}
+
+#examinationListTable th{
+	background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+#examinationListTable tr:hover{
+	background-color: #e8e8e8; 
+}
+
+#examinationDetailTable{
+	width: 90%;            
+    border-collapse: collapse;
+    margin: 20px;    
+    box-shadow: 0 2px 3px #ccc; 
+}
+ 
+#examinationDetailTable table{
+	width: 100%;
+} 
+
+#examinationDetailTable th, td{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
+}
+
+#examinationDetailTable th{
+	background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+#examinationDetailTable tr:hover{
+	background-color: #e8e8e8; 
+}
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 

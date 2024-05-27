@@ -14,7 +14,10 @@
 
 	System.out.println("---------------- examinationDetail.jsp -----------------");
 	// 로그인 세션 
-
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
+		return;
+	}
 %>
 <%
 	// 값 받아오기 -> 검사 번호
@@ -27,7 +30,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Main page</title>
+	<title>검사 상세</title>
 	
 	<!-- 부트스트랩 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -53,41 +56,36 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
-		<div>
+	<main id="examinationMain">
+		<div id="centerDiv">
 			<h2>검사 상세 정보</h2>
 		</div>
 		
 		<!-- 검사 상세 정보 보여주기 -->
-		<div>
-			<%
-				for(HashMap<String, Object> ed : examinationDetail) {
-			%>
-			<div>
-				<label>검사 번호</label>
-				<%=(Integer)(ed.get("examinationNo"))%>
-				<label>검사 종류</label>
-				<%=(String)(ed.get("examinationKind"))%>
-				<label>검사 날짜</label>
-				<%=(String)(ed.get("examinationDate"))%>
-			</div>
-			<div>
-				<label>검사 내용</label>
-				<%=(String)(ed.get("examinationContent"))%>
-			</div>
-			<div>
-				<label>동물 정보</label>
-				<%=(String)(ed.get("petName"))%>
-				(<%=(String)(ed.get("petKind"))%>)
-			</div>
-			<div>
-				<label>사진 번호</label>
-				<%=(String)(ed.get("photoName"))%>
-			</div>
+			<table id="examinationDetailTable">
+				<%
+					for(HashMap<String, Object> ed : examinationDetail) {
+				%>
+				<tr>
+					<th>검사번호</th>
+					<td><%=(Integer)(ed.get("examinationNo"))%></td>
+					<th>검사종류</th>
+					<td><%=(String)(ed.get("examinationKind"))%></td>
+				</tr>
+				<tr>
+					<th>동물정보</th>
+					<td><%=(String)(ed.get("petName"))%>(<%=(String)(ed.get("petKind"))%>)</td>
+					<th>검사날짜</th>
+					<td><%=(String)(ed.get("examinationDate"))%></td>
+				</tr>
+				<tr>
+					<th>검사내용</th>
+					<td><%=(String)(ed.get("examinationContent"))%><br><%=(String)(ed.get("photoName"))%></td>
+				</tr>
+			</table>
 			<%
 				}
 			%>
-		</div>
 	</main>
 </body>
 </html>
