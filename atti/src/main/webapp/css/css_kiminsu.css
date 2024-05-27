@@ -17,6 +17,18 @@
 	width: 50%;
 }
 
+.mainContentDiv h2{
+	margin-left: 30px;
+}
+
+.mainContentDiv table{
+	margin-left: 30px;
+}
+
+.regiFormInput{
+	border: 1px solid black !important;
+	
+}
 .topMainDiv{
 	display: flex;
 	width: 100%;

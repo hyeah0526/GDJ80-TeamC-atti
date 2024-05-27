@@ -82,11 +82,11 @@
 				</div>
 				<div>
 					<label>이름</label>
-					<input type="text" name="empName">
+					<input class="regiFormInput" type="text" name="empName">
 				</div>
 				<div>
 					<label>생일</label>
-					<input type="date" name="empBirth">
+					<input class="regiFormInput" type="date" name="empBirth">
 				</div>
 				<div>
 					<label>성별</label>
@@ -104,7 +104,7 @@
 				</div>
 				<div>
 					<label>입사일</label>
-					<input type="date" name="empHireDate">
+					<input class="regiFormInput" type="date" name="empHireDate">
 				</div>
 					<%
 						//애러 메세지 출력

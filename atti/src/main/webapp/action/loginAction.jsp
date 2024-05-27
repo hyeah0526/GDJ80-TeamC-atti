@@ -23,8 +23,8 @@
 	//사번 입력 검증
 	if(empNoStr != null){
 		
-		//사번 입력 필드에 숫자만 들어오는 확인(정규표현식 적용)
-		if(empNoStr.matches("\\d+")){	
+		//사번 입력 필드가 7자리 숫자인지 확인(정규표현식 적용)
+		if(empNoStr.matches("\\d{7}")){	
 			empNo = Integer.parseInt(empNoStr);	// 정상적인 사번 입력 시 숫자로 변환
 		}else{
 			errorMessage =  URLEncoder.encode("사번을 확인 해 주세요.", "UTF-8"); //오류 메세지 인코딩
