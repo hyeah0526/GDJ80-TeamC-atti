@@ -13,6 +13,13 @@
 		response.sendRedirect("/atti/view/loginForm.jsp");
 		return;
 	}
+ 
+ 	// 직원 이름가져오기 
+ 	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
+ 	String empName = (String)loginEmp.get("empName");
+ 	
+ 	System.out.println("hospitalizationDetail.jsp empName --> "+empName);
+ 	
  %>
  <%
  	// 입원환자의 해당하는 접수번호
@@ -189,7 +196,7 @@
 									<form action="/atti/action/hospitalContentAction.jsp" method="post">
 										<input type="hidden" value="<%=(Integer)p.get("hospitalNo") %>" name="hospitalNo">
 										<input type="hidden" value="<%=regiNo%>" name="regiNo">
-										<input type="hidden" value="박임시" name="hospiEmpName">
+										<input type="hidden" value="<%=empName%>" name="hospiEmpName">
 										
 										<textarea rows="" cols="" name="hospiContent" placeholder="내용을 작성해주세요."></textarea><br>
 										<input type="datetime-local" id="hospiContentToday" name="hospiContentDate" readonly="readonly">

@@ -10,13 +10,13 @@
 	 * 담당자 : 박혜아
  -->
  <%
- /*
+ 
 	//로그인한 사용자인지 검증
 	if(session.getAttribute("loginEmp") == null){
 		response.sendRedirect("/atti/view/loginForm.jsp");
 		return;
 	}
- */
+ 
  %>
 <%
 	// 매출계산을 위한 달/년 설정
@@ -147,11 +147,11 @@
 	
 	<!-------------------- main -------------------->
 	<main>
-		<h2>매출관리</h2>
+		<h2 id="incomeTitle">매출관리</h2>
 		<div>
 			<div id="wrap">
 				<!-- 현재달(target)을 기준으로 전달과 전전달의 매출이 총 3개의 달이 100%로 계산되어 출력 -->
-				<div style="border: 1px solid red;">
+				<div>
 					<!-- 첫번째달 -->
 					<div id="incomeYearMonth">
 						<h5><%=firstYear%>년 <%=firstMonth%>월</h5>
@@ -161,109 +161,111 @@
 					<div id="chart" class="doughnut1">
 						<span class="center"><%=firstIncome%>%</span>
 					</div>
-					<div style="text-align: center; width: 100px;"><%=firstIncomeStr%>원</div><br>
-					
+					<div id="incomeTotalPrice"><%=firstIncomeStr%>원</div><br>
 					
 				    <!-- 두번째달 -->
 				    <div id="incomeYearMonth">
 				    	<h5><%=middleYear%>년 <%=middleMonth%>월</h5>
-				    	<button value="middleDetail" name="incomeDetail" type="submit" onClick="location.href='./income.jsp?incomeDetail=middleDetail'">상세보기</button><br>
-				    </div><br>
+				    	<button value="middleDetail" name="incomeDetail" type="submit" onClick="location.href='./income.jsp?incomeDetail=middleDetail'">상세보기</button>
+				    </div>
 				    
 				    <div id="chart" class="doughnut2">
 				    	<span class="center"><%=middleIncome%>%</span>
 				    </div>
-					<div style="text-align: center; width: 100px;"><%=middleIncomeStr%>원</div><br>
+					<div id="incomeTotalPrice"><%=middleIncomeStr%>원</div><br>
 				    
 				    
 				    <!-- 세번째달 -->
 				    <div id="incomeYearMonth">
 				    	<h5><%=targetYear%>년 <%=targetMonth%>월</h5>
-				    	<button value="targetDetail" name="incomeDetail" type="submit" onClick="location.href='./income.jsp?incomeDetail=targetDetail'">상세보기</button><br>
-				    </div><br>
+				    	<button value="targetDetail" name="incomeDetail" type="submit" onClick="location.href='./income.jsp?incomeDetail=targetDetail'">상세보기</button>
+				    </div>
 				    
 				    <div id="chart" class="doughnut3">
 				    	<span class="center"><%=targetIncome%>%</span>
 				    </div>
-				    <div style="text-align: center; width: 100px;"><%=targetIncomeStr%>원</div><br>
+				    <div id="incomeTotalPrice"><%=targetIncomeStr%>원</div><br>
 				</div>
 			</div>
 			
 			<div id="incomeDetailMain">
-			<h5>상세 매출</h5>
+			<h4>상세 매출</h4>
 			<%
 				if(incomeDetail.equals("firstDetail")){
 			%>
-					<table>
+					<h5><%=firstYear%>년 <%=firstMonth%>월 상세매출</h5>
+					<table id="detailPrice">
 						<tr>
 							<th>진료비</th>
-							<td><%=first.get("clinicSum")%></td>
+							<td><%=numberFormat.format((first.get("clinicSum")))%>원</td>
 						</tr>
 						<tr>
 							<th>검사비</th>
-							<td><%=first.get("examinationSum")%></td>
+							<td><%=numberFormat.format((first.get("examinationSum")))%>원</td>
 						</tr>
 						<tr>
 							<th>수술비</th>
-							<td><%=first.get("surgerySum")%></td>
+							<td><%=numberFormat.format((first.get("surgerySum")))%>원</td>
 						</tr>
 						<tr>
 							<th>입원비</th>
-							<td><%=first.get("hospitalSum")%></td>
+							<td><%=numberFormat.format((first.get("hospitalSum")))%>원</td>
 						</tr>
 						<tr>
 							<th>처방비</th>
-							<td><%=first.get("medicineSum")%></td>
+							<td><%=numberFormat.format((first.get("medicineSum")))%>원</td>
 						</tr>
 					</table>
 			<%
 				}else if(incomeDetail.equals("middleDetail")){
 			%>
-					<table>
+					<h5><%=middleYear%>년 <%=middleMonth%>월 상세매출</h5>
+					<table id="detailPrice">
 						<tr>
 							<th>진료비</th>
-							<td><%=middle.get("clinicSum")%></td>
+							<td><%=numberFormat.format((middle.get("clinicSum")))%>원</td>
 						</tr>
 						<tr>
 							<th>검사비</th>
-							<td><%=middle.get("examinationSum")%></td>
+							<td><%=numberFormat.format((middle.get("examinationSum")))%>원</td>
 						</tr>
 						<tr>
 							<th>수술비</th>
-							<td><%=middle.get("surgerySum")%></td>
+							<td><%=numberFormat.format((middle.get("surgerySum")))%>원</td>
 						</tr>
 						<tr>
 							<th>입원비</th>
-							<td><%=middle.get("hospitalSum")%></td>
+							<td><%=numberFormat.format((middle.get("hospitalSum")))%>원</td>
 						</tr>
 						<tr>
 							<th>처방비</th>
-							<td><%=middle.get("medicineSum")%></td>
+							<td><%=numberFormat.format((middle.get("medicineSum")))%>원</td>
 						</tr>
-					</table>
+					</table>	
 			<%
 				}else if(incomeDetail.equals("targetDetail")){
 			%>
-					<table>
+					<h5><%=targetYear%>년 <%=targetMonth%>월 상세매출</h5>
+					<table id="detailPrice">
 						<tr>
 							<th>진료비</th>
-							<td><%=target.get("clinicSum")%></td>
+							<td><%=numberFormat.format((target.get("clinicSum")))%>원</td>
 						</tr>
 						<tr>
 							<th>검사비</th>
-							<td><%=target.get("examinationSum")%></td>
+							<td><%=numberFormat.format((target.get("examinationSum")))%>원</td>
 						</tr>
 						<tr>
 							<th>수술비</th>
-							<td><%=target.get("surgerySum")%></td>
+							<td><%=numberFormat.format((target.get("surgerySum")))%>원</td>
 						</tr>
 						<tr>
 							<th>입원비</th>
-							<td><%=target.get("hospitalSum")%></td>
+							<td><%=numberFormat.format((target.get("hospitalSum")))%>원</td>
 						</tr>
 						<tr>
 							<th>처방비</th>
-							<td><%=target.get("medicineSum")%></td>
+							<td><%=numberFormat.format((target.get("medicineSum")))%>원</td>
 						</tr>
 					</table>			
 			<%

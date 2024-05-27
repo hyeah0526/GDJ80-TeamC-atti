@@ -327,10 +327,14 @@
 }
 
 /* income.jsp */
+#incomeTitle{
+	text-align: center;
+	margin-bottom: 15px;
+}
 #wrap {
 	position: relative;
 	float: left;
-	width: 30%;
+	width: 40%;
 }
 		
 		
@@ -340,6 +344,7 @@
 	height: 100px;
 	border-radius: 50%;
 	transition: 0.3s;
+	margin: auto;
 }
 		
 #chart span{
@@ -358,22 +363,58 @@
 
 #incomeDetailMain{
 	float: right;
-	width: 70%;
-	padding: 20px;
+	width: 60%;
+	padding: 8px 12px;
     border-collapse: collapse;
     box-shadow: 0 2px 3px #ccc;
+    text-align: center;
 }
 
-#incomeDetailMain h5{
+#incomeDetailMain h4{
+	text-align: center;
 	background-color: #eedcba;
 }
-
 
 #incomeYearMonth{
 	text-align: center;
 	width: 100px;
+	margin: auto;
 }
 
+#incomeYearMonth button{
+	margin: 5px;
+    width: 90px;
+    padding: 5px;
+    background-color: #eedcba;
+    border: 0;
+    border-radius: 10px;
+}
+
+#incomeYearMonth button:hover{
+	background-color: #bed8cb; 
+}
+
+#incomeTotalPrice{
+	text-align: center;
+	width: 100px;
+	margin: auto;
+}
+
+#detailPrice{
+	margin: auto;
+}
+
+#detailPrice th{
+	border-bottom: 1px solid #ddd;
+	width: 40%;
+	font-size: 15pt;
+}
+
+#detailPrice td{
+	text-align: right;
+	width: 30%;
+	font-size: 15pt;
+}
 
 /* clinicDetailForm.jsp */
 #clinicDetailMainDiv{
