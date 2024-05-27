@@ -56,7 +56,7 @@ if(selectPrescription.equals("prescriptionInsert")){
 		//System.out.println(paymentSelect.size());
 		
 		//중복된 결제 정보가 없는 경우
-		if(paymentSelect.size() < 1){
+		if(paymentSelect == null || paymentSelect.size() < 1){
 			
 			//결제 정보 저장
 			PaymentDao.paymentInsert(regiNo, paymentCategory);
