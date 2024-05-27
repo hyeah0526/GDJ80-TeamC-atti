@@ -15,15 +15,11 @@
 %>
 <!-- Controller layer  -->
 <%
-	/* // 세션을 변수로 변환
-	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
-	
-	// 로그인한 사용자가 관리자인지 확인
-	// 관리자, 직원 여부에 따라 보여지는 뷰가 달라짐
-	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
-		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
+	// 로그인한 사용자인지 검증
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
 		return;
-	} */
+	}
 	
 	// customerRegiAction에서 받은 에러 메시지
 	String errorMsg = request.getParameter("errorMsg");
@@ -58,24 +54,29 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
+	<main class="customerFormMain">
 		<div>
 			<h2>보호자 등록</h2>
-			<form method="post" action="/atti/action/customerRegiAction.jsp">
-			<table class="inputTableCustomer">
-				<tr>
-					<th><label for="customerName">보호자 이름</label></th>
-					<td><input type="text" name="customerName" id="customerName"></td>
-				</tr>
-				<tr>
-					<th><label for="customerTel">전화번호</label></th>
-					<td><input type="text" name="customerTel" id="customerTel" placeholder="-를 제외하고 입력해 주세요"><td>
-				</tr>
-				<tr>
-					<th><label for="customerAddress">주소</label></th>
-					<td><input type="text" name="customerAddress" id="customerAddress"></td>
-				</tr>
-			</table>
+			<div id="">
+			<form action="/atti/action/customerRegiAction.jsp" method="post" class="customerForm">
+				<div>
+					<label for="customerName">이름</label>
+					<input type="text" name="customerName" id="customerName">
+				</div>
+				<div>
+					<label for="customerTel">연락처</label>
+					<input type="text" name="customerTel" placeholder="-를 제외하고 입력해 주세요">
+				</div>
+				<div>
+					<label for="customerAddress">주소</label>
+					<input type="text" name="customerAddress" id="customerAddress">
+				</div>
+				<div id="customerRegiBtn">
+					<button class="customerRegiBtn" type="reset">초기화</button>
+					<button class="customerRegiBtn" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+					<button class="customerRegiBtn" type="submit">등록하기</button>
+				</div>
+			</form>
 			<%
 				if(errorMsg != null) {
 			%>
@@ -83,12 +84,8 @@
 			<%		
 				}
 			%>
-			<div class="buttonContainer">
-				<button class="inputButton" type="reset">초기화</button>
-				<button class="inputButton" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
-				<button class="inputButton" type="submit">등록하기</button>
+			
 			</div>
-			</form>
 		</div>
 	</main>
 </body>

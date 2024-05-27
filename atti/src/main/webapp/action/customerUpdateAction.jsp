@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="atti.*"%>
 <%@ page import="java.net.*"%>
+<%@ page import="java.util.*" %>
 <!-------------------- 
  * 기능 번호  : #19
  * 상세 설명  : 보호자 정보 수정 기능
@@ -15,15 +16,12 @@
 
 <!-- Controller layer  -->
 <%	
-	/* // 로그인한 사용자가 관리자인지 확인
-	// 세션을 변수로 변환
-	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
-	// 관리자, 직원 여부에 따라 보여지는 뷰가 달라짐
-	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
-		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
+	// 로그인한 사용자인지 검증
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
 		return;
-	} */
-	
+	}
+		
 	// customerUpdateForm -> customerUpdateAction
 	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
 	String customerTel = request.getParameter("customerTel");

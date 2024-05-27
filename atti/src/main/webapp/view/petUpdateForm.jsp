@@ -13,14 +13,11 @@
 %>
 <!-- Controller layer  -->
 <%
-	/* // 로그인한 사용자가 관리자인지 확인
-	// 세션을 변수로 변환
-	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
-	// 관리자, 직원 여부에 따라 보여지는 뷰가 달라짐
-	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
-		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
+	// 로그인한 사용자인지 검증
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
 		return;
-	} */
+	}
 	
 	int petNo = Integer.parseInt(request.getParameter("petNo"));
  	//System.out.println("petNo: " + petNo);
@@ -65,50 +62,49 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
-		<div>
+	<main class="customerFormMain">
+		<div class="">
 			<h2>펫 정보 수정</h2>
-			<form action="/atti/action/petUpdateAction.jsp">
-			<input type="hidden" name="petNo" value="<%=petNo%>">
-			<table class="inputTable">
-				
+			<div id="">
+				<form action="/atti/action/petUpdateAction.jsp" method="post" class="customerForm">
+					<input type="hidden" name="petNo" value="<%=petNo%>">
+					<%
+						for(HashMap<String, Object> p : petDetail){
+					%>
+							<div>
+								<label for="empMajor">분류</label>
+								<input type="text" name="empMajor" id="empMajor" value="<%=(String)(p.get("empMajor"))%>" readonly="readonly">
+							</div>
+							<div>
+								<label for="petKind">종류</label>
+								<input type="text" name="petKind" id="petKind" value="<%=(String)(p.get("petKind"))%>" readonly="readonly">
+							</div>
+							<div>
+								<label for="petName">펫 이름</label>
+								<input type="text" name="petName" id="petName" value="<%=(String)(p.get("petName"))%>">
+							</div>
+							<div>
+								<label for="petBirth">펫 생일</label>
+								<input type="date" name="petBirth" id="petBirth" value="<%=(String)(p.get("petBirth"))%>" readonly="readonly">
+							</div>
+							<div id="petRegiBtn">
+								<button class="petRegiBtn" type="reset">초기화</button>
+								<button class="petRegiBtn" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+								<button class="petRegiBtn" type="submit">수정하기</button>
+							</div>
+					<%
+						}
+					%>	
+				</form>
+					<!-- errorMsg 출력 -->
 				<%
-					for(HashMap<String, Object> p : petDetail){
+					if(errorMsg != null) {
 				%>
-				
-						<tr>
-							<th><label for="empMajor">분류</label></th> 
-							<td><input type="text" name="empMajor" id="empMajor" value="<%=p.get("empMajor")%>" readonly="readonly"></td>
-						</tr>
-						<tr>
-							<th><label for="petKind">종류</label></th> 
-							<td><input type="text" name="petKind" id="petKind" value="<%=p.get("petKind")%>" readonly="readonly"><td>
-						</tr>
-						<tr>
-							<th><label for="petName">펫 이름</label></th>
-							<td><input type="text" name="petName" id="petName" value="<%=p.get("petName")%>"></td>
-						</tr>
-						<tr>
-							<th><label for="petBirth">펫 생일</label></th>
-							<td><input type="date" name="petBirth" id="petBirth" value="<%=p.get("petBirth")%>" readonly="readonly"></td>
-						</tr>
-				<%		
+						<div class="errorMsg"><%=errorMsg%></div>
+				<%					
 					}
-				%>
-			</table>
-			<%
-				if(errorMsg != null){
-			%>
-					<div class="errorMsg"><%=errorMsg%></div>			
-			<%	
-				}
-			%>
-			<div class="buttonContainer">
-				<button type="reset">초기화</button>
-				<button type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
-				<button type="submit">등록하기</button>
-			</div>	
-			</form>
+				%>	
+			</div>			
 		</div>
 	</main>
 </body>

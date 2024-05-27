@@ -1,10 +1,6 @@
 @charset "UTF-8";
 h2 {
-	text-align: center;
-}
-
-.searchContent {
-	width: 250px;	
+	text-align: center;	
 }
 .errorMsg {
 	display: flex;
@@ -12,136 +8,261 @@ h2 {
 	justify-content: center;
 	margin-top: 10px;
 }
-.currentPage {
-	background-color: #eedcba;
-}
-.pageButton {
-	margin: 5px;
-}
-.pagenationContainer {
+/* -------------------- */
+/* petDetail */
+.petFormMain{
 	display: flex;
-	justify-content: center;
-	
-}
-
-.buttonContainer {
-	display: flex;
-	justify-content: center;
+	justify-content:center;
 	align-items: center;
-	height: 40px;
-	margin-top: 10px;
+	flex-direction: column;
 }
-
-.inputButton {
-	background-color: #eedcba;
-    border: none;
-	border-radius: 10px;
-    width: 110px;
-    height: 35px;
-    margin: 5px;
-}
-
-.searchContainer input{
-	margin-left: 10px;
-}
-.searchContainer {
+.petForm{
 	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 40px;
+	flex-direction: column;
+	margin-top: 40px;
+ 	box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+    border-radius: 8px; 
+    width: 550px;
+    padding: 30px;
+	font-size: 20px;
 }
-.inputTableCustomer {
-	width: 40%;
-	border: dash 2px;
-	border-radius: 10px;
-	padding: 5px;
-	margin: auto;
-	margin-top: 10px;
-	box-shadow: 2px 2px 5px;
-}
-
-.inputTable {
-	width: 60%;
-	border: dash 2px;
-	border-radius: 10px;
-	padding: 5px;
-	margin: auto;
-	margin-top: 10px;
-	box-shadow: 2px 2px 5px;
-}
-.inputTable th, td{
-	text-align: center;
-}
-.inputTable td {
-    border-left: 1px dash black; /* 왼쪽 테두리를 점선으로 설정 */
-    border-right: 1px dash black; /* 오른쪽 테두리를 점선으로 설정 */
-}
-
-.inputTable {
-    border-collapse: collapse; /* 테이블 셀 경계선을 합쳐서 중복되지 않도록 설정 */
-}
-
-.inputTable td:first-child {
-    border-left: none; /* 첫 번째 셀의 왼쪽 테두리를 제거 */
-}
-
-.inputTable td:last-child {
-    border-right: none; /* 마지막 셀의 오른쪽 테두리를 제거 */
-}
-
-.listButton {
+.detailPetBtn{
+	margin-top: 0px;
+	width: 100px;
+	height: 50px;
 	background-color: #eedcba;
-    border: none;
+	border: 0;
 	border-radius: 10px;
-    width: 110px;
-    height: 25px;
-    margin: 5px;
 }
 
-.listButton:active, .inputButton:active {
-	background-color: #bed8cb;
-}
-.listButton:hover, .inputButton:hover {
-	background-color: #bed8cb;
-}
-
-.listTable th {
-	text-align: center;
-	background-color: #eedcba;
-}
-
-.listTable {
-	width: 60%;
-	border: none;
-	border-radius: 10px;
-	padding: 5px;
-	margin: auto;
-	margin-top: 10px;
+.petForm div{
+ 	display: flex;
+	justify-content: space-between;
 	margin-bottom: 10px;
-	box-shadow: 2px 2px 5px;
-	height: 35px;
+	margin-top: 20px;
 }
 
-.listTable th:first-child {
-	border-top-left-radius: 10px;
+.petForm input{
+	padding: 0px;
+	width: 80%;
 }
 
-.listTable th:last-child {
-	border-top-right-radius: 10px;
+.petForm label{
+	margin-right: 10px;
+}
+#petDetailDiv{
+	display: flex;
+	flex-direction: column;
+	font-size: 20px;
+}
+#detailCustomerBtn{
+	display: flex;
+	margin-top: 20px;
+	justify-content: space-between;
+	font-size: 20px;
 }
 
-.listTable tr:last-child th:first-child {
-	border-bottom-left-radius: 10px;
+/* customerDetail */
+.customerFormMain{
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	flex-direction: column;
 }
-
-.listTable tr:last-child th:last-child {
-	border-bottom-right-radius: 10px;
+.customerForm{
+	display: flex;
+	flex-direction: column;
+	margin-top: 40px;
+ 	box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+    border-radius: 8px; 
+    width: 550px;
+    padding: 30px;
+	font-size: 20px;
 }
-.listTable th {
-	text-align: center;
+.detailCustomerBtn{
+	margin-top: 0px;
+	width: 100px;
+	height: 50px;
 	background-color: #eedcba;
+	border: 0;
+	border-radius: 10px;
 }
-.listTable td {
+
+.customerForm div{
+ 	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+
+.customerForm input{
+	padding: 0px;
+	width: 80%;
+}
+
+.customerForm label{
+	margin-right: 10px;
+}
+#customerDetailDiv{
+	display: flex;
+	flex-direction: column;
+	font-size: 20px;
+}
+#detailCustomerBtn{
+	display: flex;
+	margin-top: 20px;
+	justify-content: space-between;
+	font-size: 20px;
+}
+.petListTable{
+	width: 550px;            
+    border-collapse: collapse;
+    margin: 0px;    
+    box-shadow: 0 2px 3px #ccc; 
+}
+.petListTable tr:hover {
+    background-color: #e8e8e8; 
+}
+
+.petListTable th, .petListTable td { 
+    padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
+}
+.petListTable th {
+    background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+.petListBtn {
+	margin-top: 0px;
+	width: 100px;
+	height: 40px;
+	background-color: #eedcba;
+	border: 0;
+	border-radius: 10px;
+}
+
+/* searchList */
+.searchAllFormMain{
+	display: flex;
+	justify-content:center;
+	align-items: center;
+	flex-direction: column;
+}
+.searchListTable{
+	width: 80%;            
+    border-collapse: collapse;
+    margin: 20px;    
+    box-shadow: 0 2px 3px #ccc; 
+}
+.searchListTable tr:hover {
+    background-color: #e8e8e8; 
+}
+
+.searchListTable th, .searchListTable td { 
+    padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
+}
+.searchListTable th {
+    background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+.searchListBtn {
+	margin-top: 0px;
+	width: 100px;
+	height: 40px;
+	background-color: #eedcba;
+	border: 0;
+	border-radius: 10px;
+}
+
+#searchDiv{
+	width: 50%;
+}
+#searchListForm{
+	display: flex;
+	justify-content: center;
+}
+#paginationForm{
+	display: flex;
+	justify-content: center;
+	width: 700px;
+	margin-top: 0px;
+	flex-direction: unset;
+	border: 0;
+	padding: 0;
+	box-shadow: none;
+}
+#searchInputBtn {
+	margin-top: 0px;
+	width: 100px;
+	height: 40px;
 	margin-left: 5px;
+	border: 0;
+} 
+
+.searchFormInput {
+    margin-left: 5px;
+}
+.serachFormLabel {
+	display: flex;
+	padding-top: 10px;
+    margin-right: 0px;
+    margin-left: 10px;
+    align-items: center;
+}
+
+.searchListRadio {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}
+.currentPage {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #eedcba;
+    border-radius: 5px;
+    color: black;
+    font-size: 16px;
+}
+/* customerRegi */
+#customerRegiBtn {
+	display: flex;
+	margin-top: 20px;
+	justify-content: space-between;
+	font-size: 20px;
+}
+.customerRegiBtn {
+	margin-top: 0px;
+	width: 100px;
+	height: 50px;
+	background-color: #eedcba;
+	border: 0;
+	border-radius: 10px;
+}
+/* petRegi*/
+#regiPetSelect {
+	width: 80%;
+	text-align: center;
+}
+#petRegiBtn {
+	display: flex;
+	margin-top: 20px;
+	justify-content: space-between;
+	font-size: 20px;
+}
+.petRegiBtn {
+	margin-top: 0px;
+	width: 100px;
+	height: 50px;
+	background-color: #eedcba;
+	border: 0;
+	border-radius: 10px;
+}
+
+.inputDateCenter {
 	text-align: center;
 }

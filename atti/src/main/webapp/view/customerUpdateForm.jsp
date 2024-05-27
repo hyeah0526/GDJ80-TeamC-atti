@@ -15,14 +15,11 @@
 %>
 <!-- Controller layer  -->
 <%
-	/* // 로그인한 사용자가 관리자인지 확인
-	// 세션을 변수로 변환
-	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
-	// 관리자, 직원 여부에 따라 보여지는 뷰가 달라짐
-	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
-		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
+	// 로그인한 사용자인지 검증
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
 		return;
-	} */
+	}
 	
 	// customerDetail -> customerUpdateForm
 	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
@@ -71,46 +68,44 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
+	<main class="customerFormMain">
 		<div class="regiCustomerInput">
 			<h2>보호자 정보 수정</h2>
-			<form action="/atti/action/customerUpdateAction.jsp">
-			<input type="hidden" name="customerNo" value="<%=customerNo%>"> 
-			<!-- form으로 customerNo를 같이 전달  -->
-			<table class="inputTable">
+			
+			<form action="/atti/action/customerUpdateAction.jsp" method="post" class="customerForm">
+				<!-- form으로 customerNo를 같이 전달  -->
+				<input type="hidden" name="customerNo" value="<%=customerNo%>"> 
 				<%
 					for(HashMap<String, Object> c: customerDetail){
 				%>
-					<tr>
-						<th><label for="customerName">보호자 이름</label></th>
-						<td><input type="text" name="customerName" id="customerName" value="<%=c.get("customerName")%>" readonly="readonly"></td>
-					</tr>
-					<tr>
-						<th><label for="customerTel">전화번호</label></th>
-						<td><input type="text" name="customerTel" id="customerTel" value="<%=c.get("customerTel")%>" placeholder="-를 제외하고 입력해 주세요"><td>
-					</tr>
-					<tr>
-						<th><label for="customerAddress">주소</label></th>
-						<td><input type="text" name="customerAddress" id="customerAddress" value="<%=c.get("customerAddress")%>"></td>
-					</tr>
-				<%		
+						<div>
+							<label for="customerName">이름</label>
+							<input type="text" name="customerName" id="customerName" value="<%=(String)(c.get("customerName"))%>" readonly="readonly">
+						</div>
+						<div>
+							<label for="customerTel">연락처</label>
+							<input type="text" name="customerTel" id="customerTel" value="<%=(String)(c.get("customerTel"))%>" placeholder="-를 제외하고 입력해 주세요">
+						</div>
+						<div>
+							<label for="customerAddress">주소</label>
+							<input type="text" name="customerAddress" id="customerAddress" value="<%=(String)(c.get("customerAddress"))%>">
+						</div>
+						<div id="customerRegiBtn">
+							<button class="customerRegiBtn" type="reset">초기화</button>
+							<button class="customerRegiBtn" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+							<button class="customerRegiBtn" type="submit">수정하기</button>
+						</div>
+				<%
 					}
 				%>
-			</table>
+			</form>
 			<%
 				if(errorMsg != null) {
 			%>
 					<div class="errorMsg"><%=errorMsg%></div>
 			<%		
-					
 				}
 			%>
-			<div class="buttonContainer">
-				<button class="inputButton" type="reset">초기화</button>
-				<button class="inputButton" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
-				<button class="inputButton" type="submit">수정하기</button>
-			</div>
-			</form>
 		</div>
 	</main>
 </body>

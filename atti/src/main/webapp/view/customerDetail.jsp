@@ -15,14 +15,11 @@
 %>
 <!-- Controller layer  -->
 <%	
-	/* // 로그인한 사용자가 관리자인지 확인
-	// 세션을 변수로 변환
-	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
-	// 관리자, 직원 여부에 따라 보여지는 뷰가 달라짐
-	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
-		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
+	// 로그인한 사용자인지 검증
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
 		return;
-	} */
+	}
 
 	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
 	//System.out.println("customerNo: " + customerNo);
@@ -65,69 +62,71 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
+	
+	
+	<main class="customerFormMain">
 		<div >
-			<h2>보호자 상세 정보</h2>
-			<table class="inputTable">
+			<h2>고객 상세 정보</h2>
+			<div id="customerDetailDiv">
 				<%
 					for(HashMap<String, Object> c : customerDetail){
 						String originalTel = (String)(c.get("customerTel")); 
 						
 				%>
+					<!-- 선택된 직원 정보 보여주기 폼 -->
+						<form action="" method="post" class="customerForm">
+							<div>
+								<label>고객 번호</label>
+								<input type="text" readonly="readonly" value=<%=(Integer)(c.get("customerNo"))%>>
+							</div>
+							<div>
+								<label>이름</label>
+								<input type="text" readonly="readonly" value=<%=(String)(c.get("customerName"))%>>
+							</div>
+							<div>
+								<label>연락처</label>
+								<input type="text" readonly="readonly"  value=<%=originalTel.replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3")%>>
+							</div>
+							<div>
+								<label>주소</label>
+								<input type="text" readonly="readonly"  value=<%=(String)(c.get("customerAddress"))%>>
+							</div>
+							<div id="detailCustomerBtn">
+								<button class="detailCustomerBtn" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
+								<button class="detailCustomerBtn" type="button" onclick="location.href='/atti/view/customerUpdateForm.jsp?customerNo=<%=customerNo%>'">수정하기</button>
+								<button class="detailCustomerBtn" type="button" onclick="location.href='/atti/view/petRegiForm.jsp?customerNo=<%=customerNo%>'">펫 등록</button>
+							</div>
+						</form>
+				<%
+					}
+				%>
+			</div><br>
+			<h2>펫 리스트</h2>
+			<table class="petListTable">
+				<tr>
+					<th>펫 번호</th>
+					<th>펫 이름</th>
+					<th>최근 진료일</th>
+					<th>접수</th>
+				</tr>
+				<%
+					for(HashMap<String, Object> p : petList){
+				%>
 						<tr>
-							<th>보호자 번호</th>
-							<td><%=c.get("customerNo")%></td>
-						</tr>
-						<tr>
-							<th>보호자 이름</th>
-							<td><%=c.get("customerName")%></td>
-						</tr>
-						<tr>
-							<th>보호자 연락처</th>
+							<td><%=p.get("petNo")%></td> 
 							<td>
-								<%=originalTel.replaceAll("(\\d{3})(\\d{4})(\\d{4})", "$1-$2-$3")%>
+								<a href="/atti/view/petDetail.jsp?petNo=<%=p.get("petNo")%>"><%=p.get("petName") %></a>
 							</td>
-						</tr>
-						<tr>	
-							<th>보호자 주소</th>
-							<td><%=c.get("customerAddress")%></td>
-						</tr>	
-				<% 
+							<td><%=p.get("regiDate")%></td>
+							<td>
+								<button class="petListBtn" type="button" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=p.get("petNo")%>'">접수하기</button>
+							</td>
+						</tr>			
+				<%		
 					}
 				%>
 			</table>
-			<div class="buttonContainer">
-				<button class="inputButton" type="button" onclick="location.href='/atti/view/customerUpdateForm.jsp?customerNo=<%=customerNo%>'">정보 수정하기</button>
-				<button class="inputButton" type="button" onclick="location.href='/atti/view/petRegiForm.jsp?customerNo=<%=customerNo%>'">펫 등록하기</button>
-				<button class="inputButton" type="button" onclick="location.href='/atti/view/searchList.jsp'">목록으로</button>
-			</div>
 		</div>
-		<br>
-		<h2>펫 리스트</h2>
-		<table class="listTable">
-			<tr>
-				<th>펫 번호</th>
-				<th>펫 이름</th>
-				<th>최근 진료일</th>
-				<th>접수</th>
-			</tr>
-			<%
-				for(HashMap<String, Object> p : petList){
-			%>
-					<tr>
-						<td><%=p.get("petNo")%></td> 
-						<td>
-							<a href="/atti/view/petDetail.jsp?petNo=<%=p.get("petNo")%>"><%=p.get("petName") %></a>
-						</td>
-						<td><%=p.get("regiDate")%></td>
-						<td>
-							<button class="inputButton" type="button" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=p.get("petNo")%>'">접수하기</button>
-						</td>
-					</tr>			
-			<%		
-				}
-			%>
-		</table>
 	</main>
 </body>
 </html>

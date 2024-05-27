@@ -210,21 +210,34 @@ public class SurgeryDao {
 	
 	public static ArrayList<HashMap<String, Object>> surgeryDetailByClinic(int regiNo) throws Exception {
 		
-		System.out.println(regiNo  + " ====== SurgeryDao#surgeryDetailByClinic() regiNo");
+		System.out.println(regiNo + " ====== SurgeryDao#surgeryDetailByClinic() petNo");
 		
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "SELECT surgery_no surgeryNo, regi_no regiNo, surgery_kind surgeryKind,"
-				+ " surgery_content surgeryContent, surgery_state surgeryState, surgery_date surgeryDate"
-				+ " FROM surgery"
-				+ " WHERE regi_no = ?;";
 		
+		 String sql = "SELECT surgery_no surgeryNo, regi_no regiNo, surgery_kind surgeryKind," 
+		 + " surgery_content surgeryContent, surgery_state surgeryState, surgery_date surgeryDate"
+		 + " FROM surgery" 
+		 + " WHERE regi_no = ?;";
+	
+		
+		/*
+		 * String sql =
+		 * "SELECT s.surgery_no surgeryNo, s.regi_no regiNo, s.surgery_kind surgeryKind, "
+		 * +
+		 * " s.surgery_content surgeryContent, s.surgery_state surgeryState, s.surgery_date surgeryDate"
+		 * + " r.pet_no petNo" + " FROM surgery s" + " LEFT JOIN registration r" +
+		 * " ON s.regi_no = r.regi_no" + " WHERE r.pet_no = ?" +
+		 * " ORDER BY s.surgery_date ASC";
+		 */
+				
+				
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, regiNo);
 		
-		System.out.println(regiNo  + " ====== SurgeryDao#surgeryDetailByClinic() stmt");
+		System.out.println(stmt  + " ====== SurgeryDao#surgeryDetailByClinic() stmt");
 		
 		ResultSet rs = stmt.executeQuery();
 		

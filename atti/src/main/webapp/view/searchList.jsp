@@ -15,15 +15,11 @@
 %>
 <!-- Controller layer  -->
 <%
-	/* // 세션을 변수로 변환
-	HashMap<String, Object> loginEmp = (HashMap<String, Object>)session.getAttribute("loginEmp");
-	
-	// 로그인한 사용자가 관리자인지 확인
-	// 관리자, 직원 여부에 따라 보여지는 뷰가 달라짐
-	if(loginEmp == null || (loginEmp != null && loginEmp.get("empNo").toString().charAt(0) != '1')){
-		response.sendRedirect("/atti/view/main.jsp"); // 로그인하지 않은 사용자는 로그인 페이지로 이동
+	// 로그인한 사용자인지 검증
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
 		return;
-	} */
+	}
 
 	// 검색 시 선택한 값이 전체, 보호자, 펫인지에 대한 값
 	String selectCategory = request.getParameter("selectCategory");
@@ -135,27 +131,37 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
+	<main class="searchAllFormMain">
 		<div>
 			<h2>보호자 및 펫 조회</h2>
 		</div>
-		<div>
-		<form method="post" action="/atti/view/searchList.jsp">
-			<div class="searchContainer">
-				<!-- selectCategory가 all일 경우 전체를 checked -->
-				<input type="radio" name="selectCategory" onchange="this.form.submit()" value="all" <%="all".equals(selectCategory) ? "checked" : ""%>> 전체 
-				<!-- selectCategory가 customer일 경우 customer를 checked -->
-				<input type="radio" name="selectCategory" onchange="this.form.submit()" value="customer" <%="customer".equals(selectCategory) ? "checked" : ""%>> 보호자
-				<!-- selectCategory가 pet일 경우 pet을 checked -->
-				<input type="radio" name="selectCategory" onchange="this.form.submit()" value="pet" <%="pet".equals(selectCategory) ? "checked" : ""%>> 펫
-				<input type="text" name="searchWord" class="searchContent" placeholder="<%=placeholder%>">
-				<button class="inputButton" type="submit">조회하기</button>
-			</div>	
-		</form>	
+		<div id="searchDiv">
+			<div class="searchListForm">
+				<form method="post" action="/atti/view/searchList.jsp" id="searchListForm">
+					<!-- selectCategory가 all일 경우 전체를 checked -->
+					<div class="searchListRadio">
+					<input type="radio" name="selectCategory" id="selectCategoryAll" onchange="this.form.submit()" value="all" <%="all".equals(selectCategory) ? "checked" : ""%> class="searchFormLabel"> 
+					<label for="selectCategoryAll">전체</label> 
+					</div>
+					<div class="searchListRadio">
+					<!-- selectCategory가 customer일 경우 customer를 checked -->
+					<input type="radio" name="selectCategory" id="selectCategoryCustomer" onchange="this.form.submit()" value="customer" <%="customer".equals(selectCategory) ? "checked" : ""%> class="searchFormLabel"> 
+					<label for="selectCategoryCustomer">보호자</label>
+					</div>
+					<!-- selectCategory가 pet일 경우 pet을 checked -->
+					<div class="searchListRadio">
+					<input type="radio" name="selectCategory" id="selectCategoryPet" onchange="this.form.submit()" value="pet" <%="pet".equals(selectCategory) ? "checked" : ""%> class="searchFormLabel"> 
+					<label for="selectCategoryPet">펫</label>
+					</div>
+					<input type="text" name="searchWord" class="searchFormInput" placeholder="<%=placeholder%>">
+					<button type="submit" id="searchInputBtn">조회하기</button>
+				</form>	
+			</div>
+		</div>		
 			<%
 				if("all".equals(selectCategory)){
 			%>
-					<table class="listTable">
+					<table class="searchListTable">
 						<tr>
 							<th>펫 번호</th>
 							<th>펫 이름</th>
@@ -190,7 +196,7 @@
 											<input type="hidden" name="customerNo" value="<%=a.get("customerNo")%>">
 											<input type="hidden" name="customerName" value="<%=a.get("customerName")%>">
 											<input type="hidden" name="customerTel" value="<%=a.get("customerTel")%>">
-											<button class="listButton" type="submit" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=a.get("petNo")%>'">접수하기</button>
+											<button class="searchListBtn" type="submit">접수하기</button>
 										</form>
 									</td>
 								</tr>
@@ -201,7 +207,7 @@
 			<%
 				} else if("customer".equals(selectCategory)){
 			%>
-					<table class="listTable">
+					<table class="searchListTable"">
 						<tr>
 							<th>보호자 번호</th>
 							<th>보호자 이름</th>
@@ -234,7 +240,7 @@
 			<%
 				} else if("pet".equals(selectCategory)){
 			%>
-					<table class="listTable">
+					<table class="searchListTable">
 						<tr>
 							<th>펫 번호</th>
 							<th>펫 이름</th>
@@ -270,7 +276,7 @@
 											<input type="hidden" name="customerNo" value="<%=p.get("customerNo")%>">
 											<input type="hidden" name="customerName" value="<%=p.get("customerName")%>">
 											<input type="hidden" name="customerTel" value="<%=p.get("customerTel")%>">
-											<button class="listButton" type="submit" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=p.get("petNo")%>'">접수하기</button>
+											<button class="searchListBtn" type="submit">접수하기</button>
 										</form>
 									</td>
 								</tr>
@@ -281,25 +287,24 @@
 			<%
 				}
 			%>		
-		</div>
 		<!-- 리스트 페이지네이션 -->
-		<div class="pagenationContainer">
+		<div id="searchPagenationDiv">
 			<div>
 			    <!-- 이전 페이지 링크 -->
 			    <% if(currentPage > 1){ %>
-			        <a href="/atti/view/searchList.jsp?currentPage=<%=currentPage -1%>&selectCategory=<%=selectCategory%>&searchWord=<%=searchWord%>" class="pageButton">이전</a>
+			        <a href="/atti/view/searchList.jsp?currentPage=<%=currentPage -1%>&selectCategory=<%=selectCategory%>&searchWord=<%=searchWord%>" class="searchPageBtn">이전</a>
 			    <% } else { %>
-			        <span class="pageButton disabled">이전</span>
+			        <span class="searchPageBtn disabled">이전</span>
 			    <% } %>
 			
 			    <!-- 현재 페이지 표시 -->
-			    <span class="currentPage"><%=currentPage%>page</span>
+			    <span class="currentPage"><%=currentPage%></span>
 			
 			    <!-- 다음 페이지 링크 -->
 			    <% if(currentPage < lastPage) { %>
-			        <a href="/atti/view/searchList.jsp?currentPage=<%=currentPage +1%>&selectCategory=<%=selectCategory%>&searchWord=<%=searchWord%>" class="pageButton">다음</a>
+			        <a href="/atti/view/searchList.jsp?currentPage=<%=currentPage +1%>&selectCategory=<%=selectCategory%>&searchWord=<%=searchWord%>" class="searchPageBtn">다음</a>
 			    <% } else { %>
-			        <span class="pageButton disabled">다음</span>
+			        <span class="searchPageBtn disabled">다음</span>
 			    <% } %>
 			</div>	
 		</div>
