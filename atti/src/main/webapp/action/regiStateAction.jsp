@@ -12,9 +12,11 @@
 <%
 	// input 값 가져오기 
 	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
+	int petNo = Integer.parseInt(request.getParameter("petNo"));
 	String regiState = request.getParameter("regiState");
 	// 디버깅
 	//System.out.println(regiNo + " ====== regiStateAction regiNo");
+	System.out.println(petNo + " ====== regiStateAction petNo");
 	//System.out.println(regiState + " ====== regiStateAction regiState");
 	
 	// 상태 변경 메서드 호출 
@@ -37,7 +39,7 @@
 	    	// 접수 진행 상태가 대기 -> 진행 으로 변경
 	    	//System.out.println(regiState + " ====== regiStateAction clinicList regiState");
 	    	System.out.println("clinicList 진행으로 변경 성공");
-	        response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo);
+	        response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo=" + regiNo + "&" + "petNo=" + petNo);
 
 	    }
 	}
