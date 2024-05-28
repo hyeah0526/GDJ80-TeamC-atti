@@ -12,17 +12,33 @@
 .mainContentDiv{
 	padding-bottom: 20px;
 	margin-bottom: 10px;
-	border: 1px solid black;
+    border-collapse: collapse;
+    box-shadow: 2px 2px 2px 2px #ccc; 
 	border-radius: 10px;
 	width: 50%;
+	margin-right: 20px;
 }
 
 .mainContentDiv h2{
 	margin-left: 30px;
 }
 
-.mainContentDiv table{
-	margin-left: 30px;
+.mainListTable{
+	width: 90%;            
+    margin: 20px;    
+    border-collapse: collapse;
+    box-shadow: 0 2px 3px #ccc; 
+}
+
+.mainListTable th{
+    background-color: #eedcba;
+    font-weight: bold;
+}
+
+.mainListTable th, td{
+  	padding: 8px 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
 }
 
 .regiFormInput{
@@ -222,8 +238,6 @@
 	width: 20% !important;
 	border: 1px solid black !important; 
 }
-
-
 
 #errorMessageDiv{
 	margin-top: 30px;

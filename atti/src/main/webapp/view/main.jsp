@@ -211,7 +211,7 @@
 	<main class="mainPageDiv">
 		<div>
 			
-			<!-- 접수과 진료 Div -->	
+			<!-- 접수와 진료 Div -->	
 			<div class="mainPageListDiv">
 			
 				<!--접수 내역-->
@@ -229,7 +229,7 @@
 					</div>
 					<!-- 점수 리스트 출력 -->
 					<div>
-						<table>
+						<table border="1" class="mainListTable">
 							<tr>
 								<th>반려동물</th>
 								<th>접수 내용</th>
@@ -323,7 +323,7 @@
 						<h2>진료 리스트</h2>
 					</div>
 					<!-- 진료 리스트 출력 -->
-					<table border="1" class="a">
+					<table border="1" class="mainListTable">
 						<tr>
 							<th>동물이름(종류)</th>
 							<th>접수내용</th>
@@ -396,7 +396,7 @@
 					</div>
 				
 					<!-- 수술 리스트 출력 -->
-					<table border="1" class="a">
+					<table border="1" class="mainListTable">
 						<tr>
 							<th>담당 의사(사번)</th>		
 							<th>수술 종류</th>		
@@ -464,60 +464,57 @@
 				
 				<!-- 검사 리스트 -->
 				<div class="mainContentDiv">
-					<div class="row">
-						<div>
-							<h2>검사 리스트</h2>
-						</div>
 					
-						<!-- 검사 리스트 출력 -->
-						<table border="1" class="a">
-							<tr>
-								<th>반려동물 이름</th>
-								<th>검사 종류</th>
-								<th>검사 날짜</th>
-								<th> </th>
-							</tr>
-							<!-- 검사 리스트 값 -->
-							<%
-								for(HashMap<String, Object> e : examinationList) {
-									if (examinationCount < 4) { 
-							%>
-										<tr>
-											<td><%= e.get("petName")%></td>
-											<td><%= e.get("examinationKind")%></td>
-											<td><%= e.get("examinationDate")%></td>
-											<td><a href="/atti/view/examinationDetail.jsp?examinationNo=<%=e.get("examinationNo") %>">상세보기</a></td>
-										</tr>
-							<%
-									}else{
-							%>
-										<tr style="display:none;">
-											<td><%= e.get("petName")%></td>
-											<td><%= e.get("examinationKind")%></td>
-											<td><%= e.get("examinationDate")%></td>
-											<td><a href="/atti/view/examinationDetail.jsp?examinationNo=<%=e.get("examinationNo") %>">상세보기</a></td>
-										</tr>
-		
-							<%		
-									}
-									examinationCount++;
-								}
-							%>
-							<% if (examinationList.size() > 4) { %>
-							    <tr>
-							        <td colspan="5" style="text-align: center;">
-							            <button onclick="location.href='/atti/view/examinationList.jsp'">더 보기</button>
-							        </td>
-							    </tr>
-							<% 
-								} 
-							%>
-						</table>
+					<div>
+						<h2>검사 리스트</h2>
 					</div>
-				</div>
 				
+					<!-- 검사 리스트 출력 -->
+					<table border="1" class="mainListTable">
+						<tr>
+							<th>반려동물 이름</th>
+							<th>검사 종류</th>
+							<th>검사 날짜</th>
+							<th> </th>
+						</tr>
+						<!-- 검사 리스트 값 -->
+						<%
+							for(HashMap<String, Object> e : examinationList) {
+								if (examinationCount < 4) { 
+						%>
+									<tr>
+										<td><%= e.get("petName")%></td>
+										<td><%= e.get("examinationKind")%></td>
+										<td><%= e.get("examinationDate")%></td>
+										<td><a href="/atti/view/examinationDetail.jsp?examinationNo=<%=e.get("examinationNo") %>">상세보기</a></td>
+									</tr>
+						<%
+								}else{
+						%>
+									<tr style="display:none;">
+										<td><%= e.get("petName")%></td>
+										<td><%= e.get("examinationKind")%></td>
+										<td><%= e.get("examinationDate")%></td>
+										<td><a href="/atti/view/examinationDetail.jsp?examinationNo=<%=e.get("examinationNo") %>">상세보기</a></td>
+									</tr>
+	
+						<%		
+								}
+								examinationCount++;
+							}
+						%>
+						<% if (examinationList.size() > 4) { %>
+						    <tr>
+						        <td colspan="5" style="text-align: center;">
+						            <button onclick="location.href='/atti/view/examinationList.jsp'">더 보기</button>
+						        </td>
+						    </tr>
+						<% 
+							} 
+						%>
+					</table>
+				</div>
 			</div>
-			
 		</div>
 	</main>
 </body>
