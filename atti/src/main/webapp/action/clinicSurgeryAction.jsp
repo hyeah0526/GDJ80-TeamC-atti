@@ -99,5 +99,5 @@
 			System.out.println("수술 정보 수정 완료");			
 		}
 	}
-	response.sendRedirect("/atti/view/clinicDetailTest.jsp?regiNo=" + regiNo); // 진료 페이지로 이동
+	response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo=" + regiNo); // 진료 페이지로 이동
 %>

@@ -4,63 +4,101 @@ import java.sql.*;
 import java.util.*;
 
 public class ClinicDao {
+	
+	/*
+	 * 메소드 : ClinicDao#clinicInfo() 
+	 * 페이지 : clinicDetailForm.jsp
+	 * 시작 날짜 : 2024-05-27
+	 * 담당자 : 김지훈 
+	 */
+	
+	// 진료 페이지 내 접수한 고객의 정보를 출력
+	public static ArrayList<HashMap<String, Object>> clinicInfo(int regiNo) throws Exception {
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		// 넘어온 값을 확인
+		// 디버깅
+		//System.out.println(regiNo  + " ====== ClinicDao#clinicUpdate() regiNo");
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT r.regi_no regiNo, r.regi_date regiDate, r.regi_content regiContent,"
+				+ " p.pet_no petNo, p.pet_name petName, p.pet_kind petKind,"
+				+ " c.customer_no customerNo, c.customer_name customerName,"
+				+ " cl.clinic_no clinicNo, cl.create_date createDate,"
+				+ " e.emp_major empMajor"
+				+ " FROM registration r"
+				+ " INNER JOIN pet p"
+				+ " ON r.pet_no = p.pet_no"
+				+ " INNER JOIN customer c"
+				+ " ON p.customer_no = c.customer_no"
+				+ " INNER JOIN clinic cl"
+				+ " ON r.regi_no = cl.regi_no"
+				+ " INNER JOIN employee e"
+				+ " ON r.emp_no = e.emp_no"
+				+ " WHERE r.regi_no = ?"
+				+ " ORDER BY r.regi_date DESC"
+				+ " LIMIT 0,1";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, regiNo);
+		// 디버깅
+		//System.out.println(stmt  + " ====== ClinicDao#clinicUpdate() stmt");
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			HashMap<String, Object> info = new HashMap<String, Object>();
+			info.put("regiNo", rs.getInt("regiNo"));
+			info.put("regiDate", rs.getString("regiDate"));
+			info.put("regiContent", rs.getString("regiContent"));
+			info.put("petNo", rs.getInt("petNo"));
+			info.put("petName", rs.getString("petName"));
+			info.put("petKind", rs.getString("petKind"));
+			info.put("customerNo", rs.getInt("customerNo"));
+			info.put("customerName", rs.getString("customerName"));
+			info.put("clinicNo", rs.getInt("clinicNo"));
+			info.put("empMajor", rs.getString("empMajor"));
+			info.put("createDate", rs.getString("createDate"));
+			list.add(info);
+		}
+		conn.close(); // db 자원 반납
+		return list;
+	}
+	
 	/*
 	 * 메소드 : ClinicDao#clinicUpdate() 
 	 * 페이지 : clinicAction.jsp
 	 * 시작 날짜 : 2024-05-26
 	 * 담당자 : 김지훈 
 	 */
-	public static int clinicUpdate(int regiNo, int clinicNo, String clinicContent) throws Exception {
+	public static int clinicUpdate(int regiNo, String clinicConetent, String clinicContent) throws Exception {
+		
+		// 받아 온 값을 확인
+		//System.out.println(regiNo  + " ====== ClinicDao#clinicUpdate() regiNo");
+		//System.out.println(clinicContent  + " ====== ClinicDao#clinicUpdate() clinicContent");
+		
 		int updateRow = 0;
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "UPDATE clinic"
-				+ " SET clinic_content = ?, update_date = NOW()"
-				+ " WHERE regi_no = ?"
-				+ " AND clinic_no = ?";
+		// Insert 시 중복된 regi_no가 있다면 엔터 후 추가 내용을 입력
+		String sql = "INSERT INTO clinic(regi_no, clinic_content, clinic_cost, create_date, update_date)"
+	           + " VALUES(?, ?, 5000, NOW(), NOW())"
+	           + " ON DUPLICATE KEY UPDATE"
+	           + " clinic_content = CONCAT(clinic_content, '\n', ?),"
+	           + " update_date = NOW()";
+	
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, clinicContent); // 진료 정보를 수정
-		stmt.setInt(2, regiNo); // regi_no에 따른 진료 정보를 수정
-		stmt.setInt(3, clinicNo); // clinicNo에 따른 진료 정보를 수정
+		stmt.setInt(1, regiNo); // regiNo에 따른 진료 정보 수정
+		stmt.setString(2, clinicContent); // 기존 content
+		stmt.setString(3, clinicContent); // 추가될 content
 		
-		System.out.println(stmt  + " ====== ClinicDao#clinicUpdate() stmt");
+		// 디버깅
+		//System.out.println(stmt  + " ====== ClinicDao#clinicUpdate() stmt");
 		
 		updateRow = stmt.executeUpdate();
 		
-		conn.close();
-		return updateRow;
+		conn.close();		// db 자원 반납
+		return updateRow;	// updateRow 반환
 	}
 	
-	
-	/*
-	 * 메소드 : ClinicDao#clinicInsert() 
-	 * 페이지 : clinicAction.jsp
-	 * 시작 날짜 : 2024-05-26
-	 * 담당자 : 김지훈 
-	 */
-	public static int clinicInsert(int regiNo, String clinicContent) throws Exception {
-		int insertRow = 0;
-		
-		// 디버깅
-		System.out.println("ClinicDatail#clinicInsert() regiNo: " + regiNo);
-		
-		Connection conn = DBHelper.getConnection();
-		String sql = "INSERT INTO clinic(regi_no, clinic_content, clinic_cost, create_date, update_date)"
-				+ " VALUES(?, ?, 5000, NOW(), NOW())";
-		
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, regiNo);
-		stmt.setString(2, clinicContent);
-		
-		System.out.println(stmt  + " ====== ClinicDao#clinicInsert() stmt");
-		
-		insertRow = stmt.executeUpdate();
-		
-		conn.close();
-		return insertRow;
-		
-	}
 	
 	/*
 	 * 메소드 : ClinicDatail#clinicDetail() 
@@ -70,35 +108,49 @@ public class ClinicDao {
 	 */
 	
 	public static ArrayList<HashMap<String, Object>> clinicDetail(int regiNo) throws Exception {
+		
 		// 디버깅
-		System.out.println("ClinicDatail#clinicDetailByClinic() regiNo: " + regiNo);
+		//System.out.println("ClinicDatail#clinicDetailByClinic() regiNo: " + regiNo);
 		
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		Connection conn = DBHelper.getConnection();
-		String sql = "SELECT clinic_no clinicNo, regi_no regiNo,"
-				+ " clinic_content clinicContent, create_date createDate,"
-				+ " update_date updateDate"
-				+ " FROM clinic"
-				+ " WHERE regi_no = ?";
+		/*
+		 * String sql = "SELECT clinic_no clinicNo, regi_no regiNo," +
+		 * " clinic_content clinicContent, create_date createDate," +
+		 * " update_date updateDate" + " FROM clinic" + " WHERE regi_no = ?";
+		 */
+		
+		
+		String sql = "SELECT r.regi_no regiNo, cl.clinic_no clinicNo, cl.clinic_content clinicContent,"
+				+ " cl.create_date createDate, cl.update_date updateDate"
+				+ " FROM pet p"
+				+ " INNER JOIN customer c"
+				+ " ON p.customer_no = c.customer_no"
+				+ " INNER JOIN registration r"
+				+ " ON p.pet_no = r.pet_no"
+				+ " INNER JOIN clinic cl"
+				+ " ON r.regi_no = cl.regi_no"
+				+ " WHERE p.pet_no = 10"
+				+ " ORDER BY cl.update_date ASC; ";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, regiNo);
 		
 		// 디버깅
-		System.out.println("ClinicDatail#clinicDetailByClinic(): " + stmt);
+		//System.out.println("ClinicDatail#clinicDetailByClinic(): " + stmt);
 		
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			HashMap<String, Object> clinicList = new HashMap<String, Object>();
-			clinicList.put("clinicNo", rs.getInt("clinicNo"));
-			clinicList.put("regiNo", rs.getInt("regiNo"));
-			clinicList.put("clinicContent", rs.getString("clinicContent"));
-			clinicList.put("createDate", rs.getString("createDate"));
-			clinicList.put("updateDate", rs.getString("updateDate"));
+			clinicList.put("clinicNo", rs.getInt("clinicNo"));					// 진료 번호
+			clinicList.put("regiNo", rs.getInt("regiNo"));						// 접수 번호
+			clinicList.put("clinicContent", rs.getString("clinicContent"));		// 진료 내용
+			clinicList.put("createDate", rs.getString("createDate"));			// 생성 일자
+			clinicList.put("updateDate", rs.getString("updateDate"));			// 수정 일자
 			list.add(clinicList);
 		}
-		conn.close();
-		return list;
+		conn.close();	// db 자원 반납
+		return list;	// list를 반환
 	}
 	
 	/*

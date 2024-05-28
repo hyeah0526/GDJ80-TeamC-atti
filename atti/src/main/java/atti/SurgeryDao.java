@@ -149,6 +149,8 @@ public class SurgeryDao {
 	 * 시작 날짜 : 2024-05-23
 	 * 담당자 : 김지훈 
 	 */
+	
+	// 수술 등록 시 선택할 수술 목록
 	public static ArrayList<HashMap<String, String>> surgeryKind() throws Exception {
 		ArrayList<HashMap<String, String>> surgeryKind = new ArrayList<HashMap<String, String>>();
 
@@ -165,8 +167,8 @@ public class SurgeryDao {
 			list.put("surgeryKind", rs.getString("surgeryKind"));
 			surgeryKind.add(list);
 		}
-		conn.close();
-		return surgeryKind;
+		conn.close();			// db 자원 반납
+		return surgeryKind;		// surgeryKind를 반환
 	}
 	
 	/*
@@ -176,10 +178,14 @@ public class SurgeryDao {
 	 * 담당자 : 김지훈 
 	 */
 	
+	// 수술 내용 수정을 위한 메소드
 	public static int surgeryUpdate(int regiNo, int surgeryNo, String surgeryContent) throws Exception {
-		System.out.println(regiNo  + " ====== SurgeryDao#surgeryUpdate() regiNo");
-		System.out.println(surgeryNo  + " ====== SurgeryDao#surgeryUpdate() surgeryNo");
-		System.out.println(surgeryContent  + " ====== SurgeryDao#surgeryUpdate() surgeryContent");
+		
+		// clinicDetailForm -> clinicSurgeryAction
+		// 디버깅
+		//System.out.println(regiNo  + " ====== SurgeryDao#surgeryUpdate() regiNo");
+		//System.out.println(surgeryNo  + " ====== SurgeryDao#surgeryUpdate() surgeryNo");
+		//System.out.println(surgeryContent  + " ====== SurgeryDao#surgeryUpdate() surgeryContent");
 		
 		int updateRow = 0;
 		Connection conn = DBHelper.getConnection();
@@ -190,15 +196,15 @@ public class SurgeryDao {
 				+ " AND surgery_no = ?";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, surgeryContent); // 수술 정보를 수정
-		stmt.setInt(2, regiNo); // regi_no에 따른 수술 정보를 수정
-		stmt.setInt(3, surgeryNo);
+		stmt.setString(1, surgeryContent); 	// 수술 정보를 수정
+		stmt.setInt(2, regiNo); 			// regi_no에 따른 수술 정보를 수정
+		stmt.setInt(3, surgeryNo);			// surgery_no에 따른 수술 정보를 수정
 		System.out.println(stmt  + " ====== SurgeryDao#surgeryUpdate() stmt");
 		
 		updateRow = stmt.executeUpdate();
 		
-		conn.close();
-		return updateRow;
+		conn.close(); 		// db 자원 반납
+		return updateRow; 	// updateRow 반환
 	}
 	
 	/*
@@ -208,9 +214,12 @@ public class SurgeryDao {
 	 * 담당자 : 김지훈 
 	 */
 	
+	// 진료 상세 페이지
 	public static ArrayList<HashMap<String, Object>> surgeryDetailByClinic(int regiNo) throws Exception {
 		
-		System.out.println(regiNo + " ====== SurgeryDao#surgeryDetailByClinic() petNo");
+		
+		// 디버깅
+		//System.out.println(regiNo + " ====== SurgeryDao#surgeryDetailByClinic() petNo");
 		
 		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		
@@ -218,10 +227,9 @@ public class SurgeryDao {
 		
 		
 		 String sql = "SELECT surgery_no surgeryNo, regi_no regiNo, surgery_kind surgeryKind," 
-		 + " surgery_content surgeryContent, surgery_state surgeryState, surgery_date surgeryDate"
-		 + " FROM surgery" 
-		 + " WHERE regi_no = ?;";
-	
+				 + " surgery_content surgeryContent, surgery_state surgeryState, surgery_date surgeryDate"
+				 + " FROM surgery" 
+				 + " WHERE regi_no = ?;";
 		
 		/*
 		 * String sql =
@@ -237,24 +245,24 @@ public class SurgeryDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, regiNo);
 		
-		System.out.println(stmt  + " ====== SurgeryDao#surgeryDetailByClinic() stmt");
+		// 디버깅
+		//System.out.println(stmt  + " ====== SurgeryDao#surgeryDetailByClinic() stmt");
 		
 		ResultSet rs = stmt.executeQuery();
 		
 		while(rs.next()) {
 			HashMap<String, Object> surgeryList = new HashMap<String, Object>();
-			surgeryList.put("surgeryNo", rs.getInt("surgeryNo"));
-			surgeryList.put("regiNo", rs.getInt("regiNo"));
-			surgeryList.put("surgeryKind", rs.getString("surgeryKind"));
-			surgeryList.put("surgeryContent", rs.getString("surgeryContent"));
-			surgeryList.put("surgeryState", rs.getString("surgeryState"));
-			surgeryList.put("surgeryDate", rs.getString("surgeryDate"));
+			surgeryList.put("surgeryNo", rs.getInt("surgeryNo"));				// 수술 번호
+			surgeryList.put("regiNo", rs.getInt("regiNo"));						// 접수 번호
+			surgeryList.put("surgeryKind", rs.getString("surgeryKind"));		// 수술 종류
+			surgeryList.put("surgeryContent", rs.getString("surgeryContent"));	// 수술 내용
+			surgeryList.put("surgeryState", rs.getString("surgeryState"));		// 수술 대기 / 완료 여부
+			surgeryList.put("surgeryDate", rs.getString("surgeryDate"));		// 수술 일자
 			list.add(surgeryList);
 		}
 		
-		conn.close();
-		return list;
-		
+		conn.close(); // db 자원 반납
+		return list; // list를 반환
 	}
 	
 	/*
@@ -264,14 +272,15 @@ public class SurgeryDao {
 	 * 담당자 : 김지훈 
 	 */
 	
+	// 진료 페이지에서 수술을 등록하기 위한 메소드
 	public static int surgeryInsert(int regiNo, String surgeryKind, String surgeryContent, String surgeryDate) throws Exception {
 		
 		// clinicDetailForm -> clinicSurgeryAction
 		// 디버깅
-		System.out.println(regiNo  + " ====== SurgeryDao#surgeryInsert() regiNo");
-		System.out.println(surgeryKind  + " ====== SurgeryDao#surgeryInsert() surgeryKind");
-		System.out.println(surgeryContent  + " ====== SurgeryDao#surgeryInsert() surgeryContent");
-		System.out.println(surgeryDate  + " ====== SurgeryDao#surgeryInsert() surgeryDate");
+		//System.out.println(regiNo  + " ====== SurgeryDao#surgeryInsert() regiNo");
+		//System.out.println(surgeryKind  + " ====== SurgeryDao#surgeryInsert() surgeryKind");
+		//System.out.println(surgeryContent  + " ====== SurgeryDao#surgeryInsert() surgeryContent");
+		//System.out.println(surgeryDate  + " ====== SurgeryDao#surgeryInsert() surgeryDate");
 		
 		int insertRow = 0;
 		
@@ -285,7 +294,8 @@ public class SurgeryDao {
 		stmt.setString(3, surgeryContent);	// 수술 내용
 		stmt.setString(4, surgeryDate);		// 수술 일자
 		
-		System.out.println(stmt  + " ====== SurgeryDao#surgeryInsert() stmt");
+		// 디버깅
+		//System.out.println(stmt  + " ====== SurgeryDao#surgeryInsert() stmt");
 		
 		insertRow = stmt.executeUpdate();
 		
@@ -301,9 +311,11 @@ public class SurgeryDao {
 	 * 담당자 : 김지훈 
 	 */
 	
+	// 수술 대기 / 완료 여부 확인을 위한 버튼
 	public static int surgeryStateUpdate(int surgeryNo) throws Exception {
 		
-		System.out.println(surgeryNo  + " ====== SurgeryDao#surgeryStateUpdate() surgeryNo");
+		// surgeryList -> surgeryStateAction
+		//System.out.println(surgeryNo  + " ====== SurgeryDao#surgeryStateUpdate() surgeryNo");
 		
 		int updateRow = 0;
 
@@ -315,11 +327,12 @@ public class SurgeryDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, surgeryNo);
 		
-		System.out.println(stmt  + " ====== SurgeryDao#surgeryInsert() surgeryStateUpdate");
+		// 디버깅
+		//System.out.println(stmt  + " ====== SurgeryDao#surgeryInsert() surgeryStateUpdate");
 		
 		updateRow = stmt.executeUpdate();
 		
-		conn.close();
-		return updateRow;
+		conn.close(); // db 자원 반납
+		return updateRow; // updateRow를 반환
 	}
 }
