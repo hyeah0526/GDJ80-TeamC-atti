@@ -412,7 +412,6 @@
 					/* 처방: 처방받은 약 전체 조회 */
 					if(!selectPrescription.equals("prescriptionUpdate")){
 				%>
-						<div id="prescrptionContentRightDiv">
 						<span>처방받은 약</span><br><br>
 				<%
 						for(HashMap pd2 : prescriptionDetail){
