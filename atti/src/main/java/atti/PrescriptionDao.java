@@ -18,9 +18,9 @@ public class PrescriptionDao {
 		Connection conn = DBHelper.getConnection();
 
 		// 디버깅 
-		System.out.println(searchDate + " ====== PrescriptionDao#prescriptionList searchDate");
-		System.out.println(startRow + " ====== PrescriptionDao#prescriptionList startRow");
-		System.out.println(rowPerPage + " ====== PrescriptionDao#prescriptionList rowPerPage");
+		//System.out.println(searchDate + " ====== PrescriptionDao#prescriptionList searchDate");
+		//System.out.println(startRow + " ====== PrescriptionDao#prescriptionList startRow");
+		//System.out.println(rowPerPage + " ====== PrescriptionDao#prescriptionList rowPerPage");
 						
 		/*
 		 * 처방 리스트 출력 쿼리 
@@ -67,7 +67,7 @@ public class PrescriptionDao {
 		stmt.setString(2, "%"+searchDate +"%");
 		stmt.setInt(3, startRow);
 		stmt.setInt(4, rowPerPage);
-		System.out.println(stmt + " ====== PrescriptionDao#prescriptionList stmt");
+		//System.out.println(stmt + " ====== PrescriptionDao#prescriptionList stmt");
 		
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {

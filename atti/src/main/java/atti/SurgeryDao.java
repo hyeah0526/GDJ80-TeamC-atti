@@ -17,9 +17,9 @@ public class SurgeryDao {
 		// DB연결
 		Connection conn = DBHelper.getConnection();
 		// 디버깅 
-		System.out.println(searchDate + " ====== SurgeryDao#surgeryList() searchDate");
-		System.out.println(startRow + " ====== SurgeryDao#surgeryList() startRow");
-		System.out.println(rowPerPage + " ====== SurgeryDao#surgeryList() rowPerPage");
+		//System.out.println(searchDate + " ====== SurgeryDao#surgeryList() searchDate");
+		//System.out.println(startRow + " ====== SurgeryDao#surgeryList() startRow");
+		//System.out.println(rowPerPage + " ====== SurgeryDao#surgeryList() rowPerPage");
 		
 		/*
 		 * 수술 리스트 출력 쿼리 
@@ -55,7 +55,7 @@ public class SurgeryDao {
 		stmt.setInt(3, startRow);
 		stmt.setInt(4, rowPerPage);
 		
-		System.out.println(stmt + " ====== SurgeryDao#surgeryList stmt");
+		//System.out.println(stmt + " ====== SurgeryDao#surgeryList stmt");
 		
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
@@ -116,7 +116,7 @@ public class SurgeryDao {
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, surgeryNo);
-		System.out.println(stmt + " ====== SurgeryDao#surgeryDetail stmt");
+		//System.out.println(stmt + " ====== SurgeryDao#surgeryDetail stmt");
 		
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
@@ -199,7 +199,7 @@ public class SurgeryDao {
 		stmt.setString(1, surgeryContent); 	// 수술 정보를 수정
 		stmt.setInt(2, regiNo); 			// regi_no에 따른 수술 정보를 수정
 		stmt.setInt(3, surgeryNo);			// surgery_no에 따른 수술 정보를 수정
-		System.out.println(stmt  + " ====== SurgeryDao#surgeryUpdate() stmt");
+		//System.out.println(stmt  + " ====== SurgeryDao#surgeryUpdate() stmt");
 		
 		updateRow = stmt.executeUpdate();
 		

@@ -12,8 +12,11 @@
 	*/
 	
 	System.out.println("---------------- prescriptionList.jsp -----------------");
-	// 로그인 세션 
-
+	//로그인 세션 
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp"); 
+		return;
+	}
 
 %>
 <%
@@ -59,14 +62,14 @@
 	//System.out.println(currentPage + " ====== prescriptionList currentPage");
 	//System.out.println(rowPerPage + " ====== prescriptionList rowPerPage");
 	//System.out.println(startRow + " ====== prescriptionList startRow");
-	//System.out.println(startRow + " ====== prescriptionList totalRow");
+	//System.out.println(totalRow + " ====== prescriptionList totalRow");
 	//System.out.println(lastPage + " ====== prescriptionList lastPage");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>처방 리스트</title>
 	
 	<!-- 부트스트랩 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -92,32 +95,32 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
-		<div>
+	<main id="surgeryListMain">
+		<div id="centerDiv">
 			<h2>처방 리스트</h2>
 		</div>
-		<div class="col container mb-2">
+		<div id="prescriptionListSearchForm">
 			<!-- 날짜 선택해서 검색 -->
 			<form method="post" action="prescriptionList.jsp" class="inline">
 				<input type="date" name="searchDate" value="<%= searchDate %>">
-				<button type="submit">검색</button>
+				<button id="searchBtn" type="submit">검색</button>
 			</form>
 			<!-- 오늘 날짜 바로 검색 -->
 			<form method="post" action="prescriptionList.jsp" class="inline">
-				<button type="submit" name="searchDate" value="<%= date %>">오늘</button>
+				<button id="searchBtn" type="submit" name="searchDate" value="<%= date %>">오늘</button>
 			</form>
 			<!-- 전체 검색 -->
 			<form method="post" action="prescriptionList.jsp" class="inline">
-				<button type="submit" name="searchDate" value="">전체</button>
+				<button id="searchBtn" type="submit" name="searchDate" value="">전체</button>
 			</form>
 		</div>
 		<!-- 처방 리스트 출력 -->
 		<div>
-			<table>
+			<table id="prescriptionListTable">
 				<tr>
-					<th>처방 번호</th>
-					<th>담당 의사(사번)</th>
-					<th>반려동물(번호)</th>
+					<th style="width: 150px;">처방 번호</th>
+					<th>담당 의사</th>
+					<th>동물 정보</th>
 					<th>약 이름</th>
 					<th>처방 내용</th>
 					<th>처방 날짜</th>
@@ -126,11 +129,11 @@
 				for(HashMap<String, Object> p : prescriptionList) {
 			%>
 				<tr>
-					<td><%= p.get("prescriptionNo") %></td>
+					<td style="width: 150px;"><%= p.get("prescriptionNo") %></td>
 					<td><%= p.get("empName") %>(<%= p.get("empNo") %>)</td>
-					<td><%= p.get("petName") %>(<%= p.get("petNo") %>)</td>
+					<td>NO.<%= p.get("petNo") %> <%= p.get("petName") %></td>
 					<td><%= p.get("medicineNames") %></td>
-					<td style="width: 40%;"><%= p.get("prescriptionContents") %></td>
+					<td><%= p.get("prescriptionContents") %></td>
 					<td><%= p.get("prescriptionDate") %></td>
 				</tr>
 			<%
@@ -139,25 +142,26 @@
 			</table>		
 		</div>
 		<!-- 페이징 -->
-		<div>
-		    <!-- 이전 페이지 링크 -->
-		    <% if(currentPage > 1){ %>
-		        <a href="/atti/view/prescriptionList.jsp?currentPage=<%=currentPage-1%>&searchDate=<%=searchDate%>">이전</a>
-		    <% } else { %>
-		        <span class="disabled">이전</span>
-		    <% } %>
-
-		    <!-- 현재 페이지 표시 -->
-		    <span class="currentPage"><%=currentPage%></span>
-
-		    <!-- 다음 페이지 링크 -->
-		    <% if(currentPage < lastPage) { %>
-		        <a href="/atti/view/prescriptionList.jsp?currentPage=<%=currentPage+1%>&searchDate=<%=searchDate%>">다음</a>
-		    <% } else { %>
-		        <span class="disabled">다음</span>
-		    <% } %>
-		</div>	
-		
+		<div id="paginationDiv">
+			<div>
+			    <!-- 이전 페이지 링크 -->
+			    <% if(currentPage > 1){ %>
+			        <a href="/atti/view/prescriptionList.jsp?currentPage=<%=currentPage-1%>&searchDate=<%=searchDate%>" id="paginationBtn">이전</a>
+			    <% } else { %>
+			        <span id="paginationBtn" class="disabled">이전</span>
+			    <% } %>
+	
+			    <!-- 현재 페이지 표시 -->
+			    <span id="currentPage"><%=currentPage%></span>
+	
+			    <!-- 다음 페이지 링크 -->
+			    <% if(currentPage < lastPage) { %>
+			        <a href="/atti/view/prescriptionList.jsp?currentPage=<%=currentPage+1%>&searchDate=<%=searchDate%>" id="paginationBtn">다음</a>
+			    <% } else { %>
+			        <span id="paginationBtn" class="disabled">다음</span>
+			    <% } %>
+			</div>	
+		</div>
 	</main>
 </body>
 </html>

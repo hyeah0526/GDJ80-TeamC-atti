@@ -14,7 +14,10 @@
 
 	System.out.println("---------------- surgeryList.jsp -----------------");
 	// 로그인 세션 
-
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp"); 
+		return;
+	}
 %>
 <%
 	//검색 날짜 값 가져오기 
@@ -94,28 +97,28 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
-		<div>
+	<main id="surgeryListMain">
+		<div id="centerDiv">
 			<h2>수술 리스트</h2>
 		</div>
-		<div class="col container mb-2">
+		<div id="surgeryListSearchForm">
 			<!-- 날짜 선택해서 검색 -->
 			<form method="post" action="surgeryList.jsp" class="inline">
 				<input type="date" name="searchDate" value="<%= searchDate %>">
-				<button type="submit">검색</button>
+				<button id="searchBtn" type="submit">검색</button>
 			</form>
 			<!-- 오늘 날짜 바로 검색 -->
 			<form method="post" action="surgeryList.jsp" class="inline">
-				<button type="submit" name="searchDate" value="<%= date %>">오늘</button>
+				<button id="searchBtn" type="submit" name="searchDate" value="<%= date %>">오늘</button>
 			</form>
 			<!-- 전체 검색 -->
 			<form method="post" action="surgeryList.jsp" class="inline">
-				<button type="submit" name="searchDate" value="">전체</button>
+				<button id="searchBtn" type="submit" name="searchDate" value="">전체</button>
 			</form>
 		</div>
 	
 		<!-- 수술 리스트 출력 -->
-		<table border="1" class="a">
+		<table id="surgeryListTable">
 			<tr>
 				<th>접수 번호</th>		
 				<th>수술 번호</th>		
@@ -137,12 +140,12 @@
 				<td><%= s.get("surgeryKind") %></td>
 				<td><%= s.get("surgeryDate") %></td>
 				<td><%= s.get("petName") %>(<%= s.get("petKind") %>)</td>
-				<td><a href="/atti/view/surgeryDetail.jsp?surgeryNo=<%=s.get("surgeryNo") %>">상세 보기</a></td>
+				<td><button id="detailBtn"><a href="/atti/view/surgeryDetail.jsp?surgeryNo=<%=s.get("surgeryNo") %>">상세 보기</a></button></td>
 				<td><%=s.get("surgeryState") %>
 					<%
 						if("대기".equals(s.get("surgeryState"))) {
 					%>
-							<button type="button" onclick="location.href='/atti/action/surgeryStateAction.jsp?surgeryNo=<%=s.get("surgeryNo")%>'">상태 변경</button>
+							<button id="detailBtn" type="button" onclick="location.href='/atti/action/surgeryStateAction.jsp?surgeryNo=<%=s.get("surgeryNo")%>'">상태 변경</button>
 					<%		
 						}
 					%>
@@ -153,23 +156,23 @@
 			%>
 		</table>
 		<!-- 페이징 -->
-		<div>
+		<div id="paginationDiv">
 			<div>
 			    <!-- 이전 페이지 링크 -->
 			    <% if(currentPage > 1){ %>
-			        <a href="/atti/view/surgeryList.jsp?currentPage=<%=currentPage-1%>&searchDate=<%=searchDate%>">이전</a>
+			        <a href="/atti/view/surgeryList.jsp?currentPage=<%=currentPage-1%>&searchDate=<%=searchDate%>" id="paginationBtn">이전</a>
 			    <% } else { %>
-			        <span class="disabled">이전</span>
+			        <span id="paginationBtn" class="disabled">이전</span>
 			    <% } %>
 	
 			    <!-- 현재 페이지 표시 -->
-			    <span class="currentPage"><%=currentPage%></span>
+			    <span id="currentPage"><%=currentPage%></span>
 	
 			    <!-- 다음 페이지 링크 -->
 			    <% if(currentPage < lastPage) { %>
-			        <a href="/atti/view/surgeryList.jsp?currentPage=<%=currentPage+1%>&searchDate=<%=searchDate%>">다음</a>
+			        <a href="/atti/view/surgeryList.jsp?currentPage=<%=currentPage+1%>&searchDate=<%=searchDate%>" id="paginationBtn">다음</a>
 			    <% } else { %>
-			        <span class="disabled">다음</span>
+			        <span id="paginationBtn" class="disabled">다음</span>
 			    <% } %>
 			</div>	
 		</div>

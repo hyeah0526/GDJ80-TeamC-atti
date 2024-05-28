@@ -140,8 +140,10 @@
 	background-color: #e8e8e8; 
 }
 
+
+/* examinationDetail */
 #examinationDetailTable{
-	width: 90%;            
+	width: 60%;            
     border-collapse: collapse;
     margin: 20px;    
     box-shadow: 0 2px 3px #ccc; 
@@ -167,10 +169,138 @@
 }
 
 
+ /* surgeryList */
+ #surgeryListMain{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+#surgeryListSearchForm{
+	display: flex;
+	justify-content: center;
+}
+
+#surgeryListSearchForm input{
+	padding: 0px;
+    width: 300px;
+    height: 40px;
+    margin-left: 30px;
+}
+
+#surgeryListTable{
+	width: 90%;            
+    border-collapse: collapse;
+    margin: 20px;    
+    box-shadow: 0 2px 3px #ccc; 
+}
+
+#surgeryListTable table{
+	width: 100%;
+}
+
+#surgeryListTable th, td{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
+}
+
+#surgeryListTable th{
+	background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+#surgeryListTable tr:hover{
+	background-color: #e8e8e8; 
+}
+ 
+/* surgeryDetail */
+ 
+ #surgeryDetailTable{
+	width: 60%;            
+    border-collapse: collapse;
+    margin: 20px;    
+    box-shadow: 0 2px 3px #ccc; 
+}
+ 
+#surgeryDetailTable table{
+	width: 100%;
+} 
+
+#surgeryDetailTable th, td{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
+}
+
+#surgeryDetailTable th{
+	background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+#surgeryDetailTable tr:hover{
+	background-color: #e8e8e8; 
+}
  
  
+ /* prescriptionList */
  
- 
- 
+#prescriptionListtMain{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+#prescriptionListSearchForm{
+	display: flex;
+	justify-content: center;
+}
+
+#prescriptionListSearchForm input{
+	padding: 0px;
+    width: 300px;
+    height: 40px;
+    margin-left: 30px;
+}
+
+#prescriptionListTable{
+	width: 90%;            
+    border-collapse: collapse;
+    margin: 20px;    
+    box-shadow: 0 2px 3px #ccc; 
+}
+
+#prescriptionListTable table{
+	width: 100%;
+}
+
+#prescriptionListTable th, td{
+	padding: 8px 12px;     
+	width: 250px;
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
+}
+
+#prescriptionListTable th{
+	background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+#prescriptionListTable tr:hover{
+	background-color: #e8e8e8; 
+}
+
+
+
+
+
+
+
+
+
  
  

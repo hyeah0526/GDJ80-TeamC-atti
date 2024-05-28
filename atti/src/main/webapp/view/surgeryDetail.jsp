@@ -29,7 +29,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Main page</title>
+	<title>수술 상세</title>
 	
 	<!-- 부트스트랩 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -55,49 +55,41 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
-		<div>
+	<main id="surgeryListMain">
+		<div id="centerDiv">
 			<h2>수술 상세 정보</h2>
 		</div>
 		<!-- 수술 상세보기 보여주기 -->
-		<div>
+		<table id="surgeryDetailTable">
 			<%
 				for(HashMap<String, Object> sd : surgeryDetail) {
 			%>
-			<div>
-				<label>수술 번호</label>
-				<%=(Integer)(sd.get("surgeryNo"))%>
-				<label>수술 종류</label>
-				<%=(String)(sd.get("surgeryKind"))%>
-				<label>수술 날짜</label>
-				<%=(String)(sd.get("surgeryDate"))%>
-			</div>
-			<div>
-				<label>접수 번호</label>
-				<%=(Integer)(sd.get("regiNo"))%>
-				<label>동물 정보</label>
-				NO.<%=(Integer)(sd.get("petNo"))%>
-				<%=(String)(sd.get("petName"))%>
-				(<%=(String)(sd.get("petKind"))%>)
-			</div>
-			<div>
-				<label>담당 의사</label>
-				<%=(String)(sd.get("empName"))%>
-				(<%=(Integer)(sd.get("empNo"))%>)
-			</div>
-			<div>
-				<label>보호자 정보</label>
-				<%=(String)(sd.get("customerName"))%>
-				(<%=(String)(sd.get("customerTel"))%>)
-			</div>
-			<div>
-				<label>수술 내용</label>
-				<%=(String)(sd.get("surgeryContent"))%>
-			</div>
+			<tr>
+				<th>수술번호</th>
+				<td><%=(Integer)(sd.get("surgeryNo"))%></td>
+				<th>수술종류</th>
+				<td><%=(String)(sd.get("surgeryKind"))%></td>
+			</tr>
+			<tr>
+				<th>접수번호</th>
+				<td><%=(Integer)(sd.get("regiNo"))%> </td>
+				<th>담당의사</th>
+				<td><%=(String)(sd.get("empName"))%> (<%=(Integer)(sd.get("empNo"))%>)</td>
+			</tr>
+			<tr>
+				<th>동물정보</th>
+				<td>NO.<%=(Integer)(sd.get("petNo"))%> <%=(String)(sd.get("petName"))%> (<%=(String)(sd.get("petKind"))%>)</td>
+				<th>수술날짜</th>
+				<td><%=(String)(sd.get("surgeryDate"))%></td>
+			</tr>
+			<tr>
+				<th>수술내용</th>
+				<td><%=(String)(sd.get("surgeryContent"))%></td>
+			</tr>
 			<%
 				}
 			%>
-		</div>
+		</table>
 	</main>
 </body>
 </html>
