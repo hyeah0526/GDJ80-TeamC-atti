@@ -20,8 +20,8 @@
 */
 	
 	//사용자의 진료 번호 
-	//int regiNo = Integer.parseInt(request.getParameter("regiNo"));
-	int regiNo = 16;
+	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
+	//int regiNo = 16;
 	
 	//디버깅
 	System.out.println(regiNo);
@@ -33,7 +33,7 @@
 <% 
 	//진료
 	
-	int petNo = 11;
+	int petNo = Integer.parseInt(request.getParameter("petNo"));
 	String petNoStr = request.getParameter("petNo");
 	String clinicError = request.getParameter("clinicError");
 	

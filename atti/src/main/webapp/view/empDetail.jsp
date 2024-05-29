@@ -46,7 +46,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>empDetail page</title>
+	<title>직원 상세 페이지</title>
 	
 	<!-- 부트스트랩 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -65,8 +65,8 @@
 	<aside>
 		<!-- 서브메뉴나오는 부분 -->
 		<div id="subMenu">
-			<button onclick="/atti/view/empList.jsp">직원조회</button>
-			<button onclick="/atti/view/empRegiForm.jsp">직원등록</button>
+			<button onclick="location.href='/atti/view/empList.jsp'">직원조회</button>
+			<button onclick="location.href='/atti/view/empRegiForm.jsp'">직원등록</button>
 		</div>
 	</aside>
 	

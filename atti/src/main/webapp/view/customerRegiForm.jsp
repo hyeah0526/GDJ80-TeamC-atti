@@ -31,7 +31,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>customerRegiForm page</title>
+	<title>보호자 등록</title>
 	
 	<!-- 부트스트랩 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -65,7 +65,7 @@
 				</div>
 				<div>
 					<label for="customerTel">연락처</label>
-					<input type="text" name="customerTel" placeholder="-를 제외하고 입력해 주세요">
+					<input type="number" name="customerTel" placeholder="-를 제외하고 입력해 주세요" maxlength="11">
 				</div>
 				<div>
 					<label for="customerAddress">주소</label>
