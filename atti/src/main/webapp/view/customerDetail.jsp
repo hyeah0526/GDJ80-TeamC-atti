@@ -39,7 +39,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>customerDetail page</title>
+	<title>보호자 상세 정보</title>
 	
 	<!-- 부트스트랩 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -119,7 +119,14 @@
 							</td>
 							<td><%=p.get("regiDate")%></td>
 							<td>
-								<button class="petListBtn" type="button" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=p.get("petNo")%>'">접수하기</button>
+								<form method="post" action="/atti/view/regiForm.jsp">
+									<input type="hidden" name="petNo" value="<%=p.get("petNo")%>">
+									<input type="hidden" name="petName" value="<%=p.get("petName")%>">
+									<input type="hidden" name="customerNo" value="<%=p.get("customerNo")%>">
+									<input type="hidden" name="customerName" value="<%=p.get("customerName")%>">
+									<input type="hidden" name="customerTel" value="<%=p.get("customerTel")%>">
+									<button class="petListBtn" type="submit">접수하기</button>
+								</form>
 							</td>
 						</tr>			
 				<%		

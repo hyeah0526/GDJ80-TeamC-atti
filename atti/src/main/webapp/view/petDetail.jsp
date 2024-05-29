@@ -35,7 +35,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>petDetail page</title>
+	<title>펫 상세 보기</title>
 	
 	<!-- 부트스트랩 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -100,7 +100,6 @@
 						<div id="detailPetBtn">
 							<button type="button" onclick="location.href='/atti/view/searchList.jsp'" class="detailPetBtn">목록으로</button>
 							<button type="button" onclick="location.href='/atti/view/petUpdateForm.jsp?petNo=<%=petNo%>'" class="detailPetBtn">수정하기</button>
-							<button type="button" onclick="location.href='/atti/view/regiForm.jsp?petNo=<%=petNo%>'" class="detailPetBtn">접수하기</button>
 						</div>
 						</form>
 				<%
