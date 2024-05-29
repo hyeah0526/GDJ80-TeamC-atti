@@ -12,9 +12,11 @@
  	
  	
  	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
+ 	int petNo = Integer.parseInt(request.getParameter("petNo"));
  	String examinationByClinic = request.getParameter("examinationByClinic");
  
  	System.out.println(regiNo + " ====== clinicExaminationAction regiNo");
+ 	System.out.println(petNo + " ====== clinicExaminationAction petNo");
  	System.out.println(examinationByClinic + " ====== clinicExaminationAction examinationByClinic");
  	
  	if(examinationByClinic != null && examinationByClinic.equals("examinationInsert")){
@@ -54,7 +56,7 @@
 				PaymentDao.paymentUpdate(regiNo, paymentCategory);
 			}
 			
-			response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo); // 진료 페이지로 이동
+			response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo+"&petNo="+petNo); // 진료 페이지로 이동
 	 	
 	 	} 
 	 	

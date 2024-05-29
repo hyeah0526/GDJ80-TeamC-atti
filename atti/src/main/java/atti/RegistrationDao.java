@@ -67,7 +67,7 @@ public class RegistrationDao {
 		 * + 페이징
 		 */
 		String sql = "SELECT regi_no regiNo, regi_content regiContent, regi_state regiState, regi_date regiDate,"
-				+ " pet_no petNo, pet_name petName, pet_kind petKind,"
+				+ " p.pet_no petNo, pet_name petName, pet_kind petKind,"
 				+ " r.emp_no empNo, emp_name empName,"
 				+ " COUNT(*) OVER() totalRow "		
 				+ " FROM registration r"
@@ -99,6 +99,7 @@ public class RegistrationDao {
 			regiList.put("empNo", rs.getInt("empNo"));	
 			regiList.put("empName", rs.getString("empName"));	
 			regiList.put("totalRow", rs.getInt("totalRow"));	
+			regiList.put("petNo", rs.getInt("petNo"));	
 		
 			list.add(regiList);
 		}
