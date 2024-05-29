@@ -98,9 +98,9 @@
 				</div>
 				<div>
 					<label>전화번호</label>
-					<input class="telInput" type="text" name="empTelFirst">-
-					<input class="telInput" type="text" name="empTelSecond">-
-					<input class="telInput" type="text" name="empTelThrid">
+					<input class="telInput" type="text" name="empTelFirst" maxlength='3'>-
+					<input class="telInput" type="text" name="empTelSecond" maxlength='4'>-
+					<input class="telInput" type="text" name="empTelThrid" maxlength='4'>
 				</div>
 				<div>
 					<label>입사일</label>

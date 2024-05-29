@@ -110,9 +110,9 @@
 				</div>
 				<div>
 					<label>전화번호</label>
-					<input class="telInput" type="text" name="empTelFirst" value=<%=(String)(m.get("empTel")).toString().substring(0,3) %>>-
-					<input class="telInput" type="text" name="empTelSecond" value=<%=(String)(m.get("empTel")).toString().substring(3,7) %>>-
-					<input class="telInput" type="text" name="empTelThrid" value=<%=(String)(m.get("empTel")).toString().substring(7,11) %>>
+					<input class="telInput" type="text" name="empTelFirst" maxlength='3' value=<%=(String)(m.get("empTel")).toString().substring(0,3) %>>-
+					<input class="telInput" type="text" name="empTelSecond" maxlength='4' value=<%=(String)(m.get("empTel")).toString().substring(3,7) %>>-
+					<input class="telInput" type="text" name="empTelThrid" maxlength='4' value=<%=(String)(m.get("empTel")).toString().substring(7,11) %>>
 				</div>
 			
 				<div>							
