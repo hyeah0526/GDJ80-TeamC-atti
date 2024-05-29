@@ -12,12 +12,12 @@
 <%
 	// input 값 가져오기 
 	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
-	int petNo = Integer.parseInt(request.getParameter("petNo"));
+	//int petNo = Integer.parseInt(request.getParameter("petNo"));
 	String regiState = request.getParameter("regiState");
 	// 디버깅
-	//System.out.println(regiNo + " ====== regiStateAction regiNo");
-	System.out.println(petNo + " ====== regiStateAction petNo");
-	//System.out.println(regiState + " ====== regiStateAction regiState");
+	System.out.println(regiNo + " ====== regiStateAction regiNo");
+	//System.out.println(petNo + " ====== regiStateAction petNo");
+	System.out.println(regiState + " ====== regiStateAction regiState");
 	
 	// 상태 변경 메서드 호출 
 	int updateRow = RegistrationDao.regiState(regiNo, regiState);
@@ -25,23 +25,46 @@
 	if (updateRow == 1) {
 	    if (regiState.equals("접수취소")) {
 	    	// 접수 취소 성공시
-	        //System.out.println(regiState + " ====== regiStateAction regiList regiState");
+	        System.out.println(regiState + " ====== regiStateAction regiList regiState");
 	        System.out.println("regiList 접수 취소 성공");
 	        response.sendRedirect("/atti/view/regiList.jsp");
 	        
 	    } else if (regiState.equals("예약취소")) {
 	    	// 예약 취소 성공시
-	        //System.out.println(regiState + " ====== regiStateAction reservationList regiState");
+	        System.out.println(regiState + " ====== regiStateAction reservationList regiState");
 	        System.out.println("reservationList 예약 취소 성공");
 	        response.sendRedirect("/atti/view/reservationList.jsp");
 	   
 	    } else if (regiState.equals("진행")){
 	    	// 접수 진행 상태가 대기 -> 진행 으로 변경
-	    	//System.out.println(regiState + " ====== regiStateAction clinicList regiState");
+	    	System.out.println(regiState + " ====== regiStateAction clinicList regiState");
 	    	System.out.println("clinicList 진행으로 변경 성공");
-	        response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo=" + regiNo + "&" + "petNo=" + petNo);
-
+	    	
+	    	String paymentCategory = "진료";
+		 	
+			 // 중복된 결제 정보 조회 
+			HashMap<String, Object> paymentSelect = PaymentDao.paymentSelect(regiNo, paymentCategory);
+		
+			//디버깅
+			//System.out.println(paymentSelect);
+			//System.out.println(paymentSelect.size());
+			
+			//중복된 결제 정보가 없는 경우
+			if(paymentSelect == null || paymentSelect.size() < 1){
+				
+				//결제 정보 저장
+				PaymentDao.paymentInsert(regiNo, paymentCategory);
+				
+			} else {
+				
+				//결제 정보 수정
+				PaymentDao.paymentUpdate(regiNo, paymentCategory);
+			}
+	    	
+	        response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo=" + regiNo);
+	    
 	    }
+	    
 	}
 	
 %>

@@ -181,7 +181,7 @@ public class ClinicDao {
 				+ " ON r.pet_no = p.pet_no "
 				+ " WHERE DATE(r.regi_date) = DATE(NOW())"							// regi_date = 오늘 날짜 
 				+ " AND r.emp_no = ?"
-				+ " AND (r.regi_state = '대기' OR r.regi_state ='예약')"	
+				+ " AND (r.regi_state = '대기' OR r.regi_state ='예약' OR r.regi_state = '진행')"	
 				+ " ORDER BY r.regi_date ASC";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
