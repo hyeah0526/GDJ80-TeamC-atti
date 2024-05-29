@@ -16,13 +16,11 @@
 			<div id="headerTop">
 				<div id="headerLogin">
 					<%=loginEmp.get("empNo")%> <%=loginEmp.get("empGrade")%>  <%=loginEmp.get("empName")%>님 &nbsp;
-					<button>
-						<a href="/atti/action/logoutAction.jsp">로그아웃</a>
+					<button onclick="location.href='/atti/action/logoutAction.jsp'">
+						로그아웃
 					</button>
-					<button>
-						<a href="/atti/view/empPwUpdateForm.jsp">
-							비밀번호수정
-						</a>
+					<button onclick="location.href='/atti/view/empPwUpdateForm.jsp'">
+						비밀번호수정
 					</button>
 				</div>
 			</div>
@@ -32,8 +30,8 @@
 	%>
 			<div id="headerTop">
 				<div id="headerLogin">
-					<button>
-						<a href="/atti/view/loginForm.jsp">로그인</a>
+					<button onclick="location.href='/atti/view/loginForm.jsp'" >
+						로그인
 					</button>
 				</div>
 			</div>
@@ -52,27 +50,29 @@
 	
 		<!-- 카테고리출력 -->
 		<div id="mainCategoryDiv">
-			<button>
-				<a href="/atti/view/searchList.jsp">고객</a>
+			<button onclick="location.href='/atti/view/searchList.jsp'">
+				고객
 			</button>
-			<button>
-				<a href="/atti/view/regiList.jsp">접수/예약</a>
+			<button onclick="location.href='/atti/view/regiList.jsp'">
+				접수/예약
 			</button>
-			<button><a href="/atti/view/clinicList.jsp">진료</button>
-			<button>
-				<a href="/atti/view/examinationList.jsp">검사</a>
+			<button onclick="location.href='/atti/view/clinicList.jsp'">
+				진료
 			</button>
-			<button>
-				<a href="/atti/view/surgeryList.jsp">수술</a>
+			<button onclick="location.href='/atti/view/examinationList.jsp'">
+				검사
 			</button>
-			<button>
-				<a href="/atti/view/prescriptionList.jsp">처방</a>
+			<button onclick="location.href='/atti/view/surgeryList.jsp'">
+				수술
 			</button>
-			<button>
-				<a href="/atti/view/hospitalRoomList.jsp">입원</a>
+			<button onclick="location.href='/atti/view/prescriptionList.jsp'">
+				처방
 			</button>
-			<button>
-				<a href="/atti/view/paymentList.jsp">결제</a>
+			<button onclick="location.href='/atti/view/hospitalRoomList.jsp'">
+				입원
+			</button>
+			<button onclick="location.href='/atti/view/paymentList.jsp'">
+				결제
 			</button>
 			<%
 				if(session.getAttribute("loginEmp") != null){
@@ -86,11 +86,11 @@
 					//로그인한 사용자의 권한에 따라 버튼 다르게 보여주기(관리자만)
 					if(loginEmp.get("empNo") != null && loginEmp.get("empNo").toString().charAt(0) == '1'){					
 			%>		
-						<button>
-							<a href="/atti/view/income.jsp">매출관리</a>
+						<button onclick="location.href='/atti/view/income.jsp'">
+							매출관리
 						</button>
-						<button>
-							<a href="/atti/view/empList.jsp">직원관리</a>
+						<button onclick="location.href='/atti/view/empList.jsp'">
+							직원관리
 						</button>					
 			<%
 					}

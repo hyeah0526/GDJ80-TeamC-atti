@@ -11,12 +11,12 @@
 
 .mainContentDiv{
 	padding-bottom: 20px;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
+	margin-right: 20px;
     border-collapse: collapse;
     box-shadow: 2px 2px 2px 2px #ccc; 
 	border-radius: 10px;
 	width: 50%;
-	margin-right: 20px;
 }
 
 .mainContentDiv h2{
@@ -27,7 +27,8 @@
 	width: 90%;            
     margin: 20px;    
     border-collapse: collapse;
-    box-shadow: 0 2px 3px #ccc; 
+    box-shadow: 0 2px 3px #ccc;
+    font-size: 13px; 
 }
 
 .mainListTable th{
