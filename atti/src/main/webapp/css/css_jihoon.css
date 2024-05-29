@@ -8,6 +8,18 @@ h2 {
 	justify-content: center;
 	margin-top: 10px;
 }
+.surgeryError {
+	display: flex;
+	color: red;
+	justify-content: center;
+	margin-top: 10px;
+}
+#clinicError {
+	display: flex;
+	color: red;
+	justify-content: center;
+	margin-top: 10px;
+}
 /* -------------------- */
 /* petDetail */
 .petFormMain{
@@ -267,6 +279,126 @@ h2 {
 	text-align: center;
 }
 
+
+#surgeryForm{
+	width: 80%;
+	margin: auto;
+}
+
+#surgeryMainDiv{
+	display: flex;
+	flex-direction: unset;
+	box-shadow: 0 0;
+	width: 100%;
+	padding: 5px;
+	margin-top: 0;
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  	background-color: #ffffff;
+}
+
+#surgeryTitleDiv{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	font-weight: bold;
+	flex-grow: 2;
+}
+
+#surgeryContentLeftDiv{
+	display: left;
+	padding: 10px;
+	width: 30%;
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	text-align: center;
+}
+
+#surgeryContentLeftDiv span{
+	font-size: 14pt;
+	font-weight: bold;
+	text-align: center;
+}
+
+#surgeryContentLeftDiv select{
+    width: 100px;
+    height: 30px;
+    text-align: center;
+}
+
+#surgeryContentLeftDiv button{
+	margin-top: 0px;
+    width: 80px;
+    padding: 5px;
+    background-color: #eedcba;
+    border: 0;
+    border-radius: 10px;
+}
+
+#surgeryContentRightDiv{
+	display: right;
+	margin-right: 10px;
+	padding: 10px;
+	width: 50%;
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	text-align: center;
+}
+
+#surgeryContentRightDiv select{
+    width: 100px;
+    height: 30px;
+    text-align: center;
+}
+
+#surgeryContentRightDiv span{
+	font-size: 14pt;
+	font-weight: bold;
+	text-align: center;
+	margin: auto;
+}
+
+#surgeryContentRightDiv table{
+	margin: auto;
+	margin-bottom: 10px;
+	background-color: #eedcba;
+	border-radius:10px;
+	width: 400px;
+	height: 150px;
+}
+
+#surgeryContentRightDiv button{
+	margin-top: 0px;
+    width: 80px;
+    padding: 5px;
+    background-color: #bed8cb;
+    border: 0;
+    border-radius: 10px;
+}
+
+#surgeryContentRightDiv button:hover{
+	background-color: #ddc5c8;
+}
+#clinicForm{
+	width: 80%;
+	margin: auto;
+}
+
+#clinicMainDiv{
+	display: flex;
+	flex-direction: unset;
+	box-shadow: 0 0;
+	width: 100%;
+	padding: 5px;
+	margin-top: 0;
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  	background-color: #ffffff;
+}
+
 #clinicTitleDiv{
 	display: flex;
 	justify-content: center;
@@ -276,19 +408,80 @@ h2 {
 	flex-grow: 2;
 }
 
-#clinicContentBoxDiv{
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	margin-right: 10px;
+#clinicContentLeftDiv{
+	display: left;
 	padding: 10px;
-	width: 220px;
+	width: 30%;
 	border: 1px solid #ced4da;
 	border-radius: 10px;
-	flex-grow: 8;
+	text-align: center;
 }
 
-#clinicContentBoxDiv button{
-	width: 50%
+#clinicContentLeftDiv span{
+	font-size: 14pt;
+	font-weight: bold;
+	text-align: center;
+}
+
+#clinicContentLeftDiv select{
+    width: 100px;
+    height: 30px;
+    text-align: center;
+}
+
+#clinicContentLeftDiv button{
+	margin-top: 0px;
+    width: 80px;
+    padding: 5px;
+    background-color: #eedcba;
+    border: 0;
+    border-radius: 10px;
+}
+
+#clinicContentRightDiv{
+	display: right;
+	margin-right: 10px;
+	padding: 10px;
+	width: 50%;
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	text-align: center;
+}
+
+#clinicContentRightDiv select{
+    width: 100px;
+    height: 30px;
+    text-align: center;
+}
+
+#clinicContentRightDiv span{
+	font-size: 14pt;
+	font-weight: bold;
+	text-align: center;
+	margin: auto;
+}
+
+#clinicContentRightDiv table{
+	margin: auto;
+	margin-bottom: 10px;
+	background-color: #eedcba;
+	border-radius:10px;
+	width: 400px;
+	height: 150px;
+}
+
+#clinicContentRightDiv button{
+	margin-top: 0px;
+    width: 80px;
+    padding: 5px;
+    background-color: #bed8cb;
+    border: 0;
+    border-radius: 10px;
+}
+
+#clinicContentRightDiv button:hover{
+	background-color: #ddc5c8;
+}
+#clinicContentHistory{
+	text-align: left;
 }

@@ -21,13 +21,14 @@ if(session.getAttribute("loginEmp") == null){
 
 //사용자의 진료 번호 
 int regiNo = Integer.parseInt(request.getParameter("regiNo"));
-
+int petNo = Integer.parseInt(request.getParameter("petNo"));
 //신규등록(prescriptionInsert) OR 수정(prescriptionUpdate)
 String selectPrescription = request.getParameter("selectPrescription");	
 
 
 //디버깅
 //System.out.println("clinicExaminationAction.jsp regiNo --> "+regiNo);
+//System.out.println("clinicExaminationAction.jsp petNo --> "+petNo);
 //System.out.println("clinicExaminationAction.jsp selectPrescription --> "+selectPrescription);
 
 
@@ -67,7 +68,7 @@ if(selectPrescription.equals("prescriptionInsert")){
 			PaymentDao.paymentUpdate(regiNo, paymentCategory);
 		}
 		
-		response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo); // 진료 페이지로 이동
+		response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo + "&" + "petNo=" + petNo); // 진료 페이지로 이동
 	}
 		
 			
@@ -90,7 +91,7 @@ if(selectPrescription.equals("prescriptionInsert")){
 	int updateRow = PrescriptionDao.prescrptionUpdate(regiNo, prescriptionNo, oldMedicineNo, newMedicineNo, prescriptionContent);
 	
 	if(updateRow == 1){
-		response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo); //진료 페이지로 이동
+		response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo + "&" + "petNo=" + petNo); //진료 페이지로 이동
 	}
 	
 }

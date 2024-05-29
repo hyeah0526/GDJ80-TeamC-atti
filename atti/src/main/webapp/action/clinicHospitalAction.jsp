@@ -23,10 +23,11 @@
 
 	//사용자의 진료 번호 
 	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
-	
+	int petNo = Integer.parseInt(request.getParameter("petNo"));
 	//디버깅
 	System.out.println("paymentCategory = " + paymentCategory);
 	System.out.println("regiNo = " + regiNo);
+	System.out.println("petNo = " + petNo);
 	
 	// 입원 환자의 입원 정보, 입원 내용 등록 
 	String mammalRoom = request.getParameter("mammalRoom"); // 포유류 입원실 침대
@@ -93,6 +94,6 @@
 	}
 
 	
-	response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo); // 진료 페이지로 이동
+	response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo + "&" + "petNo=" + petNo); // 진료 페이지로 이동
 	
 %>

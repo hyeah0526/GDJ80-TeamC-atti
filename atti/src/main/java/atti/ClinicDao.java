@@ -35,7 +35,7 @@ public class ClinicDao {
 				+ " ON r.emp_no = e.emp_no"
 				+ " WHERE r.regi_no = ?"
 				+ " ORDER BY r.regi_date DESC"
-				+ " LIMIT 0,1";
+				+ " LIMIT 1";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, regiNo);
@@ -102,12 +102,12 @@ public class ClinicDao {
 	
 	/*
 	 * 메소드 : ClinicDatail#clinicDetail() 
-	 * 페이지 : clinicAction.jsp
+	 * 페이지 : clinicDetailFrom.jsp
 	 * 시작 날짜 : 2024-05-26
 	 * 담당자 : 김지훈 
 	 */
 	
-	public static ArrayList<HashMap<String, Object>> clinicDetail(int regiNo) throws Exception {
+	public static ArrayList<HashMap<String, Object>> clinicDetail(int petNo) throws Exception {
 		
 		// 디버깅
 		//System.out.println("ClinicDatail#clinicDetailByClinic() regiNo: " + regiNo);
@@ -130,11 +130,11 @@ public class ClinicDao {
 				+ " ON p.pet_no = r.pet_no"
 				+ " INNER JOIN clinic cl"
 				+ " ON r.regi_no = cl.regi_no"
-				+ " WHERE p.pet_no = 10"
-				+ " ORDER BY cl.update_date ASC; ";
+				+ " WHERE p.pet_no = ?"
+				+ " ORDER BY cl.update_date ASC;";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, regiNo);
+		stmt.setInt(1, petNo);
 		
 		// 디버깅
 		//System.out.println("ClinicDatail#clinicDetailByClinic(): " + stmt);

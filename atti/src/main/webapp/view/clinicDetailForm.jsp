@@ -21,10 +21,10 @@
 	
 	//사용자의 진료 번호 
 	//int regiNo = Integer.parseInt(request.getParameter("regiNo"));
-	int regiNo = 15;
+	int regiNo = 16;
 	
 	//디버깅
-	//System.out.println(regiNo);
+	System.out.println(regiNo);
 	
 %>
 
@@ -32,8 +32,21 @@
 
 <% 
 	//진료
+	
+	int petNo = 11;
+	String petNoStr = request.getParameter("petNo");
+	String clinicError = request.getParameter("clinicError");
+	
+	if(petNoStr != null) {
+		petNo = Integer.parseInt(petNoStr);
+	}
+	
+	
+	System.out.println("petNo: " + petNo);
+	System.out.println("clinicError: " + clinicError);
+	
 	ArrayList<HashMap<String, Object>> clinicInfo = ClinicDao.clinicInfo(regiNo);
-	ArrayList<HashMap<String, Object>> clinicList = ClinicDao.clinicDetail(regiNo);
+	ArrayList<HashMap<String, Object>> clinicList = ClinicDao.clinicDetail(petNo);
 %>
 
 
@@ -44,24 +57,22 @@
 
 <% 
 	//수술
-		//수술
 	String surgeryUpdate = request.getParameter("surgeryUpdate");
-	
+	System.out.println("surgeryUpdate: " + surgeryUpdate);
 	// 수술 수정을 위해 받는 파라미터값
+	
+	String surgeryContent = null;
+	String surgeryKind = null;;
+	String surgeryState = null;;
+	String surgeryDate = null;;
+	
 	int surgeryNo = 0;
 	if (request.getParameter("surgeryNo") != null) {
 		surgeryNo = Integer.parseInt(request.getParameter("surgeryNo"));
 		System.out.println("surgeryNo: " + surgeryNo);
 	}
-	String surgeryContent = request.getParameter("surgeryContent");
-	String surgeryKind = request.getParameter("surgeryKind");
-	String surgeryState = request.getParameter("surgeryState");
-	String surgeryDate = request.getParameter("surgeryDate");
-	
-	//System.out.println("surgeryContent: " + surgeryContent);
-	//System.out.println("surgeryKind: " + surgeryKind);
-	//System.out.println("surgeryState: " + surgeryState);
-	//System.out.println("surgeryDate: " + surgeryDate);
+	String surgeryError = request.getParameter("surgeryError");
+	System.out.println("surgeryError: " + surgeryError);
 	
 	ArrayList<HashMap<String, String>> surgeryCategory = SurgeryDao.surgeryKind();
 	ArrayList<HashMap<String, Object>> surgeryList = SurgeryDao.surgeryDetailByClinic(regiNo);
@@ -182,110 +193,61 @@
 	
 		<!-- 정보등록 및 상세보기 -->
 		<h5>정보등록 및 상세보기</h5>
-		<form action="/atti/action/clinicAction.jsp" method="post" id="hospitalizationRegiForm">
-			<input type="hidden" value="<%=regiNo%>" name="regiNo"> 
-
+		<div id="clinicMainDiv">
 			<div id="clinicTitleDiv">
 				진료
 			</div>
-
-			<div id="clinicContentBoxDiv">
-				<div>&nbsp;</div>
-					<%
-						if (clinicList == null) {
-					%>
-							<div>진료 이력이 없습니다.</div>
-					<%
-						} else {
-							for (HashMap<String, Object> cl : clinicList) {
-					%>
-								[<%=cl.get("updateDate")%>]&nbsp;<%=cl.get("clinicContent")%><br>
-					<%
+			<!-- 진료 등록 -->
+			<div id="clinicContentLeftDiv">
+				<span>진료 등록</span>
+				<form action="/atti/action/clinicAction.jsp" method="post" id="clinicForm">
+					<input type="hidden" value="<%=regiNo%>" name="regiNo"> 
+					<input type="hidden" value="<%=petNo%>" name="petNo">
+					<div id="">
+						<textarea rows="7" cols="30%" name="clinicContent" placeholder="내용을 입력해 주세요."></textarea><br>
+						<%
+							if(clinicError != null) {
+						%>
+								<div id="clinicError"><%=clinicError%></div>
+						<%		
 							}
-						}
-					%>
-				<textarea rows="3" cols="80" name="clinicContent" style="justify-content: left"></textarea><br>
-				<button type="submit" style="width: 250px;">저장</button>
+						%>
+					</div>
+					<button type="submit">저장</button>	
+				</form>
 			</div>
-		</form>
-				<!-- 수술: 등록된 수술 정보 출력 -->
-		<%
-			if (surgeryUpdate == null) { 
-	   	%>
-	
-			<div id="" style="border: 1px solid #ced4da; border-radius: 10px; width: 100%;">
-				<div style="border: 1px solid red;">
-					
-				<div>과거 수술 이력</div>
+			<div id="clinicContentRightDiv">
+				<div id="clinicContentHistory">
 				<%
-					if(surgeryList == null){
+					for (HashMap<String, Object> cl : clinicList) {
 				%>
-						<div>수술 이력이 없습니다.</div>
-				<%	  
-					} else {
-						for(HashMap<String, Object> sl : surgeryList) {
-				%>		   
-							
-							<table>
-								<tr>
-									<th>
-										수술 종류
-									</th>
-									<td>
-										<%=sl.get("surgeryKind")%>
-									</td>
-									<td>&nbsp;</td>
-								</tr>
-								<tr>
-									<th>
-										<label for="surgeryContent">수술 내용</label>
-									</th>
-									<td>
-										<%=sl.get("surgeryContent")%>
-									</td>
-									<td>
-										<form method="post" action="/atti/view/clinicDetailTest.jsp">
-											<input type="hidden" name="surgeryUpdate" value="surgeryUpdate"> 
-											<input type="hidden" name="surgeryNo" value="<%=sl.get("surgeryNo")%>">
-											<button type="submit">수정</button><br>
-										 </form>
-									</td>
-								</tr>
-								<tr>
-									<th>
-										진행 상황
-									</th>
-									<td>
-										<%=sl.get("surgeryState")%>
-									</td>
-									<td rowspan="2">&nbsp;</td>
-								</tr>
-								<tr>
-									<th>
-										수술 일자
-									</th>
-									<td>
-										<%=sl.get("surgeryDate")%>
-									</td>
-								</tr>
-							</table>
-					<%	
-						}
-					%>
-				<%						  
+						[<%=cl.get("updateDate")%>]&nbsp;<%=cl.get("clinicContent")%><br>
+				<%
 					}
-				%>						
+				%>
 				</div>
-				<!-- 수술: 새로운 수술 등록 -->
-				<div style="border: 1px solid red;">
-					<h6>수술</h6>
-					<form method="post" action="/atti/action/clinicSurgeryAction.jsp">
-					<input type="hidden" name="surgeryInsert" value="surgeryInsert">
-					<input type="hidden" value="<%=regiNo%>" name="regiNo">
-					<table>
-						<tr>
-							<th>수술 종류</th>
-							<td>
+			</div>
+		</div><br>
+		
+		<div id="surgeryMainDiv">
+			<div id="surgeryTitleDiv">
+				수술	
+			</div>
+			
+			<!-- 수술: 수술 신규 등록 -->
+			<div id="surgeryContentLeftDiv">
+				<span>수술 신규 등록</span><br><br>
+				<%
+					if(surgeryList.isEmpty() && surgeryUpdate == null){
+				%>
+					<form action="/atti/action/clinicSurgeryAction.jsp" method="post" id="surgeryForm">
+						<input type="hidden" value="<%=regiNo%>" name="regiNo">
+						<input type="hidden" value="<%=petNo%>" name="petNo">
+						<input type="hidden" value="surgeryInsert" name="surgeryInsert">
+						
+						<div id="">
+							<!-- 수술 종류를 선택 -->
+							<div><h6>수술 선택</h6></div>
 								<select name="surgeryKind">
 									<option value="">===수술===</option>
 									<%
@@ -295,80 +257,127 @@
 									<%	  
 										}
 									%>
-								</select>
-							</td>			
-						</tr>
-						<tr>			
-							<th>수술 일자</th>		
-							<td><input type="datetime-local" name="surgeryDate"></td>
-						</tr>
-						<tr>
-							<th>수술 내용</th>
-							<td>
-								<textarea placeholder="수술 내용 등록" name="surgeryContent"></textarea>
-							</td>
-						</tr>
-					</table>
-					<button type="submit">저장</button>	
-					</form>
-				</div>
-			</div>  
-			<% 
-				} else if (surgeryUpdate != null && surgeryDetail != null && !surgeryDetail.isEmpty()) {
-					HashMap<String, Object> sd = surgeryDetail.get(0); 
-					surgeryKind = (String) sd.get("surgeryKind");
-					surgeryContent = (String) sd.get("surgeryContent");
-					surgeryState = (String) sd.get("surgeryState");
-					surgeryDate = (String) sd.get("surgeryDate");
-	   		%>
-					<div id="" style="border: 1px solid #ced4da; border-radius: 10px; width: 100%;">
-						<div style="border: 1px solid red;">
-							<form method="post" action="/atti/action/clinicSurgeryAction.jsp">
-							<input type="hidden" name="surgeryUpdate" value="surgeryUpdate">
-							<input type="hidden" name="surgeryNo" value="<%=surgeryNo%>">
-							<input type="hidden" name="regiNo" value="<%=regiNo%>">
-								<div>수술 정보 수정</div>
-								<table>
-									<tr>
-										<th>
-											<label for="surgeryKind">수술 종류</label>
-										</th>
-										<td>
-											<input type="text" name="surgeryKind" value="<%=surgeryKind%>" readonly="readonly">
-										</td>									
-									</tr>
-		 							<tr>
-										<th>
-											<label for="surgeryContent">수술 내용</label>
-										</th>
-										<td>
-											<input type="text" name="surgeryContent" value="<%=surgeryContent%>">
-										</td>									
-									</tr>
-								 	<tr>
-										<th>
-											<label for="surgeryState">진행 상황</label>
-										</th>
-										<td>
-											<input type="text" name="surgeryState" value="<%=surgeryState%>" readonly="readonly">
-										</td>									
-									</tr>
-									<tr>
-										<th>
-											<label for="surgeryDate">수술 일자</label>
-										</th>
-										<td>
-											<input type="text" name="surgeryDate" value="<%=surgeryDate%>" readonly="readonly">
-										</td>									
-									</tr>
-								</table>
-								<button type="submit">수정 완료</button>
-							</form>
+								</select><br><br>
+								
+							<!-- 수술 내용 등록 -->
+							<div><h6>수술 내용</h6></div>
+							<input type="text" name="surgeryContent"><br><br>
+							<input type="datetime-local" name="surgeryDate"><br><br>
+							<%
+								if(surgeryError != null){
+							%>
+									<div class="surgeryError"><%=surgeryError%></div>						
+							<%
+								}
+							%>
+							<button type="submit">저장</button>
 						</div>
-					</div>
+					</form>
+				<%
+					}
+				%>
+			</div>
+
+			<div id="surgeryContentRightDiv">
 			<%
-				} 
-	   		%>			
+				/* 수술 내용 조회 */
+				if(surgeryUpdate == null && !surgeryList.isEmpty()){
+			%>
+						<span>수술 이력</span><br><br>
+				<%
+						for(HashMap<String, Object> sl : surgeryList){
+				%>
+							<table>
+								<tr>
+									<th>수술</th>
+									<td><%=sl.get("surgeryKind")%></td>
+									<td rowspan="3">
+										<form method="post" action="/atti/view/clinicDetailForm.jsp">
+											<input type="hidden" name="surgeryUpdate" value="surgeryUpdate"> 
+											<input type="hidden" name="petNo" value="<%=petNo%>" >
+											<input type="hidden" name="regiNo" value="<%=sl.get("regiNo")%>">										
+											<input type="hidden" name="surgeryNo" value="<%=sl.get("surgeryNo")%>">											
+											<button type="submit">
+												수정
+											</button>
+										</form>
+									</td>
+								</tr>
+								<tr>
+									<th>수술 내용</th>
+									<td>
+										<%=sl.get("surgeryContent")%>
+									</td>
+								</tr>
+								<tr>
+									<th>수술 날짜</th>
+									<td><%=sl.get("surgeryDate")%></td>
+								</tr>
+							</table>
+					<%
+						}
+						
+					/* 수술 수정 */
+					} else if(surgeryUpdate != null && !surgeryList.isEmpty()){
+						HashMap<String, Object> sd = surgeryDetail.get(0); 
+						surgeryKind = (String) sd.get("surgeryKind");
+						surgeryContent = (String) sd.get("surgeryContent");
+						surgeryState = (String) sd.get("surgeryState");
+						surgeryDate = (String) sd.get("surgeryDate");
+				%>
+						<form action="/atti/action/clinicSurgeryAction.jsp" method="post">
+							<span>수술 수정</span>
+							<input type="hidden" value="surgeryUpdate" name="surgeryUpdate">
+							<input type="hidden" value="<%=surgeryNo%>" name="surgeryNo">
+							<input type="hidden" value="<%=petNo%>" name="petNo"  >
+							<input type="hidden" value="<%=regiNo%>" name="regiNo">
+							
+							<table>
+								<tr>
+									<th>수술</th>
+									<td>
+										<select name="surgeryKind" readonly="readonly">
+											<option value="">===수술===</option>
+											 <%
+			                                    for(HashMap<String, String> sc : surgeryCategory) {
+			                                        String kind = sc.get("surgeryKind");
+			                                %>
+			                                    <option value="<%=kind%>" <%=kind.equals(surgeryKind) ? "selected" : "" %>>
+			                                        <%=kind%>
+			                                    </option>
+			                                <%	  
+			                                    }
+			                                %>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th>수술 내용</th>
+									<td>
+										<input type="text" value="<%=surgeryContent%>" name="surgeryContent">
+									</td>
+								</tr>
+								<tr>
+									<th>수술 날짜</th>
+									<td><input type="datetime-local" value="<%=surgeryDate%>" name="surgeryDate" readonly="readonly"></td>
+								</tr>
+								<tr>
+									<td colspan="4"><button type="submit">수정 완료</button></td>
+								</tr>
+								<%
+									if(surgeryError != null){
+								%>
+										<div class="surgeryError"><%=surgeryError%></div>										
+								<%	
+									}
+								%>
+							</table>
+						</form>
+				<%	
+					}
+				%>
+			</div>
+		</div><br>
 		
 		<!-- 처방 조회/신규등록/수정 -->
 		<div id="prescrptionMainDiv">
@@ -381,6 +390,7 @@
 				<span>약 신규 등록</span><br><br>
 				<form action="/atti/action/clinicPrescrptionAction.jsp" method="post" id="prescriptionForm">
 					<input type="hidden" value="<%=regiNo%>" name="regiNo">
+					<input type="hidden" value="<%=petNo%>" name="petNo">
 					<input type="hidden" value="prescriptionInsert" name="selectPrescription">
 					
 					<div id="">
@@ -422,7 +432,7 @@
 									<td><%=pd2.get("medicineName")%></td>
 									<td rowspan="3">
 										<button type="submit" 
-											onclick="location.href='/atti/view/clinicDetailForm.jsp?regiNo=<%=regiNo%>&prescriptionNo=<%=pd2.get("prescriptionNo")%>&selectPrescription=prescriptionUpdate'">
+											onclick="location.href='/atti/view/clinicDetailForm.jsp?regiNo=<%=regiNo%>&petNo=<%=petNo%>&prescriptionNo=<%=pd2.get("prescriptionNo")%>&selectPrescription=prescriptionUpdate'">
 											수정
 										</button>
 									</td>
@@ -451,6 +461,7 @@
 							<input type="hidden" value="<%=prescriptionOne.get("prescriptionNo")%>" name="prescriptionNo">
 							<input type="hidden" value="<%=prescriptionOne.get("medicineNo")%>" name="oldMedicineNo">
 							<input type="hidden" value="<%=regiNo%>" name="regiNo">
+							<input type="hidden" value="<%=petNo%>" name="petNo"  >
 							
 							<table>
 								<tr>
@@ -496,6 +507,7 @@
 		<!-- 입원 환자 호실 선택 및 입원 내용 입력 폼 -->
 		<form action="/atti/action/clinicHospitalAction.jsp" method="post" id="hospitalizationRegiForm">			
 			<input type="hidden" value="<%=regiNo%>" name="regiNo">
+			<input type="hidden" value="<%=petNo%>" name="petNo"  >
 			<input type="hidden" value="입원" name="paymentCategory">
 
 			<div id="hospitalizationTitleDiv">
