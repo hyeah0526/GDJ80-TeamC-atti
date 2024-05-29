@@ -378,11 +378,17 @@
 }
 
 #animalSelectBoxDiv select{
-	width: 50%
+	width: 100px;
+	height: 30px;
 }
 
 #animalSelectBoxDiv button{
-	width: 50%
+	margin-top: 20px;
+    width: 80px;
+    padding: 5px;
+    background-color: #eedcba;
+    border: 0;
+    border-radius: 10px;
 }
 
 #hospitalizationRegiFormDetails div{
@@ -395,4 +401,5 @@
 	width: 100px;
 	margin: 10px;
 }
+
 
