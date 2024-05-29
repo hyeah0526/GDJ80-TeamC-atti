@@ -33,15 +33,27 @@
  	int clinicCost = (Integer)paymentDetail.get("clinicCost");				//진료비용
  	String clinicCostStr = String.format("%,d", clinicCost);					//진료비용 천단위 콤마표시
  	String examinationKind = (String)paymentDetail.get("examinationKind");	//검사종류
+ 	if(examinationKind == null){
+ 		examinationKind = "이력 없음";
+ 	}
  	int examinationCost = (Integer)paymentDetail.get("examinationCost");	//검사비용
  	String examinationCostStr = String.format("%,d", examinationCost);			//검사비용 천단위 콤마표시
  	String surgeryKind = (String)paymentDetail.get("surgeryKind");			//수술종류
+ 	if(surgeryKind == null){
+ 		surgeryKind = "이력 없음";
+ 	}
  	int surgeryCost = (Integer)paymentDetail.get("surgeryCost");			//수술비용
  	String surgeryCostStr = String.format("%,d", surgeryCost);					//수술비용 천단위 콤마표시
  	String hospitalRoom = (String)paymentDetail.get("hospitalRoom");		//입원호실
+ 	if(hospitalRoom == null){
+ 		hospitalRoom = "이력 없음";
+ 	}
  	int hospitalCost = (Integer)paymentDetail.get("hospitalCost");			//입원비용
  	String hospitalCostStr = String.format("%,d", hospitalCost);				//입원비용 천단위 콤마표시
  	String medicineName = (String)paymentDetail.get("medicineName");		//약이름
+ 	if(medicineName == null){
+ 		medicineName = "이력 없음";
+ 	}
  	int medicineCost = (Integer)paymentDetail.get("medicineCost");			//약비용
  	String medicineCostStr = String.format("%,d", medicineCost);				//약비용 천단위 콤마표시
  	

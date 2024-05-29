@@ -28,7 +28,7 @@
  	
  	// 해당 환자(1마리)의 상세 입원정보 출력
  	ArrayList<HashMap<String, Object>> hospitalOne = HospitalRoomDao.hospitalizationDetail(regiNo);
- 	//System.out.println("hospitalizationDetail.jsp hospitalOne--> " + hospitalOne);
+ 	System.out.println("hospitalizationDetail.jsp hospitalOne--> " + hospitalOne);
  	
  	// 퇴원 / 등록 실패시 보여줄 에러메세지
  	String errMsg = request.getParameter("errMsg");
@@ -169,7 +169,7 @@
 							</tr>
 							<tr>
 								<th>보호자</th>
-								<td><%=(String)p.get("customerName")%>(<%=(String)p.get("customerTel")%>)</td>
+								<td><%=(String)p.get("customerName")%>(<%=(String)p.get("customerTel").toString().substring(7,11)%>)</td>
 							</tr>
 						</table>
 					</div>

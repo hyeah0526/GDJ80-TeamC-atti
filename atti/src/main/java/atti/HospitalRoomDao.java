@@ -131,7 +131,8 @@ public class HospitalRoomDao {
 				+ " ON regi.pet_no = p.pet_no"			// 접수 = 동물
 				+ " LEFT JOIN customer c"
 				+ " ON p.customer_no = c.customer_no"	// 동물 = 보호자
-				+ " WHERE h.regi_no = ?";
+				+ " WHERE h.regi_no = ?"
+				+ " LIMIT 0,1";
 		
 		stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, regiNo);
