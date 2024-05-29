@@ -484,4 +484,61 @@ h2 {
 }
 #clinicContentHistory{
 	text-align: left;
+	overflow: auto;
+	height: 230px;
+}
+#clinicInputText{
+	height: 200px;
+	width: 100%;
+}
+#clinicInfoTitleDiv{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	font-weight: bold;
+	flex-grow: 2;
+}
+
+
+#clinicInfoMainDiv{
+	display: flex;
+	flex-direction: unset;
+	box-shadow: 0 0;
+	width: 100%;
+	padding: 5px;
+	margin-top: 0;
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  	background-color: #ffffff;
+}
+#clinicInfoLeftDiv{
+	display: left;
+	padding: 10px;
+	width: 30%;
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	text-align: center;
+}
+
+#clinicInfoRightDiv{
+	display: right;
+	margin-right: 10px;
+	padding: 10px;
+	width: 50%;
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	text-align: center;
+}
+#clinicInfoLeftContent{
+	text-align: left;
+	margin-left: 10px;
+}
+#clinicInfoRightContent{
+	text-align: left;
+	margin-left: 10px;
+}
+#clinicInfoRightContent div{
+	margin-top: 10px;
 }

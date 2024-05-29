@@ -22,15 +22,12 @@ public class ClinicDao {
 		String sql = "SELECT r.regi_no regiNo, r.regi_date regiDate, r.regi_content regiContent,"
 				+ " p.pet_no petNo, p.pet_name petName, p.pet_kind petKind,"
 				+ " c.customer_no customerNo, c.customer_name customerName,"
-				+ " cl.clinic_no clinicNo, cl.create_date createDate,"
 				+ " e.emp_major empMajor"
 				+ " FROM registration r"
 				+ " INNER JOIN pet p"
 				+ " ON r.pet_no = p.pet_no"
 				+ " INNER JOIN customer c"
 				+ " ON p.customer_no = c.customer_no"
-				+ " INNER JOIN clinic cl"
-				+ " ON r.regi_no = cl.regi_no"
 				+ " INNER JOIN employee e"
 				+ " ON r.emp_no = e.emp_no"
 				+ " WHERE r.regi_no = ?"
@@ -53,9 +50,7 @@ public class ClinicDao {
 			info.put("petKind", rs.getString("petKind"));
 			info.put("customerNo", rs.getInt("customerNo"));
 			info.put("customerName", rs.getString("customerName"));
-			info.put("clinicNo", rs.getInt("clinicNo"));
 			info.put("empMajor", rs.getString("empMajor"));
-			info.put("createDate", rs.getString("createDate"));
 			list.add(info);
 		}
 		conn.close(); // db 자원 반납

@@ -33,7 +33,7 @@
 <% 
 	//진료
 	
-	int petNo = Integer.parseInt(request.getParameter("petNo"));
+	int petNo = 0;
 	String petNoStr = request.getParameter("petNo");
 	String clinicError = request.getParameter("clinicError");
 	
@@ -168,7 +168,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>clinicDetailForm page</title>
+	<title>진료 상세</title>
 	
 	<!-- 부트스트랩 -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -195,30 +195,42 @@
 	<!-------------------- main -------------------->
 	<main>
 		<!-- 상세정보 전체 출력 창(정보가 없을경우 공란표기) -->
-		<h5>고객정보 상세보기창</h5>
-		<div id="clinicDetailMainDiv">
-			
-			<div>동물/보호자 정보</div>
+		<h5>고객 정보</h5>
+		<div id="clinicInfoMainDiv">
+			<div id="clinicInfoTitleDiv">
+				내용
+			</div>
 			<!-- 접수/진료 정보 -->
-			<div>접수/진료 정보</div>
-			<%
-				for(HashMap<String, Object> ci : clinicInfo) {
-			%>
-					<div>보호자: <%=(String)(ci.get("customerName"))%></div>
-					<div>분류: <%=(String)(ci.get("empMajor"))%></div>
-					<div>종류: <%=(String)(ci.get("petKind"))%></div>
-					<div>이름: <%=(String)(ci.get("petName"))%></div>
-					<div>접수 내용: <%=(String)(ci.get("regiContent"))%></div>
-					<div>접수 시간: <%=(String)(ci.get("regiDate"))%></div>
-					<div>진료 시간: <%=(String)(ci.get("createDate"))%></div>
-			<%		
-				}
-			%>
-			
+			<div id="clinicInfoLeftDiv">
+				<div id="clinicInfoLeftContent">[펫 / 보호자 정보]
+				<%
+					for(HashMap<String, Object> ci : clinicInfo) {
+				%>
+						<div>보호자: <%=(String)(ci.get("customerName"))%></div>
+						<div>분류: <%=(String)(ci.get("empMajor"))%></div>
+						<div>종류: <%=(String)(ci.get("petKind"))%></div>
+						<div>이름: <%=(String)(ci.get("petName"))%></div>
+				<%		
+					}
+				%>
+				</div>
+			</div>
+			<div id="clinicInfoRightDiv">
+				<div id="clinicInfoRightContent">[접수 정보]
+				<%
+					for(HashMap<String, Object> ci : clinicInfo) {
+				%>
+						<div>접수 내용: <%=(String)(ci.get("regiContent"))%></div>
+						<div>접수 시간: <%=(String)(ci.get("regiDate"))%></div>
+				<%		
+					}
+				%>
+				</div>
+			</div>
 		</div><br><br>
 	
 		<!-- 정보등록 및 상세보기 -->
-		<h5>정보등록 및 상세보기</h5>
+		<h5>정보 등록 및 상세 보기</h5>
 		<div id="clinicMainDiv">
 			<div id="clinicTitleDiv">
 				진료
