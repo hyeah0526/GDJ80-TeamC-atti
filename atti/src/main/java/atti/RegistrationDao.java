@@ -227,7 +227,7 @@ public class RegistrationDao {
 
 		int insertRow = 0;
 		
-		System.out.println(regiDate + " ====== RegistrationDao#regiAccept() regiDate");
+		//System.out.println(regiDate + " ====== RegistrationDao#regiAccept() regiDate");
 		// DB연결
 		Connection conn = DBHelper.getConnection();
 		/*
@@ -245,10 +245,10 @@ public class RegistrationDao {
 		stmt.setString(4, regiDate);
 		stmt.setString(5, regiState);
 		
-		System.out.println(stmt + " ====== RegistrationDao#regiAccept() stmt");
+		//System.out.println(stmt + " ====== RegistrationDao#regiAccept() stmt");
 	
 		insertRow = stmt.executeUpdate();
-		System.out.println(insertRow + " ====== RegistrationDao#regiAccept() insertRow");
+		//System.out.println(insertRow + " ====== RegistrationDao#regiAccept() insertRow");
 		
 		conn.close();
 		return insertRow;
@@ -261,7 +261,7 @@ public class RegistrationDao {
 	 * 담당자		: 한은혜
 	*/
 	public static HashMap<String, Object> regiInfo(int petNo) throws Exception{
-		System.out.println(petNo + " ====== RegistrationDao#regiInfo() petNo");
+		//System.out.println(petNo + " ====== RegistrationDao#regiInfo() petNo");
 		
 		// DB연결
 		Connection conn = DBHelper.getConnection();
@@ -279,7 +279,7 @@ public class RegistrationDao {
 			
 			petKind = rs1.getString("petKind");
 		}
-		System.out.println(petKind + " ====== RegistrationDao#regiInfo() petKind");
+		//System.out.println(petKind + " ====== RegistrationDao#regiInfo() petKind");
 		
 		// emp 정보를 가져오는 두번째 쿼리
 		String sql2 = "SELECT emp_no empNo, emp_name empName"
@@ -298,14 +298,14 @@ public class RegistrationDao {
 			emplist.add(empList);
 		}
 		
-		System.out.println(emplist + " ====== RegistrationDao#regiInfo() list");
+		//System.out.println(emplist + " ====== RegistrationDao#regiInfo() list");
 		
 		// 두 쿼리의 결과값을 하나의 HashMap에 넣기
         HashMap<String, Object> regiInfo = new HashMap<>();
         regiInfo.put("petKind", petKind);
         regiInfo.put("emplist", emplist);
 		
-        System.out.println(regiInfo + " ====== RegistrationDao#regiInfo() regiInfo");
+        //System.out.println(regiInfo + " ====== RegistrationDao#regiInfo() regiInfo");
         
 		conn.close();
 		return regiInfo;

@@ -105,6 +105,7 @@
 #examinationSearchForm{
 	display: flex;
 	justify-content: center;
+	margin-bottom: 20px;
 }
 
 #examinationSearchForm input{
@@ -115,9 +116,9 @@
 }
 
 #examinationListTable{
-	width: 100%;            
+	width: 90%;            
     border-collapse: collapse;
-    margin: 20px;    
+    margin: auto;    
     box-shadow: 0 2px 3px #ccc; 
 }
 
@@ -181,6 +182,7 @@
 #surgeryListSearchForm{
 	display: flex;
 	justify-content: center;
+	margin-bottom: 20px;
 }
 
 #surgeryListSearchForm input{
@@ -258,6 +260,7 @@
 #prescriptionListSearchForm{
 	display: flex;
 	justify-content: center;
+	margin-bottom: 20px;
 }
 
 #prescriptionListSearchForm input{
@@ -270,7 +273,7 @@
 #prescriptionListTable{
 	width: 90%;            
     border-collapse: collapse;
-    margin: 20px;    
+    margin: auto;    
     box-shadow: 0 2px 3px #ccc; 
 }
 
