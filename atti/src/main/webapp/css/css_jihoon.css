@@ -553,3 +553,9 @@ h2 {
 #clinicInfoRightContent div{
 	margin-top: 10px;
 }
+#clinicContentToday{
+	margin-top: 0px;
+    width: 200px;
+    height: 40px;
+    border: 0;
+}

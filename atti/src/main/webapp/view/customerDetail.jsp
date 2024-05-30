@@ -29,8 +29,11 @@
 	ArrayList<HashMap<String, Object>> customerDetail = CustomerDao.customerDetail(customerNo);
 	ArrayList<HashMap<String, Object>> petList = PetDao.petByCustomer(customerNo);
 	
+	
+	
 	// 메소드 디버깅
-	//System.out.println("customerDetail: " + customerDetail);
+	System.out.println("customerDetail: " + customerDetail);
+	//System.out.println("customerDetail: " + customerDetail.get("customerName"));
 	//System.out.println("petList: " + petList);
 %>
     
@@ -69,7 +72,12 @@
 			<h2>고객 상세 정보</h2>
 			<div id="customerDetailDiv">
 				<%
+					String customerName = "";
 					for(HashMap<String, Object> c : customerDetail){
+						
+						for(HashMap m : customerDetail){
+						customerName = (String)m.get("customerName");
+					}
 						String originalTel = (String)(c.get("customerTel")); 
 						
 				%>
@@ -123,7 +131,7 @@
 									<input type="hidden" name="petNo" value="<%=p.get("petNo")%>">
 									<input type="hidden" name="petName" value="<%=p.get("petName")%>">
 									<input type="hidden" name="customerNo" value="<%=p.get("customerNo")%>">
-									<input type="hidden" name="customerName" value="<%=p.get("customerName")%>">
+									<input type="hidden" name="customerName" value="<%=customerName%>">
 									<input type="hidden" name="customerTel" value="<%=p.get("customerTel")%>">
 									<button class="petListBtn" type="submit">접수하기</button>
 								</form>

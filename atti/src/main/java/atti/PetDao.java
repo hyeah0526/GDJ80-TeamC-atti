@@ -64,6 +64,7 @@ public class PetDao {
 		
 		Connection conn = DBHelper.getConnection();
 		String sql = "SELECT p.pet_no petNo, p.pet_name petName,"
+				+ " p.customer_no customerNo," 
 				+ " COALESCE(r.regi_date, '진료 이력 없음') regiDate" // registration table에 생성된 row가 없거나, null이거나, 일치하지 않는 경우 모두 '진료 이력 없음'으로 대체
 				+ " FROM pet p"
 				+ " LEFT JOIN (SELECT r.pet_no,"
@@ -71,6 +72,8 @@ public class PetDao {
 				+ 	" FROM registration r"
 				+ 	" GROUP BY r.pet_no) r"
 				+ " ON p.pet_no = r.pet_no"
+				+ " INNER JOIN customer c"
+				+ " ON p.customer_no = c.customer_no"
 				+ " WHERE p.customer_no = ?"
 				+ " ORDER BY p.pet_no DESC";
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -85,6 +88,7 @@ public class PetDao {
 			m.put("petNo", rs.getInt("petNo")); // pet table
 			m.put("petName", rs.getString("petName")); // pet table
 			m.put("regiDate", rs.getString("regiDate")); // registration table
+			m.put("customerNo", rs.getInt("customerNo"));
 			petByCustomer.add(m);
 		}
 		conn.close(); // conn 반환
