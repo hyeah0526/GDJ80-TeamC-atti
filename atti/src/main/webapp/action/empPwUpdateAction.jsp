@@ -34,6 +34,14 @@
 	//디버깅
 	//System.out.println("currentPw = " + currentPw);
 	//System.out.println("newPw = " + newPw);
+	
+	//empPwUpdateForm에서 보낸 기존 비밀번호, 새로운 비밀번호 검증
+	if(currentPw == null || currentPw.equals("") || newPw == null || newPw.equals("")){
+		errorMessage = URLEncoder.encode("비밀번호를 입력해주세요.", "UTF-8");
+		response.sendRedirect("/atti/view/empPwUpdateForm.jsp?errorMessage="+errorMessage);
+		return;
+	}
+	
 %>
 
 <!-- Model layer -->
@@ -54,7 +62,7 @@
 
 	}else{
 		
-		errorMessage = URLEncoder.encode("이전에 사용했던 비밀번호 입니다.", "UTF-8");
+		errorMessage = URLEncoder.encode("비밀번호를 확인해주세요.", "UTF-8");
 		
 		//새로운 비밀번호가 이전에 사용했던 비밀번호일 경우 페이지 이동 후 오류 메시지 입력
 		response.sendRedirect("/atti/view/empPwUpdateForm.jsp?errorMessage="+errorMessage); 
