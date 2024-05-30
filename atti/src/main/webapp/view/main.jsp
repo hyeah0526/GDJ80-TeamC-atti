@@ -251,13 +251,11 @@
 								                <form action="/atti/action/regiStateAction.jsp" method="post">
 								                    <input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
 								                    <input type="hidden" name="regiState" value="대기">
-								                    <button type="submit" class="btn">대기하기</button>
 								                </form>
 								            <% } else { %>    
 								                <form action="/atti/action/regiStateAction.jsp" method="post">
 								                    <input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
 								                    <input type="hidden" name="regiState" value="대기">
-								                    <button type="submit" class="btn" disabled="disabled">대기하기</button>
 								                </form>
 								            <% } %>
 								        </td>
@@ -265,7 +263,6 @@
 								            <form action="/atti/action/regiStateAction.jsp" method="post">
 								                <input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
 								                <input type="hidden" name="regiState" value="접수취소">
-								                <button type="submit">취소하기</button>
 								            </form>                    
 								        </td>
 								    </tr>
@@ -320,7 +317,7 @@
 				<!-- 진료 리스트 -->
 				<div class="mainContentDiv">
 					<div>
-						<h2>진료 리스트</h2>
+						<h2>오늘의 진료 리스트</h2>
 					</div>
 					<!-- 진료 리스트 출력 -->
 					<table border="1" class="mainListTable">
@@ -355,7 +352,6 @@
 												<input type="hidden" name="petNo" value="<%=c.get("petNo")%>">
 												<input type="hidden" name="clinicInsert" value="clinicInsert">
 												<input type="hidden" name="regiState" value="진행">
-												<button id="detailBtn" type="submit">진료보기</button>
 											</form>
 										<%		
 											}

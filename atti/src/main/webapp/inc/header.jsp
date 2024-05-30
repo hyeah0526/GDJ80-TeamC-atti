@@ -53,24 +53,39 @@
 			<button onclick="location.href='/atti/view/searchList.jsp'">
 				고객
 			</button>
+			
 			<button onclick="location.href='/atti/view/regiList.jsp'">
 				접수/예약
 			</button>
-			<button onclick="location.href='/atti/view/clinicList.jsp'">
-				진료
-			</button>
+			<%
+				if(session.getAttribute("loginEmp") != null){
+					if(loginEmp.get("empNo") != null && !(loginEmp.get("empNo").toString().charAt(0) == '3')){
+			%>
+				<button onclick="location.href='/atti/view/clinicList.jsp'">
+					진료
+				</button>
+			
+			<%
+					}
+				}			
+			%>
+			
 			<button onclick="location.href='/atti/view/examinationList.jsp'">
 				검사
 			</button>
+			
 			<button onclick="location.href='/atti/view/surgeryList.jsp'">
 				수술
 			</button>
+			
 			<button onclick="location.href='/atti/view/prescriptionList.jsp'">
 				처방
 			</button>
+			
 			<button onclick="location.href='/atti/view/hospitalRoomList.jsp'">
 				입원
 			</button>
+			
 			<button onclick="location.href='/atti/view/paymentList.jsp'">
 				결제
 			</button>
