@@ -274,7 +274,8 @@
 		</div><br>
 		
 	<!-- 검사 등록/수정 -->
-        <div id="clinicDetailMainDiv">
+	
+        <div id="examinationMainDiv">
             <div id="examinationTitleDiv">
                 검사
             </div>

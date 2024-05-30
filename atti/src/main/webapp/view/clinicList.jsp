@@ -92,14 +92,24 @@
 					<td><%= c.get("regiDate")%></td>
 					<td><%= c.get("regiState")%></td>
 					<td>
-						<!-- 진료 상태 변경을 위해 보내는 값 -->
-						<form method="post" action="/atti/action/regiStateAction.jsp">
-							<input type="hidden" name="regiNo" value="<%=c.get("regiNo")%>">
-							<input type="hidden" name="petNo" value="<%=c.get("petNo")%>">
-							<input type="hidden" name="clinicInsert" value="clinicInsert">
-							<input type="hidden" name="regiState" value="진행">
-							<button id="detailBtn" type="submit">진료보기</button>
-						</form>
+						<%
+							if(c.get("regiState").equals("진행")){
+						%>
+								<button id="detailBtn" onclick="location.href='/atti/view/clinicDetailForm.jsp?regiNo=<%=c.get("regiNo")%>&petNo=<%=c.get("petNo")%>'">상세보기</button>
+						<%
+							}else{
+						%>
+								<!-- 진료 상태 변경을 위해 보내는 값 -->
+								<form method="post" action="/atti/action/regiStateAction.jsp">
+									<input type="hidden" name="regiNo" value="<%=c.get("regiNo")%>">
+									<input type="hidden" name="petNo" value="<%=c.get("petNo")%>">
+									<input type="hidden" name="clinicInsert" value="clinicInsert">
+									<input type="hidden" name="regiState" value="진행">
+									<button id="detailBtn" type="submit">진료시작</button>
+								</form>
+						<%
+							}
+						%>
 					</td>
 				</tr>
 				<%
