@@ -362,7 +362,7 @@
 					<tr>
 						<th>검사사진</th>
 						<td>
-							<img src="/atti/upload/<%=exam.get("fileName")%>">	
+							<button><a href="/atti/view/examinationDetail.jsp?examinationNo=<%=exam.get("examinationNo") %>">상세보기</a></button>
 						</td>
 					</tr>
 					<tr>

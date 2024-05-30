@@ -80,7 +80,9 @@
 				</tr>
 				<tr>
 					<th>검사내용</th>
-					<td><%=(String)(ed.get("examinationContent"))%><br><%=(String)(ed.get("photoName"))%></td>
+					<td colspan="3"><%=(String)(ed.get("examinationContent"))%>
+					<img src="/atti/upload/<%=ed.get("fileName")%>" style="width: 580px; height: auto;">	
+					</td>
 				</tr>
 			</table>
 			<%
