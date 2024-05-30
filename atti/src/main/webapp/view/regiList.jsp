@@ -100,11 +100,10 @@
 			<% 
 				if(errMsg != null){
 			%>
-				<h6><%=errMsg%></h6>
+				<h6><%=errMsg%></h6>R
 			<%}%>
 		</div>
 		<!-- 점수 리스트 출력 -->
-		<div>
 			<table id="regiListTable">
 				<tr>
 					<th>접수 번호</th>
@@ -153,7 +152,6 @@
 				}
 			%>
 			</table>
-		</div>
 		
 		<!-- 페이징 -->
 		<div id="paginationDiv">

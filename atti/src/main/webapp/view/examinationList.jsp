@@ -98,8 +98,7 @@
 	
 	<!-------------------- main -------------------->
 	<main id="examinationMain">
-		<div id="centerDiv">
-			<div>
+			<div id="centerDiv">
 				<h2>검사 리스트</h2>
 			</div>
 			<div id="examinationSearchForm">
@@ -146,7 +145,6 @@
 					}
 				%>
 			</table>
-		</div>
 		
 		<!-- 페이징  -->
 		<div id="paginationDiv">
