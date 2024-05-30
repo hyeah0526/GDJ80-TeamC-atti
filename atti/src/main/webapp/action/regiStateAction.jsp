@@ -10,6 +10,12 @@
 	 * 담당자 	: 한은혜
  -->
 <%
+	//로그인한 사용자인지 검증
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
+		return;
+	}
+
 	// input 값 가져오기 
 	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
 

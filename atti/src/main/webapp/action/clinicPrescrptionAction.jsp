@@ -9,13 +9,13 @@
  * 담당자 : 박혜아
  -------------------->
 <%
-/*
+
 //로그인한 사용자인지 검증
 if(session.getAttribute("loginEmp") == null){
 	response.sendRedirect("/atti/view/loginForm.jsp");
 	return;
 }
-*/ 
+
  %>
 <%
 

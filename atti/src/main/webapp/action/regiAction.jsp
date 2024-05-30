@@ -10,6 +10,12 @@
  * 담당자 : 한은혜 
  -------------------->
 <%
+	//로그인한 사용자인지 검증
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
+		return;
+	}
+
 	// 접수 등록 페이지(regiForm.jsp)에서 받아온 정보 
 	int petNo = Integer.parseInt(request.getParameter("petNo"));
 	String petName = request.getParameter("petName");

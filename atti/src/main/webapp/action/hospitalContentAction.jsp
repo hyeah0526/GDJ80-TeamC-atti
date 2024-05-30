@@ -8,6 +8,13 @@
 	 * 담당자 : 박혜아
  -->
 <%
+
+	//로그인한 사용자인지 검증
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp");
+		return;
+	}
+
 	// 값 받아오기
 	String hospiContentDate = request.getParameter("hospiContentDate");
 	hospiContentDate = hospiContentDate.replace("T", " "); // T로 찍히는 값을 공백으로 치환
