@@ -68,17 +68,17 @@
 	
 	
 	// First
-	HashMap<String, Integer> first = PaymentDao.income(firstYearStr, firstMonthStr);
+	HashMap<String, Integer> first = PaymentDao.incomeLast(firstYearStr, firstMonthStr);
 	//System.out.println("income.jsp First 년 달 --> "+firstYearStr+"년"+firstMonthStr+"달--> "+first);
 	//System.out.println("=======================================");
 	
 	// Middle
-	HashMap<String, Integer> middle = PaymentDao.income(middleYearStr, middleMonthStr);
+	HashMap<String, Integer> middle = PaymentDao.incomeLast(middleYearStr, middleMonthStr);
 	//System.out.println("income.jsp middle 년 달 --> "+middleYearStr+"년"+middleMonthStr+"달--> "+middle);
 	//System.out.println("=======================================");
 	
 	// Target
-	HashMap<String, Integer> target = PaymentDao.income(targetYearStr, targetMonthStr);
+	HashMap<String, Integer> target = PaymentDao.incomeLast(targetYearStr, targetMonthStr);
 	//System.out.println("income.jsp target 년 달 --> "+targetYearStr+"년"+targetMonthStr+"달--> "+target);
 	//System.out.println("=======================================");
 	

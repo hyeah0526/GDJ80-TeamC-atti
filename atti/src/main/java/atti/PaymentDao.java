@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class PaymentDao {
 	
@@ -240,7 +241,7 @@ public class PaymentDao {
 		stmt.setString(1, year + "-" + month);
 		//stmt.setString(1, year);
 		//stmt.setString(2, month);
-		//System.out.println("PaymentDao#income() stmt--> "+stmt);
+		System.out.println("PaymentDao#income() stmt--> "+stmt);
 		
 		rs = stmt.executeQuery();
 		
@@ -260,6 +261,8 @@ public class PaymentDao {
 		conn.close();
 		return map;
 	}
+	
+	
 	
 	/*
 	  	메소드: payment#paymentInsert()
@@ -382,5 +385,106 @@ public class PaymentDao {
 			conn.close();
 			return updateRow;
 		}
+	
+	/*
+	 * 메소드		: #incomeLast(String year, String month)
+	 * 페이지		: income.jsp
+	 * 시작 날짜	: 2024-05-17
+	 * 담당자		: 박혜아
+	*/
+	public static HashMap<String, Integer> incomeLast(String year, String month) throws Exception{
+		HashMap<String, Integer> map = new HashMap<>();
+		
+		// 값 디버깅
+		//System.out.println("PaymentDao#income() year--> "+year);
+		//System.out.println("PaymentDao#income() month--> "+month);
+		
+		//DB연결
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		/* SELECT(조회화면에서 보여줄 것)
+		 * pay : 해당하는 년도/달의 각 매출액 및 총 매출액 (null일 경우 0으로 치환 후 계산)
+		*/
+		String sql = "SELECT pm.regi_no regiNo, pet.pet_name petName, pm.payment_state paymentState, pm.create_date createDate,"
+				+ " IFNULL(sum(DISTINCT cn.clinic_cost), 0) clinicSum,"
+				+ " IFNULL(sum(DISTINCT ek.examination_cost), 0) examinationSum,"
+				+ " IFNULL(sum(DISTINCT sk.surgery_cost), 0) surgerySum,"
+				+ " IFNULL(sum(DISTINCT hr.cost), 0) hospitalSum,"
+				+ " IFNULL(sum(DISTINCT md.medicine_cost), 0) medicineSum"
+				+ " FROM payment pm"
+				+ " INNER JOIN registration regi ON pm.regi_no = regi.regi_no"
+				+ " INNER JOIN pet pet ON regi.pet_no = pet.pet_no"
+				+ " INNER JOIN customer c ON pet.customer_no = c.customer_no"
+				+ " LEFT JOIN clinic cn ON pm.regi_no = cn.regi_no"
+				+ " LEFT JOIN examination ex ON pm.regi_no = ex.regi_no"
+				+ " LEFT JOIN examination_kind ek ON ex.examination_kind = ek.examination_kind"
+				+ " LEFT JOIN surgery sg ON pm.regi_no = sg.regi_no"
+				+ " LEFT JOIN surgery_kind sk ON sg.surgery_kind = sk.surgery_kind"
+				+ " LEFT JOIN hospitalization hp ON pm.regi_no = hp.regi_no"
+				+ " LEFT JOIN hospital_room hr ON hp.room_name = hr.room_name"
+				+ " LEFT JOIN prescription ps ON pm.regi_no = ps.regi_no"
+				+ " LEFT JOIN medicine md ON ps.medicine_no = md.medicine_no"
+				+ " WHERE pm.payment_state LIKE '완납'"
+				+ "	AND DATE_FORMAT(pm.create_date, '%Y-%m') = ?"
+				+ "	GROUP BY pm.regi_no"
+				+ "	ORDER BY pm.create_date DESC";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, year + "-" + month);
+		//stmt.setString(1, year);
+		//stmt.setString(2, month);
+		System.out.println("PaymentDao#income() stmt--> "+stmt);
+		
+		rs = stmt.executeQuery();
+		
+		int clinicSumMonth = 0;
+		int examinationSumMonth = 0;
+		int surgerySumMonth = 0;
+		int hospitalSumMonth = 0;
+		int medicineSumMonth = 0;
+		int totalMonth = 0;
+		
+		while(rs.next()) {
+			clinicSumMonth = clinicSumMonth + rs.getInt("clinicSum");
+			examinationSumMonth = examinationSumMonth + rs.getInt("examinationSum");
+			surgerySumMonth = surgerySumMonth + rs.getInt("surgerySum");
+			hospitalSumMonth = hospitalSumMonth + rs.getInt("hospitalSum");
+			medicineSumMonth = medicineSumMonth + rs.getInt("medicineSum");
+		}
+		
+		totalMonth = clinicSumMonth + examinationSumMonth + surgerySumMonth + hospitalSumMonth + medicineSumMonth;
+		
+		System.out.println(clinicSumMonth + " <--총매출확인 clinicSumMonth");
+		System.out.println(examinationSumMonth + " <--총매출확인 examinationSumMonth");
+		System.out.println(surgerySumMonth + " <--총매출확인 surgerySumMonth");
+		System.out.println(hospitalSumMonth + " <--총매출확인 hospitalSumMonth");
+		System.out.println(medicineSumMonth + " <--총매출확인 medicineSumMonth");
+		System.out.println(totalMonth + " <--총매출확인 totalMonth");
+		
+		map = new HashMap<>();
+		map.put("clinicSum", clinicSumMonth);
+		map.put("examinationSum", examinationSumMonth);
+		map.put("surgerySum", surgerySumMonth);
+		map.put("hospitalSum", hospitalSumMonth);
+		map.put("medicineSum", medicineSumMonth);
+		map.put("monthSum", totalMonth);
+		
+		
+		conn.close();
+		return map;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
