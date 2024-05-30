@@ -58,12 +58,43 @@ public class ClinicDao {
 	}
 	
 	/*
+	 * 메소드 : ClinicDao#clinicInsert() 
+	 * 페이지 : clinicAction.jsp
+	 * 시작 날짜 : 2024-05-30
+	 * 담당자 : 김지훈 
+	 */
+	public static int clinicInsert(int regiNo) throws Exception {
+		
+		// 받아 온 값을 확인
+		//System.out.println(regiNo  + " ====== ClinicDao#clinicInsert() regiNo");
+		
+		int insertRow = 0;
+		Connection conn = DBHelper.getConnection();
+		
+		// Insert 시 중복된 regi_no가 있다면 엔터 후 추가 내용을 입력
+		String sql = "INSERT INTO clinic(regi_no, create_date, update_date)"
+				+ " VALUES(?, NOW(), NOW())";
+	
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, regiNo); // regiNo에 따른 진료 정보 수정
+		
+		// 디버깅
+		//System.out.println(stmt  + " ====== ClinicDao#clinicUpdate() stmt");
+		
+		insertRow = stmt.executeUpdate();
+		
+		conn.close();		// db 자원 반납
+		return insertRow;	// updateRow 반환
+	}
+	
+	/*
 	 * 메소드 : ClinicDao#clinicUpdate() 
 	 * 페이지 : clinicAction.jsp
 	 * 시작 날짜 : 2024-05-26
 	 * 담당자 : 김지훈 
 	 */
-	public static int clinicUpdate(int regiNo, String clinicConetent, String clinicContent) throws Exception {
+	public static int clinicUpdate(int regiNo, String clinicContent) throws Exception {
 		
 		// 받아 온 값을 확인
 		//System.out.println(regiNo  + " ====== ClinicDao#clinicUpdate() regiNo");
@@ -72,18 +103,15 @@ public class ClinicDao {
 		int updateRow = 0;
 		Connection conn = DBHelper.getConnection();
 		
-		// Insert 시 중복된 regi_no가 있다면 엔터 후 추가 내용을 입력
-		String sql = "INSERT INTO clinic(regi_no, clinic_content, clinic_cost, create_date, update_date)"
-	           + " VALUES(?, ?, 5000, NOW(), NOW())"
-	           + " ON DUPLICATE KEY UPDATE"
-	           + " clinic_content = CONCAT(clinic_content, '\n', ?),"
-	           + " update_date = NOW()";
-	
+        String sql = "UPDATE clinic"
+                + " SET clinic_content = CONCAT('[', NOW(), '] ', ?, '\n', clinic_content),"
+                + " update_date = NOW()"
+                + " WHERE regi_no = ?";
+
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, regiNo); // regiNo에 따른 진료 정보 수정
-		stmt.setString(2, clinicContent); // 기존 content
-		stmt.setString(3, clinicContent); // 추가될 content
+		stmt.setString(1, clinicContent); // 변경될 content
+		stmt.setInt(2, regiNo); // regiNo에 따른 진료 정보 수정
 		
 		// 디버깅
 		//System.out.println(stmt  + " ====== ClinicDao#clinicUpdate() stmt");

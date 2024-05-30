@@ -40,17 +40,20 @@
 <!-- model layer -->
 <%
 	
-	
+	int updateRow = 0;
 	if(clinicError == null) { // 진료 입력 시
-		int updateRow = ClinicDao.clinicUpdate(regiNo, clinicContent, clinicContent);
+		updateRow = ClinicDao.clinicUpdate(regiNo, clinicContent);
 		System.out.println("ClinicDao#clinicUpdate: " + updateRow);
 		
-		if(updateRow == 1){
-			System.out.println("진료 내용 등록 or 수정 성공");
+		if(updateRow > 0){
+			System.out.println("진료 수정 성공");
 			response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo=" + regiNo + "&" + "petNo=" + petNo); // 진료 페이지로 이동
 		} else {
-			clinicError = URLEncoder.encode("진료 내용 등록 실패", "UTF-8");
-			response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo=" + regiNo + "&" + "petNo=" + petNo + "&" + "clinicError=" + clinicError);  
+			System.out.println("진료 수정 실패");
+			response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo=" + regiNo + "&" + "petNo=" + petNo); // 진료 페이지로 이동
 		}
-	} 
+	} else {
+		clinicError = URLEncoder.encode("진료 내용 등록 실패", "UTF-8");
+		response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo=" + regiNo + "&" + "petNo=" + petNo + "&" + "clinicError=" + clinicError);  
+	}
 %>
