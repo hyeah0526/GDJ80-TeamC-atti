@@ -151,7 +151,7 @@
 			    <% } else { %>
 			        <span class="paginationBtn disabled">다음</span>
 			    <% } %>
-			    
+			     
 			</div>	
 		</div>
 	</main>

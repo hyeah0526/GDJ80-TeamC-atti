@@ -12,20 +12,17 @@
 
 <!-- Controller layer  -->
 <%
-/* 
 	//로그인한 사용자인지 검증
 	if(session.getAttribute("loginEmp") == null){
 		response.sendRedirect("/atti/view/loginForm.jsp");
 		return;
 	}
-*/
 	
 	//사용자의 진료 번호 
 	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
-	//int regiNo = 16;
 	
 	//디버깅
-	System.out.println(regiNo);
+	System.out.println("regiNo: " + regiNo);
 	
 %>
 
@@ -55,7 +52,7 @@
 	//검사
 	// 등록/수정 분기
 	String examinationByClinic = request.getParameter("examinationByClinic");
-	System.out.println(examinationByClinic + " ====== clinicDetailForm.jsp examinationByClinic");
+	//System.out.println(examinationByClinic + " ====== clinicDetailForm.jsp examinationByClinic");
 	
 	// 수정시 가져올 검사 DAO 호출(examinationNo)
 	HashMap<String, Object> examinationDetail = new HashMap<String, Object>();
@@ -76,11 +73,11 @@
 	}
 	// 검사 종류 DAO 호출 
 	ArrayList<HashMap<String, Object>> examinationType = ExaminationDao.examinationType();
-	System.out.println(examinationType + " ====== clinicDetailForm.jsp examinationType");
+	//System.out.println(examinationType + " ====== clinicDetailForm.jsp examinationType");
 
 	// 진료 페이지에서 보여줄 검사 DAO 호출(regiNo)
 	ArrayList<HashMap<String, Object>> ei = ExaminationDao.examinationInfo(regiNo);
-	System.out.println(ei + " ====== clinicDetailForm.jsp ei");
+	//System.out.println(ei + " ====== clinicDetailForm.jsp ei");
 
 
 %>
@@ -89,9 +86,9 @@
 <% 
 	//수술
 	String surgeryUpdate = request.getParameter("surgeryUpdate");
-	System.out.println("surgeryUpdate: " + surgeryUpdate);
-	// 수술 수정을 위해 받는 파라미터값
+	//System.out.println("surgeryUpdate: " + surgeryUpdate);
 	
+	// 수술 수정을 위해 받는 파라미터값
 	String surgeryContent = null;
 	String surgeryKind = null;;
 	String surgeryState = null;;
@@ -103,7 +100,7 @@
 		System.out.println("surgeryNo: " + surgeryNo);
 	}
 	String surgeryError = request.getParameter("surgeryError");
-	System.out.println("surgeryError: " + surgeryError);
+	//System.out.println("surgeryError: " + surgeryError);
 	
 	ArrayList<HashMap<String, String>> surgeryCategory = SurgeryDao.surgeryKind();
 	ArrayList<HashMap<String, Object>> surgeryList = SurgeryDao.surgeryDetailByClinic(regiNo);
@@ -195,22 +192,41 @@
 	<!-------------------- aside-------------------->
 	<aside>
 		<!-- 서브메뉴나오는 부분 -->
-		<jsp:include page="/inc/subMenu.jsp"></jsp:include>
+		<div id="subMenu">
+			<div id="subMenuBtnContainer">
+				<button type="button" onclick="location.href='./clinicList.jsp'">진료 조회</button><br><br>
+			</div>
+		</div>
 	</aside>
 	
 	<!-------------------- main -------------------->
 	<main>
 		<!-- 상세정보 전체 출력 창(정보가 없을경우 공란표기) -->
-		<h5>고객 정보</h5>
+		<span>고객 정보</span>
 		<div id="clinicInfoMainDiv">
 			<div id="clinicInfoTitleDiv">
 				내용
 			</div>
 			<!-- 접수/진료 정보 -->
 			<div id="clinicInfoLeftDiv">
-				<div id="clinicInfoLeftContent">[펫 / 보호자 정보]
+				<div id="clinicInfoLeftContent">
+					<span>펫/보호자 정보</span><br>
 				<%
 					for(HashMap<String, Object> ci : clinicInfo) {
+						String empMajor = (String)ci.get("empMajor");
+						if(empMajor.equals("포유류")){
+				%>
+							<img id="iconAnimal"  src="../inc/icon_dog.png">
+				<%
+						}else if(empMajor.equals("파충류")){
+							%>
+							<img id="iconAnimal"  src="../inc/icon_lizard.png">
+				<%
+						}else if(empMajor.equals("조류")){
+				%>
+							<img id="iconAnimal"  src="../inc/icon_bird.png">
+				<%
+						}
 				%>
 						<div>보호자: <%=(String)(ci.get("customerName"))%></div>
 						<div>분류: <%=(String)(ci.get("empMajor"))%></div>
@@ -222,7 +238,8 @@
 				</div>
 			</div>
 			<div id="clinicInfoRightDiv">
-				<div id="clinicInfoRightContent">[접수 정보]
+				<div id="clinicInfoRightContent">
+				<span>접수 정보</span><br>
 				<%
 					for(HashMap<String, Object> ci : clinicInfo) {
 				%>

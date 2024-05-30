@@ -544,3 +544,15 @@
 #prescrptionContentRightDiv button:hover{
 	background-color: #ddc5c8;
 }
+
+#clinicInfoLeftContent span{
+	font-size: 14pt;
+    font-weight: bold;
+    text-align: center;
+}
+
+#clinicInfoRightContent span{
+	font-size: 14pt;
+    font-weight: bold;
+    text-align: center;
+}
