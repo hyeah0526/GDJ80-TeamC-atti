@@ -76,7 +76,7 @@ public class RegistrationDao {
 				+ " LEFT JOIN employee e"
 				+ " ON r.emp_no = e.emp_no"
 				+ " WHERE DATE(regi_date) LIKE ?"
-				+ " AND (r.regi_state = '예약' OR r.regi_state = '대기')"	// regi_state가 예약 또는 대기인 것
+				+ " AND (r.regi_state = '예약' OR r.regi_state = '대기' OR r.regi_state = '진행')"	// regi_state가 예약 또는 대기인 것
 				+ " ORDER BY regi_date ASC"
 				+ " LIMIT ?, ?";
 		
