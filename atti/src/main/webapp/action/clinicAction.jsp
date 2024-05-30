@@ -24,14 +24,17 @@
 	
 	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
 	int petNo = Integer.parseInt(request.getParameter("petNo"));
-	String clinicContent = request.getParameter("clinicContent");
+	String clinicCon = request.getParameter("clinicContent");
+	String clnicDate = request.getParameter("clinicContentDate");
+	String clinicContentDate = clnicDate.replace("T", " "); // T로 찍히는 값을 공백으로 치환
 	
 	String clinicError = null;
-	if(clinicContent == null || clinicContent.trim().isEmpty()) { 
+	if(clinicCon == null || clinicCon.trim().isEmpty()) { 
 		// clinicContent가 null이거나 공백일 시
 		clinicError = URLEncoder.encode("내용이 입력되지 않았습니다.", "UTF-8");
 	}
 	
+	String clinicContent = "\n ["+clinicContentDate+"] "+clinicCon;
 	// 디버깅
 	System.out.println("regiNo: " + regiNo);
 	System.out.println("petNo: " + petNo);

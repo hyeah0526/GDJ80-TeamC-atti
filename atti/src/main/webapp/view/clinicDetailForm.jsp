@@ -264,6 +264,7 @@
 				<form action="/atti/action/clinicAction.jsp" method="post" id="clinicForm">
 					<input type="hidden" value="<%=regiNo%>" name="regiNo"> 
 					<input type="hidden" value="<%=petNo%>" name="petNo">
+					<input type="datetime-local" id="clinicContentToday" name="clinicContentDate" readonly="readonly">
 					<div id="">
 						<textarea rows="7" cols="30%" name="clinicContent" placeholder="내용을 입력해 주세요."></textarea><br>
 						<%
@@ -281,8 +282,11 @@
 				<div id="clinicContentHistory">
 				<%
 					for (HashMap<String, Object> cl : clinicList) {
+					String clinicCon = (String)cl.get("clinicContent");
+					String clinicConChange = clinicCon.replaceAll("\n", "<br/>");
 				%>
-						[<%=cl.get("updateDate")%>]&nbsp;<%=cl.get("clinicContent")%><br>
+						<%=clinicConChange%>
+					
 				<%
 					}
 				%>
@@ -814,7 +818,12 @@
 				%>
 			</div>
 		</form>
-		
+<script>
+  var userTimezoneOffset = new Date().getTimezoneOffset() * 60000;
+  var localTime = new Date(Date.now() - userTimezoneOffset);
+  var localISOString = localTime.toISOString().slice(0, -1);
+  document.getElementById('clinicContentToday').value = localISOString.slice(0, 16);
+</script>		
 	</main>
 </body>
 </html>
