@@ -136,10 +136,15 @@ h2 {
     background-color: #e8e8e8; 
 }
 
-.petListTable th, .petListTable td { 
+.petListTable th{ 
     padding: 8px 12px;     
     text-align: center;      
     border-bottom: 1px solid #ddd; 
+}
+.petListTable td {
+	padding: 8px 12px;     
+	text-align: center;      
+	border-bottom: 1px solid #ddd; 
 }
 .petListTable th {
     background-color: #eedcba;; 
@@ -161,6 +166,7 @@ h2 {
 	justify-content:center;
 	align-items: center;
 	flex-direction: column;
+	overflow: hidden;
 }
 .searchListTable{
 	width: 80%;            
@@ -172,10 +178,15 @@ h2 {
     background-color: #e8e8e8; 
 }
 
-.searchListTable th, .searchListTable td { 
+.searchListTable th { 
     padding: 8px 12px;     
     text-align: center;      
     border-bottom: 1px solid #ddd; 
+}
+.searchListTable td { 
+	padding: 8px 12px;     
+	text-align: center;      
+	border-bottom: 1px solid #ddd; 
 }
 .searchListTable th {
     background-color: #eedcba;; 

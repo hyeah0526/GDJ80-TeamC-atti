@@ -32,11 +32,14 @@
 }
 
 .mainListTable th{
+	padding: 8px 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
     background-color: #eedcba;
     font-weight: bold;
 }
 
-.mainListTable th, td{
+.mainListTable td{
   	padding: 8px 12px;
     text-align: center;
     border-bottom: 1px solid #ddd;
