@@ -126,13 +126,18 @@
 	width: 100%;
 }
 
-#examinationListTable th, td{
+#examinationListTable td{
 	padding: 8px 12px;     
     text-align: center;      
     border-bottom: 1px solid #ddd; 
 }
 
+
+
 #examinationListTable th{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
 	background-color: #eedcba;; 
     font-weight: bold; 
 }
@@ -154,13 +159,16 @@
 	width: 100%;
 } 
 
-#examinationDetailTable th, td{
+#examinationDetailTable td{
 	padding: 8px 12px;     
     text-align: center;      
     border-bottom: 1px solid #ddd; 
 }
 
 #examinationDetailTable th{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
 	background-color: #eedcba;; 
     font-weight: bold; 
 }
@@ -203,13 +211,16 @@
 	width: 100%;
 }
 
-#surgeryListTable th, td{
+#surgeryListTable td{
 	padding: 8px 12px;     
     text-align: center;      
     border-bottom: 1px solid #ddd; 
 }
 
 #surgeryListTable th{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
 	background-color: #eedcba;; 
     font-weight: bold; 
 }
@@ -231,13 +242,16 @@
 	width: 100%;
 } 
 
-#surgeryDetailTable th, td{
+#surgeryDetailTable td{
 	padding: 8px 12px;     
     text-align: center;      
     border-bottom: 1px solid #ddd; 
 }
 
 #surgeryDetailTable th{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
 	background-color: #eedcba;; 
     font-weight: bold; 
 }
@@ -281,7 +295,7 @@
 	width: 100%;
 }
 
-#prescriptionListTable th, td{
+#prescriptionListTable td{
 	padding: 8px 12px;     
 	width: 250px;
     text-align: center;      
@@ -289,6 +303,9 @@
 }
 
 #prescriptionListTable th{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
 	background-color: #eedcba;; 
     font-weight: bold; 
 }
@@ -318,13 +335,16 @@
 	width: 100%;
 }
 
-#regiListable th, td{
+#regiListable td{
 	padding: 8px 12px;     
     text-align: center;      
     border-bottom: 1px solid #ddd; 
 }
 
 #regiListTable th{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
 	background-color: #eedcba;; 
     font-weight: bold; 
 }
@@ -355,13 +375,16 @@
 	width: 100%;
 }
 
-#clinicListTable th, td{
+#clinicListTable td{
 	padding: 8px 12px;     
     text-align: center;      
     border-bottom: 1px solid #ddd; 
 }
 
 #clinicListTable th{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
 	background-color: #eedcba;; 
     font-weight: bold; 
 }
@@ -404,13 +427,16 @@
 	width: 100%;
 }
 
-#reservationListTable th, td{
+#reservationListTable td{
 	padding: 8px 12px;     
     text-align: center;      
     border-bottom: 1px solid #ddd; 
 }
 
 #reservationListTable th{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
 	background-color: #eedcba;; 
     font-weight: bold; 
 }
@@ -553,14 +579,6 @@
 	margin: auto;
 }
 
-#examinationContentRightDiv table{
-	margin: auto;
-	margin-bottom: 10px;
-	background-color: #eedcba;
-	border-radius:10px;
-	width: 400px;
-	height: 150px;
-}
 #examinationContentRightDiv table{
 	margin: auto;
 	margin-bottom: 10px;
