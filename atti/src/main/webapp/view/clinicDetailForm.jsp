@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
 <%@ page import="atti.*" %>
-
+<%@ page import="java.io.*" %>
+<%@ page import="java.nio.file.*" %>
 <!-------------------- 
  * 기능 번호  : #32, #47
  * 상세 설명  : 진료 내용 등록(처방,입원)
@@ -280,7 +281,7 @@
 
     <!-- 검사 등록 -->
             <div id="examinationContentLeftDiv">
-                <form method="post" action="/atti/action/clinicExaminationAction.jsp" id="examinationForm">
+                <form method="post" action="/atti/action/clinicExaminationAction.jsp" id="examinationForm" enctype="multipart/form-data">
                     <input type="hidden" value="examinationInsert" name="examinationByClinic">
                     <input type="hidden" value="<%=regiNo %>" name="regiNo">
                     <input type="hidden" value="<%=petNo %>" name="petNo">
@@ -343,7 +344,7 @@
 					<tr>
 						<th>검사사진</th>
 						<td>
-							<%=exam.get("fileName")%>
+							<img src="/atti/upload/<%=exam.get("fileName")%>">	
 						</td>
 					</tr>
 					<tr>
@@ -357,7 +358,7 @@
 				} else if(examinationByClinic.equals("examinationUpdate")){
 			
 			%>
-				<form method="post" action="/atti/action/clinicExaminationAction.jsp">
+				<form method="post" action="/atti/action/clinicExaminationAction.jsp" enctype="multipart/form-data">
 		            <input type="hidden" value="examinationUpdate" name="examinationByClinic">
 		            <input type="hidden" value="<%=regiNo %>" name="regiNo">
 		            <input type="hidden" value="<%=petNo %>" name="petNo">
