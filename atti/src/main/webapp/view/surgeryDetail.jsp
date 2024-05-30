@@ -13,7 +13,11 @@
 	*/
 
 	System.out.println("---------------- surgeryDetail.jsp -----------------");
-	// 로그인 세션 
+	//로그인 세션 
+	if(session.getAttribute("loginEmp") == null){
+		response.sendRedirect("/atti/view/loginForm.jsp"); 
+		return;
+	}
 
 %>
 <%
