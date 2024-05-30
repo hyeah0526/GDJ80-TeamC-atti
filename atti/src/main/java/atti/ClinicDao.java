@@ -15,8 +15,8 @@ public class ClinicDao {
 		int updateRow = 0;
 		
 		// 받아온 값 디버깅
-		//System.out.println("ClinicDao #ClinicUpdate() clinicNo: + clinicNo);
-		//System.out.println("ClinicDao #ClinicContent() clinicConten:" + clinicContent);
+		System.out.println("ClinicDao #ClinicUpdate() regiNo:" + regiNo);
+		System.out.println("ClinicDao #ClinicContent() clinicContent:" + clinicContent);
 		
 		//DB연결
 		Connection conn = DBHelper.getConnection();
@@ -29,9 +29,10 @@ public class ClinicDao {
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1, clinicContent);
 		stmt.setInt(2, regiNo);
-		//System.out.println("HospitalRoomDao #hospitalizationContent() sql ---> "+stmt);
+		System.out.println("HospitalRoomDao #hospitalizationContent() sql ---> "+stmt);
 		
 		updateRow = stmt.executeUpdate();
+		System.out.println("HospitalRoomDao #hospitalizationContent() updateRow ---> "+updateRow);
 		
 		conn.close();
 		return updateRow;
@@ -95,8 +96,8 @@ public class ClinicDao {
 		Connection conn = DBHelper.getConnection();
 
 		// Insert 시 중복된 regi_no가 있다면 엔터 후 추가 내용을 입력
-		String sql = "INSERT INTO clinic(regi_no, create_date, update_date)"
-				+ " VALUES(?, NOW(), NOW())";
+		String sql = "INSERT INTO clinic (regi_no, clinic_content, create_date, update_date) "
+                + "VALUES (?, CONCAT('[', NOW(), ']진료시작'), NOW(), NOW())";
 
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -173,11 +174,10 @@ public class ClinicDao {
 		String sql = "SELECT  r.emp_no empNo, r.regi_no regiNo, r.regi_content regiContent, r.regi_state regiState, r.regi_date regiDate,"
 				+ " r.pet_no petNo, pet_name petName, pet_kind petKind, pet_birth petBirth,"
 				+ " (SELECT COUNT(regi_no) FROM registration" + " 	WHERE DATE(regi_date) = DATE(NOW())"
-				+ "		AND emp_no = ?" + "		AND (regi_state = '대기' OR regi_state ='예약')) totalRow" // 총 행 수
+				+ "		AND emp_no = ?" + "		AND (regi_state = '대기' OR regi_state ='예약' OR regi_state = '진행')) totalRow" // 총 행 수
 				+ " FROM registration r" + " LEFT JOIN pet p" + " ON r.pet_no = p.pet_no "
-				+ " WHERE DATE(r.regi_date) = DATE(NOW())" // regi_date = 오늘 날짜
-				+ " AND r.emp_no = ?" + " AND (r.regi_state = '대기' OR r.regi_state ='예약' OR r.regi_state = '진행')"
-				+ " ORDER BY r.regi_date ASC";
+				+ " WHERE r.emp_no = ?" + " AND (r.regi_state = '대기' OR r.regi_state ='예약' OR r.regi_state = '진행')"
+				+ " ORDER BY r.regi_date DESC";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, empNo);

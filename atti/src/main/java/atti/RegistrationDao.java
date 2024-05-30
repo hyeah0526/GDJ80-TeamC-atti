@@ -183,7 +183,7 @@ public class RegistrationDao {
 				+ " ON p.customer_no = c.customer_no "
 				+ " WHERE r.regi_state = '예약'"			// regi_state가 예약인 것 중에서
 				+ " AND DATE(regi_date) LIKE ?"
-				+ " AND DATE(regi_date) < NOW()"			// 날짜 검색 
+				+ " AND DATE(regi_date) > NOW()"			// 날짜 검색 
 				+ " AND (customer_tel LIKE ?"			// 단어 검색
 				+ " OR p.pet_name LIKE ?"
 				+ " OR customer_name LIKE ?)"

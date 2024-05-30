@@ -50,7 +50,14 @@
 	<!-------------------- aside-------------------->
 	<aside>
 		<!-- 서브메뉴나오는 부분 -->
-		<jsp:include page="/inc/subMenu.jsp"></jsp:include>
+		
+		<div id="subMenu">
+			<div id="subMenuBtnContainer">
+				<button type="button" onclick="location.href='./searchList.jsp'">고객 / 펫 조회</button><br><br>
+				<button type="button" onclick="location.href='./customerRegiForm.jsp'">고객 등록</button><br><br>
+			
+			</div>
+		</div>
 	</aside>
 	
 	<!-------------------- main -------------------->

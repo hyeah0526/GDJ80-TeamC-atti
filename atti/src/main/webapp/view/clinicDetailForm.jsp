@@ -202,7 +202,7 @@
 	<!-------------------- main -------------------->
 	<main>
 		<!-- 상세정보 전체 출력 창(정보가 없을경우 공란표기) -->
-		<span>고객 정보</span>
+		<h5>고객 정보</h5>
 		<div id="clinicInfoMainDiv">
 			<div id="clinicInfoTitleDiv">
 				내용
@@ -282,12 +282,16 @@
 				<div id="clinicContentHistory">
 				<%
 					for (HashMap<String, Object> cl : clinicList) {
-					String clinicCon = (String)cl.get("clinicContent");
-					String clinicConChange = clinicCon.replaceAll("\n", "<br/>");
+						String clinicCon = (String)cl.get("clinicContent");
+						if(clinicCon == null){
+							clinicCon = "";
+						}
+						String clinicConChange = clinicCon.replaceAll("\n", "<br/>");
+						if(!(clinicCon.equals(""))){
 				%>
-						<%=clinicConChange%>
-					
+							<%=clinicConChange%><br>
 				<%
+						}
 					}
 				%>
 				</div>
@@ -307,6 +311,7 @@
                     <input type="hidden" value="examinationInsert" name="examinationByClinic">
                     <input type="hidden" value="<%=regiNo %>" name="regiNo">
                     <input type="hidden" value="<%=petNo %>" name="petNo">
+                    <input type="hidden" value="default.jpg" name="fileNameInsert">
                     
                     <span>검사 등록</span>
                     <div>
@@ -325,10 +330,6 @@
                     <div>
                         <div>검사 내용</div>
                         <input type="text" name="examinationContent">
-                    </div>
-                    <div>
-                        <div>검사 사진</div>
-                        <input type="file" name="fileName">
                     </div>
                     
                     <button type="submit">등록</button>
@@ -353,7 +354,7 @@
 						<td><%=exam.get("examinationKind")%></td>
 						<td rowspan="3">
 							<button type="submit" onclick="location.href='/atti/view/clinicDetailForm.jsp?regiNo=<%=regiNo%>&petNo=<%=petNo%>&examinationNo=<%=exam.get("examinationNo")%>&examinationByClinic=examinationUpdate'">
-								수정
+								검사등록
 							</button>
 						</td>
 					</tr>
@@ -418,7 +419,7 @@
 						<td><%=examinationDetail.get("examinationDate")%></td>
 					</tr>
 					<tr>
-						<td colspan="4"><button type="submit">수정완료</button></td>
+						<td colspan="4"><button type="submit">등록완료</button></td>
 					</tr>
 				</table>
 				</form>

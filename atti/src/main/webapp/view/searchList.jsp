@@ -265,7 +265,7 @@
 									</td>
 									<td>
 										<a href="/atti/view/customerDetail.jsp?customerNo=<%=p.get("customerNo")%>">
-											<%=p.get("customerName")%>(<%=p.get("customerTel").toString().substring(7,11)%>))
+											<%=p.get("customerName")%>(<%=p.get("customerTel").toString().substring(7,11)%>)
 										</a>
 									</td>
 									<td><%=p.get("createDate")%></td>
