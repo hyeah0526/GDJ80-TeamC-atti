@@ -2,6 +2,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.net.*" %>
 <%@ page import="atti.*" %>
+<%@ page import="java.net.URLEncoder"%>
 <!-------------------- 
  * 기능 번호  : #27
  * 상세 설명  : 접수 등록
@@ -12,9 +13,11 @@
 	// 접수 등록 페이지(regiForm.jsp)에서 받아온 정보 
 	int petNo = Integer.parseInt(request.getParameter("petNo"));
 	String petName = request.getParameter("petName");
+	petName = URLEncoder.encode(petName,"UTF-8");
 	String petKind = request.getParameter("petKind");
 	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
 	String customerName = request.getParameter("customerName");
+	customerName = URLEncoder.encode(customerName,"UTF-8");
 	String customerTel = request.getParameter("customerTel");
 	
 	String strEmpNo = request.getParameter("empNo");
@@ -54,7 +57,7 @@
 	} else {
 	    // 선택이 아닐 때의 처리
 	    errMsg = URLEncoder.encode("데이터를 입력해주세요.", "UTF-8");
-	    response.sendRedirect("/atti/view/regiForm.jsp?petNo="+petNo+"&customerNo="+customerNo+"&errMsg=" + errMsg);
+	    response.sendRedirect("/atti/view/regiForm.jsp?petNo="+petNo+"&customerNo="+customerNo+"&customerName="+customerName+"&petName="+petName+"&errMsg=" + errMsg);
 	}
 	
 	// 디버깅 

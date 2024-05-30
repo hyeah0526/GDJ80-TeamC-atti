@@ -138,6 +138,8 @@
 					<td>
 						<form action="/atti/action/regiStateAction.jsp" method="post">
 							<input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
+							<input type="hidden" name="petName" value="<%= r.get("petName") %>">
+							<input type="hidden" name="customerName" value="<%= r.get("customerName") %>">
 							<input type="hidden" name="regiState" value="예약취소">
 							<button id="detailBtn" type="submit">취소하기</button>
 						</form>		
