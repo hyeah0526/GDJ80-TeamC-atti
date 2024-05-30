@@ -77,34 +77,34 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
-		<div>
+	<main id="reservationList">
+		<div id="centerDiv">
 			<h2>예약 리스트</h2>
 		</div>
 		<!-- 날짜 검색 부분 -->
-		<div class="col container mb-2">
+		<div id="reservationListSearchForm">
 			<!-- 날짜 선택해서 검색 -->
 			<form method="post" action="reservationList.jsp" class="inline">
-				<input type="date" name="searchDate" value="<%= searchDate %>">
-				<button type="submit">검색</button>
+				<input type="date" style="width: 200px;" name="searchDate" value="<%= searchDate %>">
+				<button id="searchBtn" type="submit">검색</button>
 			</form>
 			<!-- 오늘 날짜 바로 검색 -->
 			<form method="post" action="reservationList.jsp" class="inline">
-				<button type="submit" name="searchDate" value="<%= date %>">오늘</button>
+				<button id="searchBtn" type="submit" name="searchDate" value="<%= date %>">오늘</button>
 			</form>
 			<!-- 전체 검색 -->
 			<form method="post" action="reservationList.jsp" class="inline">
-				<button type="submit" name="searchDate" value="">전체</button>
+				<button id="searchBtn" type="submit" name="searchDate" value="">전체</button>
 			</form>
 			<!-- 단어 검색 -->
 			<form method="post" action="reservationList.jsp" class="inline">
-				<input type="text" name="searchWord" value="<%= searchWord%>">
-				<button type="submit">검색</button>
+				<input type="text" style="width: 200px;" name="searchWord" value="<%= searchWord%>">
+				<button id="searchBtn" type="submit">검색</button>
 			</form>
 		</div>
 		<!-- 예약 리스트 출력 -->
 		<div>
-			<table>
+			<table id="reservationListTable">
 				<tr>
 					<th>접수 번호</th>
 					<th>반려동물</th>
@@ -139,7 +139,7 @@
 						<form action="/atti/action/regiStateAction.jsp" method="post">
 							<input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
 							<input type="hidden" name="regiState" value="예약취소">
-							<button type="submit">취소하기</button>
+							<button id="detailBtn" type="submit">취소하기</button>
 						</form>		
 					</td>
 				</tr>

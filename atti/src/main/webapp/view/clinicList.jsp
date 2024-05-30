@@ -65,12 +65,12 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
+	<main id="clinicListMain">
 		<div>
 			<h2>진료 리스트</h2>
 		</div>
 		<!-- 진료 리스트 출력 -->
-			<table border="1" class="a">
+			<table id="clinicListTable">
 				<tr>
 					<th>접수번호</th>
 					<th>동물이름(종류)</th>
@@ -96,14 +96,15 @@
 						<form method="post" action="/atti/action/regiStateAction.jsp">
 							<input type="hidden" name="regiNo" value="<%=c.get("regiNo")%>">
 							<input type="hidden" name="regiState" value="진행">
-							<button class="btn" type="submit">진료보기</button>
+							<button id="detailBtn" type="submit">진료보기</button>
 						</form>
 					</td>
 				</tr>
 				<%
 					}
 				%>
-		
+				
+			</table>
 	</main>
 </body>
 </html>

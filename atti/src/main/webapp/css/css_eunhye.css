@@ -5,7 +5,7 @@
     display: inline-block;
 }
 
-.listMain{
+#listMain{
 	display: flex;
 	justify-content:center;
 	align-items: center;
@@ -296,6 +296,296 @@
 #prescriptionListTable tr:hover{
 	background-color: #e8e8e8; 
 }
+
+
+/* regiList */
+#regiListMain{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+#regiListTable{
+	width: 90%;            
+    border-collapse: collapse;
+    margin: auto;    
+    box-shadow: 0 2px 3px #ccc; 
+}
+
+#regiListTable table{
+	width: 100%;
+}
+
+#regiListable th, td{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
+}
+
+#regiListTable th{
+	background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+#regiListTable tr:hover{
+	background-color: #e8e8e8; 
+}
+
+
+
+ /* clinicList */
+#clinicListMain{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+#clinicListTable{
+	width: 90%;            
+    border-collapse: collapse;
+    margin: auto;    
+    box-shadow: 0 2px 3px #ccc; 
+}
+
+#clinicListTable table{
+	width: 100%;
+}
+
+#clinicListTable th, td{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
+}
+
+#clinicListTable th{
+	background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+#clinicListTable tr:hover{
+	background-color: #e8e8e8; 
+}
+
+
+ /* reservationList */
+#reservationListMain{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+#reservationListSearchForm{
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+#reservationListSearchForm input{
+	padding: 0px;
+    width: 300px;
+    height: 40px;
+    margin-left: 30px;
+}
+
+#reservationListTable{
+	width: 90%;            
+    border-collapse: collapse;
+    margin: 20px;    
+    box-shadow: 0 2px 3px #ccc; 
+}
+
+#reservationListTable table{
+	width: 100%;
+}
+
+#reservationListTable th, td{
+	padding: 8px 12px;     
+    text-align: center;      
+    border-bottom: 1px solid #ddd; 
+}
+
+#reservationListTable th{
+	background-color: #eedcba;; 
+    font-weight: bold; 
+}
+
+#reservationListTable tr:hover{
+	background-color: #e8e8e8; 
+}
+
+
+
+
+
+#regiForm{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-top: 40px;
+ 	box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+    border-radius: 8px; 
+    width: 550px;
+    padding: 30px;
+	font-size: 20px;
+}
+
+#regiForm div{
+ 	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	margin-top: 20px;
+}
+
+#regiForm input{
+	padding: 0px;
+	width: 60%;
+	border: none;
+}
+
+#regiForm input:focus  {
+	outline: none;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+
+#regiForm label{
+	margin-right: 10px;
+	width: 40%;
+}
+
+#regiForm select{
+	width: 60%;
+	height: 40px;
+}
+
+/* clinicDetailForm */
+#clinicDetailMainDiv{
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	width: 100%;
+	
+}
+
+#examinationForm{
+	width: 100%;
+	margin: auto;
+}
+
+#examinationMainDiv{
+	display: flex;
+	flex-direction: unset;
+	box-shadow: 0 0;
+	width: 100%;
+	padding: 5px;
+	margin-top: 0;
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  	background-color: #ffffff;
+}
+
+#examinationTitleDiv{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	font-weight: bold;
+	flex-grow: 2;
+}
+
+#examinationContentLeftDiv{
+	display: left;
+	padding: 10px;
+	width: 30%;
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	text-align: center;
+}
+
+#examinationContentLeftDiv span{
+	font-size: 14pt;
+	font-weight: bold;
+	text-align: center;
+}
+
+#examinationContentLeftDiv select{
+    width: 100px;
+    height: 30px;
+    text-align: center;
+}
+
+#examinationContentLeftDiv button{
+	margin-top: 0px;
+    width: 80px;
+    padding: 5px;
+    background-color: #eedcba;
+    border: 0;
+    border-radius: 10px;
+}
+
+#examinationContentRightDiv{
+	display: right;
+	margin-right: 10px;
+	padding: 10px;
+	width: 50%;
+	border: 1px solid #ced4da;
+	border-radius: 10px;
+	text-align: center;
+}
+
+#examinationContentRightDiv select{
+    width: 100px;
+    height: 30px;
+    text-align: center;
+}
+
+#examinationContentRightDiv span{
+	font-size: 14pt;
+	font-weight: bold;
+	text-align: center;
+	margin: auto;
+}
+
+#examinationContentRightDiv table{
+	margin: auto;
+	margin-bottom: 10px;
+	background-color: #eedcba;
+	border-radius:10px;
+	width: 400px;
+	height: 150px;
+}
+#examinationContentRightDiv table{
+	margin: auto;
+	margin-bottom: 10px;
+	background-color: #eedcba;
+	border-radius:10px;
+	width: 400px;
+	height: 150px;
+}
+
+#examinationContentRightDiv button{
+	margin-top: 0px;
+    width: 80px;
+    padding: 5px;
+    background-color: #bed8cb;
+    border: 0;
+    border-radius: 10px;
+}
+
+#prescrptionContentRightDiv button:hover{
+	background-color: #ddc5c8;
+}
+
+
+
+
 
 
 

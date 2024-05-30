@@ -18,8 +18,19 @@
 %>
 <%	
 	// 고객 조회(searchList)에서 넘긴 값 받아오기
-	int petNo = Integer.parseInt(request.getParameter("petNo"));
-	int customerNo = Integer.parseInt(request.getParameter("customerNo"));	
+	String petNoParam = request.getParameter("petNo");
+	String customerNoParam = request.getParameter("customerNo");
+	
+	int petNo = 0;
+	int customerNo = 0;
+	
+	if (petNoParam != null && !petNoParam.isEmpty()) {
+	    petNo = Integer.parseInt(petNoParam);
+	}
+	
+	if (customerNoParam != null && !customerNoParam.isEmpty()) {
+	    customerNo = Integer.parseInt(customerNoParam);
+	}
 	String petName = request.getParameter("petName");
 	String customerName = request.getParameter("customerName");
 	String customerTel = request.getParameter("customerTel");
@@ -39,7 +50,7 @@
 
 	// 디버깅
 	
-	//System.out.println(petNo + " ====== regiForm.jsp petNo");
+	System.out.println(petNo + " ====== regiForm.jsp petNo");
 	//System.out.println(customerNo + " ====== regiForm.jsp customerNo");
 	//System.out.println(petName + " ====== regiForm.jsp petName");
 	//System.out.println(customerName + " ====== regiForm.jsp customerName");
@@ -79,84 +90,96 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
-		<div>
+	<main id="listMain">
+		<div id="centerDiv">
 			<h2>접수 등록</h2>
 		</div>
 		<!-- 접수 등록 폼 -->
-		<form method="post" action="/atti/action/regiAction.jsp">
-			<div>
-				<label>동물 번호</label>
-				<input type="number" name="petNo" value="<%= petNo %>" readonly="readonly">
-				<label>동물 이름</label>
-				<input type="text" name="petName" value="<%= petName %>" readonly="readonly">
-				<label>동물 종류</label>
-				<input type="text" name="petKind" value="<%= petKind %>" readonly="readonly">
-			</div>
-			<div>
-				<label>보호자 번호</label>
-				<input type="number" name="customerNo" value="<%= customerNo %>" readonly="readonly">
-				<label>보호자 이름</label>
-				<input type="text" name="customerName" value="<%= customerName %>" readonly="readonly">
-				<label>보호자 전화번호</label>
-				<input type="text" name="customerTel" value="<%= customerTel %>" readonly="readonly">
-			</div>
-			<!-- 의사 선택 -->
-			<div>
-				<label>담당 의사</label>
-				<select name="empNo">
-						<option selected>===== 담당의사 선택 =====</option>
-					<%
-						for(HashMap<String, Object> e  : empinfo) { 
-					%>
-						<option value="<%= e.get("empNo") %>"><%= e.get("empName") %></option>
-						
-					<%
-						 }
-					%>
-				</select>
-			</div> 
-		
-			<div>
-				<label>진료 날짜</label>
-				<input type="date" name="regiDateSelect" value="<%= date %>">
-				
-				<label>진료 시간</label>
-				<!-- 진료 시간 선택 -->
-				<select name="regiDateTime">
-					<option value="9:00">9:00 - 10:00</option>
-					<option value="10:00">10:00 - 11:00</option>
-					<option value="11:00">11:00 - 12:00</option>
-					<option value="12:00">12:00 - 1:00</option>
-					<option value="1:00">1:00 - 2:00</option>
-					<option value="2:00">2:00 - 3:00</option>
-					<option value="3:00">3:00 - 4:00</option>
-					<option value="4:00">4:00 - 5:00</option>
-					<option value="5:00">5:00 - 6:00</option>
-				</select>
-				<!-- 진료 상태 선택 -->
-				<label>유형</label>
-				<select name="regiState">
-					<option value="대기" selected>대기</option>
-					<option value="예약">예약</option>
-				</select>
-			</div>
-			<div>
-				<label>접수 내용</label>
-				<textarea rows="8" cols="100" name="regiContent"></textarea>
-			</div>
-			<%
-				// 에러메세지 
-				if(errMsg != null) {
-			%>
-					<div class="errorMsg"><%=errMsg%></div>
-			<%		
-				}
-			%>
-			<div>
-				<button class="btn" type="submit">접수등록</button>
-			</div>
-		</form>
+		<div id="regiForm">
+			<form method="post" action="/atti/action/regiAction.jsp">
+				<div>
+					<label>동물 번호</label>
+					<input type="text" name="petNo" value="<%= petNo %>" readonly="readonly"><br>
+				</div>
+				<div>
+					<label>동물 이름</label>
+					<input type="text" name="petName" value="<%= petName %>" readonly="readonly"><br>
+				</div>
+				<div>	
+					<label>동물 종류</label>
+					<input type="text" name="petKind" value="<%= petKind %>" readonly="readonly"><br>
+				</div>
+				<div>
+					<label>보호자 번호</label>
+					<input type="text" name="customerNo" value="<%= customerNo %>" readonly="readonly"><br>
+				</div>
+				<div>	
+					<label>보호자 이름</label>
+					<input type="text" name="customerName" value="<%= customerName %>" readonly="readonly"><br>
+				</div>
+				<!-- 의사 선택 -->
+				<div>
+					<label>담당 의사</label>
+					<select name="empNo">
+							<option selected value="선택">===== 담당의사 선택 =====</option>
+						<%
+							for(HashMap<String, Object> e  : empinfo) { 
+						%>
+							<option value="<%= e.get("empNo") %>"><%= e.get("empName") %></option>
+							
+						<%
+							 }
+						%>
+					</select>
+				</div> 
+			
+				<div>
+					<label>진료 날짜</label>
+					<input type="date" name="regiDateSelect" value="<%= date %>">
+				</div>
+				<div>	
+					<label>진료 시간</label>
+					<!-- 진료 시간 선택 -->
+					<select name="regiDateTime">
+						<option value="선택">=== 시간 선택 ===</option>
+						<option value="9:00">9:00 - 10:00</option>
+						<option value="10:00">10:00 - 11:00</option>
+						<option value="11:00">11:00 - 12:00</option>
+						<option value="12:00">12:00 - 1:00</option>
+						<option value="1:00">1:00 - 2:00</option>
+						<option value="2:00">2:00 - 3:00</option>
+						<option value="3:00">3:00 - 4:00</option>
+						<option value="4:00">4:00 - 5:00</option>
+						<option value="5:00">5:00 - 6:00</option>
+					</select>
+				</div>
+				<div>	
+					<!-- 진료 상태 선택 -->
+					<label>유형</label>
+					<select name="regiState">
+						<option value="대기" selected>대기</option>
+						<option value="예약">예약</option>
+					</select>
+				</div>
+				<div>
+					<label>접수 내용</label>
+				</div>
+				<div style="justify-content: center;">
+					<textarea rows="8" style="width: 90%;" name="regiContent"></textarea>
+				</div>
+				<%
+					// 에러메세지 
+					if(errMsg != null) {
+				%>
+						<div class="errorMsg" style="justify-content: center; color: red;"><%=errMsg%></div>
+				<%		
+					}
+				%>
+				<div style="justify-content: center;">
+					<button id="detailBtn" type="submit">등록</button>
+				</div>
+			</form>
+		</div>
 	</main>
 </body>
 </html>

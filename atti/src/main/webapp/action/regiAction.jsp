@@ -16,7 +16,9 @@
 	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
 	String customerName = request.getParameter("customerName");
 	String customerTel = request.getParameter("customerTel");
-	int empNo = Integer.parseInt(request.getParameter("empNo"));
+	
+	String strEmpNo = request.getParameter("empNo");
+	
 	String regiDateSelect = request.getParameter("regiDateSelect");
 	String regiDateTime = request.getParameter("regiDateTime");
 	String regiState = request.getParameter("regiState");
@@ -24,32 +26,39 @@
 	// 진료 날짜 = 진료 YYYY-MM-DD TT:MM 
 	String regiDate = regiDateSelect + " " + regiDateTime;
 	
+	System.out.println(strEmpNo + "empNo");
 	//에러메세지 
 	String errMsg = "";
-	if(regiDateSelect == null || regiDateTime == null || regiState == null){
+	if(regiDateTime.equals("선택") || strEmpNo.equals("선택")){
 		
 		errMsg = URLEncoder.encode("데이터를 입력해주세요.", "UTF-8");
 	}
 	
-	
-	// 진료 등록 메서드 호출
-	int insertRow = RegistrationDao.regiAccept(empNo, petNo, regiContent, regiDate, regiState);
-	
-	if(insertRow == 1 && regiState.equals("대기")) {
-		// 대기 접수 등록 성공
-		response.sendRedirect("/atti/view/regiList.jsp");
-		
-	} else if(insertRow == 1 && regiState.equals("예약")) {
-		// 예약 접수 등록 성공
-		response.sendRedirect("/atti/view/reservationList.jsp");
+	if ((strEmpNo != null && !strEmpNo.equals("선택")) && !regiDateTime.equals("선택")) {
+	    int empNo = Integer.parseInt(strEmpNo);
+	    // 진료 등록 메서드 호출
+	    int insertRow = RegistrationDao.regiAccept(empNo, petNo, regiContent, regiDate, regiState);
+
+	    if(insertRow == 1 && regiState.equals("대기")) {
+	        // 대기 접수 등록 성공
+	        response.sendRedirect("/atti/view/regiList.jsp");
+
+	    } else if(insertRow == 1 && regiState.equals("예약")) {
+	        // 예약 접수 등록 성공
+	        response.sendRedirect("/atti/view/reservationList.jsp");
+	    } else {
+	        // 등록 실패
+	        response.sendRedirect("/atti/view/regiForm.jsp");
+	        errMsg = URLEncoder.encode("다시 등록해주세요.", "UTF-8");
+	    }
 	} else {
-		// 등록 실패
-		response.sendRedirect("/atti/view/regiForm.jsp");
-		errMsg = URLEncoder.encode("다시 등록해주세요.", "UTF-8");
+	    // 선택이 아닐 때의 처리
+	    errMsg = URLEncoder.encode("데이터를 입력해주세요.", "UTF-8");
+	    response.sendRedirect("/atti/view/regiForm.jsp?petNo="+petNo+"&customerNo="+customerNo+"&errMsg=" + errMsg);
 	}
 	
 	// 디버깅 
-	//System.out.println(petNo + " ====== regiAction petNo");
+	System.out.println(petNo + " ====== regiAction petNo");
 	//System.out.println(petName + " ====== regiAction petName");
 	//System.out.println(petKind + " ====== regiAction petKind");
 	//System.out.println(customerNo + " ====== regiAction customerNo");

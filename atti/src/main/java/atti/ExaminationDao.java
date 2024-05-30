@@ -169,7 +169,7 @@ public class ExaminationDao {
 		System.out.println(examinationNo + " 2222====== ExaminationDao#examinationUpdate examinationNo");
 		
 		String sql ="UPDATE examination "
-				+ " SET examination_kind = ?, examination_content = ?, file_name = ?"
+				+ " SET examination_kind = ?, examination_content = ?, file_name = ?, examination_date = NOW()"
 				+ " WHERE regi_no = ?"
 				+ " AND examination_no = ?";
 		

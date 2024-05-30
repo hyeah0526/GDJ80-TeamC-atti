@@ -52,31 +52,35 @@
 
 <% 
 	//검사
+	// 등록/수정 분기
 	String examinationByClinic = request.getParameter("examinationByClinic");
-
-	int examinationNo = 0;
-	System.out.println(examinationNo + " d이거확인 examinationNo");
-	 
-	ArrayList<HashMap<String, Object>> examinationDetail = null;
-
-	if (request.getParameter("examinationNo") != null) {
-		
-		examinationNo = Integer.parseInt(request.getParameter("examinationNo"));
-		System.out.println(examinationNo + " ====== 이거확인 clinicDetailForm.jsp examinationNo");
-		
-		// 검사 정보 DAO (examinationNo)
-		examinationDetail = ExaminationDao.examinationDetail(examinationNo);
-		System.out.println(examinationNo + " if문 examinationNo");
-		
-	} 
+	System.out.println(examinationByClinic + " ====== clinicDetailForm.jsp examinationByClinic");
 	
-	// 검사 종류 선택을 위한 검사 타입 DAO 호출
+	// 수정시 가져올 검사 DAO 호출(examinationNo)
+	HashMap<String, Object> examinationDetail = new HashMap<String, Object>();
+	if(examinationByClinic == null){
+		
+		examinationByClinic = "";
+	
+	} else if(examinationByClinic.equals("examinationUpdate")){
+		// ArrayList -> HashMap 
+		int examinationNo = Integer.parseInt(request.getParameter("examinationNo"));
+		System.out.println(examinationNo + " ====== clinicDetailForm.jsp examinationNo");
+
+		ArrayList<HashMap<String, Object>> examinationList = ExaminationDao.examinationDetail(examinationNo);
+	   
+		if (!examinationList.isEmpty()) {
+	        examinationDetail = examinationList.get(0);
+	    }	
+	}
+	// 검사 종류 DAO 호출 
 	ArrayList<HashMap<String, Object>> examinationType = ExaminationDao.examinationType();
 	System.out.println(examinationType + " ====== clinicDetailForm.jsp examinationType");
-	
-	// 검사 정보 출력을 위한 DAO 호출(regiNo)
-	ArrayList<HashMap<String, Object>> examinationInfo = ExaminationDao.examinationInfo(regiNo);
-	System.out.println(examinationInfo + "====== clinicDetailForm.jsp examinationInfo");
+
+	// 진료 페이지에서 보여줄 검사 DAO 호출(regiNo)
+	ArrayList<HashMap<String, Object>> ei = ExaminationDao.examinationInfo(regiNo);
+	System.out.println(ei + " ====== clinicDetailForm.jsp ei");
+
 
 %>
 
@@ -179,6 +183,7 @@
 	<link rel="stylesheet" href="../css/css_kiminsu.css">
 	<link rel="stylesheet" href="../css/css_hyeah.css">
 	<link rel="stylesheet" href="../css/css_jihoon.css">
+	<link rel="stylesheet" href="../css/css_eunhye.css">
 	
 </head>
 <body id="fontSet">
@@ -267,139 +272,138 @@
 			</div>
 		</div><br>
 		
-		<!-- 검사 등록/수정 -->
-		<div id="" style="border: 1px solid #ced4da; border-radius: 10px; width: 100%;">
-			<div style="border: 1px solid red;">
-				검사
-			</div>
+	<!-- 검사 등록/수정 -->
+        <div id="clinicDetailMainDiv">
+            <div id="examinationTitleDiv">
+                검사
+            </div>
 
-			<!-- 검사 등록 -->
-			<div>
-				<form method="post" action="/atti/action/clinicExaminationAction.jsp">
-					<input type="hidden" value="examinationInsert" name="examinationByClinic">
-					<input type="hidden" value="<%=regiNo %>" name="regiNo">
-					<input type="hidden" value="<%=petNo%>" name="petNo">
-					<input type="hidden" value="<%=examinationNo %>" name="examinationNo">
-					<div>검사 등록</div>
-					<div>
-						<div>검사 종류</div>
-						<select name="examinationKind">
-							<option value="">=== 검사 종류 선택 ===</option>
-						<%
-							for(HashMap et : examinationType){
-						%>					
-							<option value="<%=(String)et.get("examinationKind")%>"> <%=(String)et.get("examinationKind") %></option>
-					
-						<%
-							}
-						%>
-						</select>
-					</div>
-					<div>
-						<div>검사 내용</div>
-						<input type="text" name="examinationContent">
-					</div>
-					<div>
-						<div>검사 사진</div>
-						<input type="file" name="fileName">
-					</div>
-					<div>
-						<div>검사 날짜</div>
-						<input type="datetime-local" name="examinationDate">
-					</div>
-				<button type="submit">등록</button>
-				</form>
-			</div>
-
-<!-- 검사 정보 출력 및 수정 -->
-			<div>
-                <div>검사 정보 수정</div>
-                <% 
-                    if (examinationInfo != null && !examinationInfo.isEmpty()) {
-                        for (HashMap<String, Object> exam : examinationInfo) {
-                %>
-	                <form method="post" action="/atti/action/clinicExaminationAction.jsp">
-	                <input type="hidden" value="examinationUpdate" name="examinationByClinic">
-	                <input type="hidden" value="<%=regiNo %>" name="regiNo">
-	                <input type="hidden" value="<%=petNo%>" name="petNo">
-	                <input type="hidden" value="<%=examinationNo %>" name="examinationNo">
-                		<br>
-                            <div>
-                                <input type="hidden" name="examinationNo" value="<%= exam.get("examinationNo") %>">
-                                <div>검사 종류</div>
-                                <select name="examinationKind">
-                                    <option value="">=== 검사 종류 선택 ===</option>
-                                    <% for (HashMap<String, Object> et : examinationType) { %>                    
-                                        <option value="<%= et.get("examinationKind") %>" <%= et.get("examinationKind").equals(exam.get("examinationKind")) ? "selected" : "" %>>
-                                            <%= et.get("examinationKind") %>
-                                        </option>
-                                    <% } %>
-                                </select>
-                            </div>
-                            <div>
-                                <div>검사 내용</div>
-                                <input type="text" name="examinationContent" value="<%= exam.get("examinationContent") %>">
-                            </div>
-                            <div>
-                                <div>검사 사진</div>
-                                <input type="file" name="fileName" value="<%= exam.get("fileName") %>">
-                            </div>
-                            <div>
-                                <div>검사 날짜</div>
-                                <input type="datetime-local" name="examinationDate" value="<%= exam.get("examinationDate") %>">
-                            </div>
-                            <button type="submit">수정</button>
-                <% 
-                        }
-                    } else { 
-                %>
-                        <div>검사 정보가 없습니다.</div>
-                <% } %>
-                
-            </form>
-		</div>
-	
-	<%-- 	
-			<!-- 검사 정보 출력 -->
-			<div>
-				<h5>검사 정보</h5>
-				<table class="table table-bordered">
-					<thead>
-						<tr>
-							<th>검사 종류</th>
-							<th>검사 내용</th>
-							<th>검사 날짜</th>
-						</tr>
-						<tr></tr>
-					</thead>
-					<tbody>
-						<%
-							if (examinationInfo != null && !examinationInfo.isEmpty()) {
-								
-								for (HashMap<String, Object> exam : examinationInfo) {
-						%>
-							<tr>
-								<td><%= (String) exam.get("examinationKind") %></td>
-								<td><%= (String) exam.get("examinationContent") %></td>
-								<td><%= (String) exam.get("examinationDate") %></td>
-							</tr>
-							<tr>	
-								<td><img src="<%= (String) exam.get("fileName") %>" alt="검사 사진" width="100%"></td>
-							</tr>
-						<%
-								}
-							} else {
-						%>
-							<tr>
-								<td colspan="4">검사 정보가 없습니다.</td>
-							</tr>
-						<%
-							}
-						%>
-					</tbody>
+    <!-- 검사 등록 -->
+            <div id="examinationContentLeftDiv">
+                <form method="post" action="/atti/action/clinicExaminationAction.jsp" id="examinationForm">
+                    <input type="hidden" value="examinationInsert" name="examinationByClinic">
+                    <input type="hidden" value="<%=regiNo %>" name="regiNo">
+                    <input type="hidden" value="<%=petNo %>" name="petNo">
+                    
+                    <span>검사 등록</span>
+                    <div>
+                        <div>검사 종류</div>
+                        <select name="examinationKind">
+                            <%
+                            	// 검사 종류
+                                for(HashMap et : examinationType){
+                            %>                    
+                                <option value="<%=(String)et.get("examinationKind")%>"> <%=(String)et.get("examinationKind") %></option>
+                            <%
+                                }
+                            %>
+                        </select>
+                    </div>
+                    <div>
+                        <div>검사 내용</div>
+                        <input type="text" name="examinationContent">
+                    </div>
+                    <div>
+                        <div>검사 사진</div>
+                        <input type="file" name="fileName">
+                    </div>
+                    
+                    <button type="submit">등록</button>
+                </form>
+            </div>
+		
+	<!-- 검사 보여주기 -->	
+			<div id="examinationContentRightDiv">
+			<%
+				// 수정이 아닐 때
+				if(!examinationByClinic.equals("examinationUpdate")){
+			%>
+		
+				<span>검사 기록</span><br><br>
+			<%
+				for(HashMap exam : ei){
+			%>
+			
+				<table>
+					<tr>
+						<th>검사 종류</th>
+						<td><%=exam.get("examinationKind")%></td>
+						<td rowspan="3">
+							<button type="submit" onclick="location.href='/atti/view/clinicDetailForm.jsp?regiNo=<%=regiNo%>&petNo=<%=petNo%>&examinationNo=<%=exam.get("examinationNo")%>&examinationByClinic=examinationUpdate'">
+								수정
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<th>내용</th>
+						<td>
+							<%=exam.get("examinationContent")%>
+						</td>
+					</tr>
+					<tr>
+						<th>검사사진</th>
+						<td>
+							<%=exam.get("fileName")%>
+						</td>
+					</tr>
+					<tr>
+						<th>검사날짜</th>
+						<td><%=exam.get("examinationDate")%></td>
+					</tr>
 				</table>
-			</div> 
-		</div> --%>
+			<%
+					}
+				// 수정일 때 
+				} else if(examinationByClinic.equals("examinationUpdate")){
+			
+			%>
+				<form method="post" action="/atti/action/clinicExaminationAction.jsp">
+		            <input type="hidden" value="examinationUpdate" name="examinationByClinic">
+		            <input type="hidden" value="<%=regiNo %>" name="regiNo">
+		            <input type="hidden" value="<%=petNo %>" name="petNo">
+					<input type="hidden" value="<%=examinationDetail.get("examinationNo") %>" name="examinationNo">
+		
+				<table>
+					<tr>
+	                    <th>검사 종류</th>
+	                    <td>
+	                        <select name="examinationKind">
+	                            <%
+	                                for(HashMap et : examinationType){
+	                            %>                    
+	                                <option value="<%=(String)et.get("examinationKind")%>"> <%=(String)et.get("examinationKind") %></option>
+	                            <%
+	                                }
+	                            %>
+	                        </select>
+	                    </td>
+					</tr>
+					<tr>
+						<th>내용</th>
+						<td>
+							<input type="text" name="examinationContent" value="<%=examinationDetail.get("examinationContent")%>">
+						</td>
+					</tr>
+					<tr>
+						<th>검사사진</th>
+						<td>
+							<input type="file" name="fileName" value="<%=examinationDetail.get("fileName") %>">
+						</td>
+					</tr>
+					<tr>
+						<th>검사날짜</th>
+						<td><%=examinationDetail.get("examinationDate")%></td>
+					</tr>
+					<tr>
+						<td colspan="4"><button type="submit">수정완료</button></td>
+					</tr>
+				</table>
+				</form>
+				<%
+					}
+				%>
+			</div>
+		</div><br>
 		
 		
 		<div id="surgeryMainDiv">
@@ -634,7 +638,7 @@
 							<input type="hidden" value="<%=prescriptionOne.get("prescriptionNo")%>" name="prescriptionNo">
 							<input type="hidden" value="<%=prescriptionOne.get("medicineNo")%>" name="oldMedicineNo">
 							<input type="hidden" value="<%=regiNo%>" name="regiNo">
-							<input type="hidden" value="<%=petNo%>" name="petNo"  >
+							<input type="hidden" value="<%=petNo%>" name="petNo">
 							
 							<table>
 								<tr>
@@ -675,7 +679,6 @@
 				%>
 			</div>
 		</div><br>
-		</div>
 		
 		<!-- 입원 환자 호실 선택 및 입원 내용 입력 폼 -->
 		<form action="/atti/action/clinicHospitalAction.jsp" method="post" id="hospitalizationRegiForm">			

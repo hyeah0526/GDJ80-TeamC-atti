@@ -91,8 +91,8 @@
 	</aside>
 	
 	<!-------------------- main -------------------->
-	<main>
-		<div>
+	<main id="regiListMain">
+		<div id="centerDiv">
 			<h2>접수 리스트</h2>
 		</div>
 		<!-- 에러 메세지 -->
@@ -105,7 +105,7 @@
 		</div>
 		<!-- 점수 리스트 출력 -->
 		<div>
-			<table>
+			<table id="regiListTable">
 				<tr>
 					<th>접수 번호</th>
 					<th>반려동물</th>
@@ -131,13 +131,13 @@
 							<form action="/atti/action/regiStateAction.jsp" method="post">
 								<input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
 								<input type="hidden" name="regiState" value="대기">
-								<button type="submit" class="btn">대기하기</button>
+								<button type="submit" id="detailBtn">대기하기</button>
 							</form>
 						<% } else { %>	
 							<form action="/atti/action/regiStateAction.jsp" method="post">
 								<input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
 								<input type="hidden" name="regiState" value="대기">
-								<button type="submit" class="btn" disabled="disabled">대기하기</button>
+								<button type="submit" id="detailBtn" style="background-color: #D5D5D5" disabled="disabled">대기하기</button>
 							</form>
 						<% } %>
 					</td>
@@ -145,7 +145,7 @@
 						<form action="/atti/action/regiStateAction.jsp" method="post">
 							<input type="hidden" name="regiNo" value="<%= r.get("regiNo") %>">
 							<input type="hidden" name="regiState" value="접수취소">
-							<button type="submit">취소하기</button>
+							<button id="detailBtn" type="submit">취소하기</button>
 						</form>					
 					</td>
 				</tr>
@@ -156,25 +156,26 @@
 		</div>
 		
 		<!-- 페이징 -->
-		<div>
-		    <!-- 이전 페이지 링크 -->
-		    <% if(currentPage > 1){ %>
-		        <a href="/atti/view/regiList.jsp?currentPage=<%=currentPage-1%>">이전</a>
-		    <% } else { %>
-		        <span class="disabled">이전</span>
-		    <% } %>
-
-		    <!-- 현재 페이지 표시 -->
-		    <span class="currentPage"><%=currentPage%></span>
-
-		    <!-- 다음 페이지 링크 -->
-		    <% if(currentPage < lastPage) { %>
-		        <a href="/atti/view/regiList.jsp?currentPage=<%=currentPage+1%>">다음</a>
-		    <% } else { %>
-		        <span class="disabled">다음</span>
-		    <% } %>
-		</div>	
-		
+		<div id="paginationDiv">
+			<div>
+			    <!-- 이전 페이지 링크 -->
+			    <% if(currentPage > 1){ %>
+			        <a href="/atti/view/regiList.jsp?currentPage=<%=currentPage-1%>" id="paginationBtn">이전</a>
+			    <% } else { %>
+			        <span id="paginationBtn disabled">이전</span>
+			    <% } %>
+	
+			    <!-- 현재 페이지 표시 -->
+			    <span id="currentPage"><%=currentPage%></span>
+	
+			    <!-- 다음 페이지 링크 -->
+			    <% if(currentPage < lastPage) { %>
+			        <a href="/atti/view/regiList.jsp?currentPage=<%=currentPage+1%>" id="paginationBtn">다음</a>
+			    <% } else { %>
+			        <span id="paginationBtn disabled">다음</span>
+			    <% } %>
+			</div>	
+		</div>
 	</main>
 </body>
 </html>

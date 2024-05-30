@@ -8,32 +8,38 @@
  * 담당자 : 한은혜
  -------------------->
  <% 
- 	// 진료 번호
- 	
- 	
+ 	// 진료 정보 받아오기
  	int regiNo = Integer.parseInt(request.getParameter("regiNo"));
  	int petNo = Integer.parseInt(request.getParameter("petNo"));
+ 	String examinationKind = request.getParameter("examinationKind");
  	String examinationByClinic = request.getParameter("examinationByClinic");
  
- 	System.out.println(regiNo + " ====== clinicExaminationAction regiNo");
- 	System.out.println(petNo + " ====== clinicExaminationAction petNo");
- 	System.out.println(examinationByClinic + " ====== clinicExaminationAction examinationByClinic");
+ 	//System.out.println(regiNo + " ====== clinicExaminationAction regiNo");
+ 	//System.out.println(petNo + " ====== clinicExaminationAction petNo");
+ 	//System.out.println(examinationByClinic + " ====== clinicExaminationAction examinationByClinic");
  	
- 	if(examinationByClinic != null && examinationByClinic.equals("examinationInsert")){
+ 	 // 입력값 검증 : examinationKind가 null이거나 비어있는지 확인
+    if (examinationKind == null || examinationKind.isEmpty()) {
+        out.println("Invalid examination kind.");
+        return;
+    }
+ 	
+ 	
+ 	if(examinationByClinic.equals("examinationInsert")){
  		
- 		int examinationNo = Integer.parseInt(request.getParameter("examinationNo"));
- 		String examinationKind = request.getParameter("examinationKind");
+ 		//int examinationNo = Integer.parseInt(request.getParameter("examinationNo"));
+ 		examinationKind = request.getParameter("examinationKind");
  		String examinationContent = request.getParameter("examinationContent");
  		String fileName = request.getParameter("fileName");
  		
- 		System.out.println(examinationKind + " ====== clinicExaminationAction examinationKind");
- 		System.out.println(examinationContent + " ====== clinicExaminationAction examinationContent");
- 		System.out.println(fileName + " ====== clinicExaminationAction fileName");
+ 		//System.out.println(examinationKind + " ====== clinicExaminationAction examinationKind");
+ 		//System.out.println(examinationContent + " ====== clinicExaminationAction examinationContent");
+ 		//System.out.println(fileName + " ====== clinicExaminationAction fileName");
  	
-	 	// 검사 등록
+	 	// 검사 등록시
 	 	int insertRow = ExaminationDao.examinationInsert(regiNo, examinationKind, examinationContent, fileName);
 	 	
-	 	if(insertRow == 1){
+	 	if(insertRow == 1){ // 등록 성공
 	 		
 	 		String paymentCategory = "검사";
 	 	
@@ -55,28 +61,29 @@
 				//결제 정보 수정
 				PaymentDao.paymentUpdate(regiNo, paymentCategory);
 			}
-			
+
 			response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo+"&petNo="+petNo); // 진료 페이지로 이동
 	 	
 	 	} 
 	 	
- 	} else if(examinationByClinic != null && examinationByClinic.equals("examinationUpdate")) {
-	 		
+ 	} else if(examinationByClinic.equals("examinationUpdate")) {
+	 	// 검사 수정시
  		int examinationNo = Integer.parseInt(request.getParameter("examinationNo"));
- 		String examinationKind = request.getParameter("examinationKind");
+ 		examinationKind = request.getParameter("examinationKind");
  		String examinationContent = request.getParameter("examinationContent");
  		String fileName = request.getParameter("fileName");
  		
- 		System.out.println(examinationNo + " ====== 이거왜안받아와 clinicExaminationAction examinationNo");
- 		System.out.println(examinationKind + " ====== clinicExaminationAction examinationKind");
- 		System.out.println(examinationContent + " ====== clinicExaminationAction examinationContent");
- 		System.out.println(fileName + " ====== clinicExaminationAction fileName");
+ 		//System.out.println(examinationNo + " ======  clinicExaminationAction examinationNo");
+ 		//System.out.println(examinationKind + " ====== clinicExaminationAction examinationKind");
+ 		//System.out.println(examinationContent + " ====== clinicExaminationAction examinationContent");
+ 		//System.out.println(fileName + " ====== clinicExaminationAction fileName");
  	
  		int updateRow = ExaminationDao.examinationUpdate(regiNo, examinationKind, examinationContent, fileName, examinationNo);
- 		System.out.println(updateRow + "  이거확인2222333");
- 		if(updateRow != 0){
+ 		//System.out.println(updateRow + " ====== clinicExaminationAction ");
+ 		
+ 		if(updateRow == 1){ // 수정 성공
  			
- 			response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo);
+ 			response.sendRedirect("/atti/view/clinicDetailForm.jsp?regiNo="+regiNo+"&petNo="+petNo);
  			
  		}
  		
