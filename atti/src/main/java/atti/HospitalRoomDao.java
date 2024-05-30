@@ -117,8 +117,8 @@ public class HospitalRoomDao {
 		
 		String sql = "SELECT regi.regi_state regiState, regi.regi_no regiNo, h.hospitalization_no hospitalNo, h.room_name roomName,"
 				+ " h.hospitalization_content hospitalContent, h.create_date createDate, h.discharge_date dischargeDate, h.state hospitalState,"
-				+ " e.emp_name empName, e.emp_major empMajor,"
-				+ " p.pet_name petName, p.pet_birth petBirth, p.pet_kind petKind,"
+				+ " e.emp_name empName, p.emp_major empMajor,"
+				+ " p.pet_name petName, p.pet_birth petBirth, p.pet_kind petKind," 
 				+ " c.customer_name customerName, c.customer_tel customerTel"
 				+ " FROM registration regi"
 				+ " LEFT JOIN hospitalization h"
