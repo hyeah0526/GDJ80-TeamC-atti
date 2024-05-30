@@ -182,7 +182,8 @@ public class RegistrationDao {
 				+ " LEFT JOIN customer c"
 				+ " ON p.customer_no = c.customer_no "
 				+ " WHERE r.regi_state = '예약'"			// regi_state가 예약인 것 중에서
-				+ " AND DATE(regi_date) LIKE ?"			// 날짜 검색 
+				+ " AND DATE(regi_date) LIKE ?"
+				+ " AND DATE(regi_date) < NOW()"			// 날짜 검색 
 				+ " AND (customer_tel LIKE ?"			// 단어 검색
 				+ " OR p.pet_name LIKE ?"
 				+ " OR customer_name LIKE ?)"
@@ -282,10 +283,10 @@ public class RegistrationDao {
 		//System.out.println(petKind + " ====== RegistrationDao#regiInfo() petKind");
 		
 		// emp 정보를 가져오는 두번째 쿼리
-		String sql2 = "SELECT emp_no empNo, emp_name empName"
-				+ " FROM employee "
-				+ " WHERE emp_no LIKE '1%'" // 의사 사번 조건 
-				+ " OR emp_no LIKE '2%'";
+		String sql2 = "SELECT emp_no empNo, emp_name empName , emp_grade empGrade"
+				+ " FROM employee"
+				+ " WHERE emp_grade <> '퇴사자'"
+				+ " AND (emp_no LIKE '1%' OR emp_no LIKE '2%')";
 		PreparedStatement stmt2 = conn.prepareStatement(sql2);
 		ResultSet rs2 = stmt2.executeQuery();
 		
