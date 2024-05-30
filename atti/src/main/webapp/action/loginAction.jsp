@@ -54,8 +54,21 @@
 	
 	//로그인 성공 시
 	if(loginEmp != null){
-		session.setAttribute("loginEmp", loginEmp);
-		response.sendRedirect("/atti/view/main.jsp"); // 로그인 성공 시 메인 페이지로 이동
+		
+		// 로그인한 사람의 직급 
+	  	String empGrade = (String) loginEmp.get("empGrade");
+		
+		//디버깅
+		//System.out.println(empGrade);
+		
+		// 퇴사자인 경우 로그인 실패 처리
+	    if ("퇴사자".equals(empGrade)) {
+	        errorMessage = URLEncoder.encode("퇴사자는 로그인할 수 없습니다.", "UTF-8");
+	        response.sendRedirect("/atti/view/loginForm.jsp?errorMessage=" + errorMessage); // 로그인 실패 시 에러 메시지 전달
+	    } else {
+	        session.setAttribute("loginEmp", loginEmp);
+	        response.sendRedirect("/atti/view/main.jsp"); // 로그인 성공 시 메인 페이지로 이동
+	    }
 	}else{
 		//로그인 실패 시 오류 메세지 전달
 		response.sendRedirect("/atti/view/loginForm.jsp?errorMessage="+errorMessage); // 로그인 실패시 로그인 페이지로 이동
