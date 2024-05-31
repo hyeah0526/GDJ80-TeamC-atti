@@ -31,7 +31,7 @@
 	
 	// 펫 정보 수정 실패 시 보여질 에러 메시지
 	String errorMsg = null;
-	if(petName == null || petName.trim().isEmpty()) { // 펫의 이름이 null이거나 공백일 시
+	if(petName == null || petName.trim().isEmpty()|| !petName.matches("[a-zA-Z가-힣]+")) { // 펫의 이름이 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("이름이 입력되지 않았으니 확인해 주세요", "UTF-8");
 	}	
 	System.out.println("errorMsg: " + errorMsg);

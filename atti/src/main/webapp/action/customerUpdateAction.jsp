@@ -35,7 +35,7 @@
 	// 보호자 정보 수정 실패 시 보여질 에러 메시지
 	String errorMsg = null;
 	
-	if(customerTel == null || customerTel.trim().isEmpty()) { // customerName이 null일 시
+	if(customerTel == null || customerTel.trim().isEmpty() || !(customerTel.length() ==  11) || !customerTel.matches("\\d+")) { // customerName이 null일 시
 		errorMsg = URLEncoder.encode("보호자 연락처가 입력되지 않았으니 확인해 주세요", "UTF-8");
 	} else if(customerAddress == null || customerAddress.trim().isEmpty()) { // customerTel이 null일 시
 		errorMsg = URLEncoder.encode("보호자 주소가 입력되지 않았으니 확인해 주세요", "UTF-8");

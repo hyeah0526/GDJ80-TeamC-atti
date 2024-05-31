@@ -6,7 +6,7 @@ import java.util.*;
 public class ClinicDao {
 
 	/*
-	 * 메소드: #clinic(int regiNo, String clinicContent) 
+	 * 메소드: #clinicUpdate(int regiNo, String clinicContent) 
 	 * 페이지: hospitalizationDetail.jsp
 	 * 시작 날짜: 2024-05-30
 	 * 담당자: 김지훈
@@ -40,7 +40,9 @@ public class ClinicDao {
 	
 	
 	/*
-	 * 메소드 : ClinicDao#clinicInfo() 페이지 : clinicDetailForm.jsp 시작 날짜 : 2024-05-27
+	 * 메소드 : ClinicDao#clinicInfo() 
+	 * 페이지 : clinicDetailForm.jsp 
+	 * 시작 날짜 : 2024-05-27
 	 * 담당자 : 김지훈
 	 */
 
@@ -53,10 +55,18 @@ public class ClinicDao {
 		Connection conn = DBHelper.getConnection();
 		String sql = "SELECT r.regi_no regiNo, r.regi_date regiDate, r.regi_content regiContent,"
 				+ " p.pet_no petNo, p.pet_name petName, p.pet_kind petKind,"
-				+ " c.customer_no customerNo, c.customer_name customerName," + " e.emp_major empMajor"
-				+ " FROM registration r" + " INNER JOIN pet p" + " ON r.pet_no = p.pet_no" + " INNER JOIN customer c"
-				+ " ON p.customer_no = c.customer_no" + " INNER JOIN employee e" + " ON r.emp_no = e.emp_no"
-				+ " WHERE r.regi_no = ?" + " ORDER BY r.regi_date DESC" + " LIMIT 1";
+				+ " c.customer_no customerNo, c.customer_name customerName," 
+				+ " e.emp_major empMajor"
+				+ " FROM registration r" 
+				+ " INNER JOIN pet p" 
+				+ " ON r.pet_no = p.pet_no" 
+				+ " INNER JOIN customer c"
+				+ " ON p.customer_no = c.customer_no" 
+				+ " INNER JOIN employee e" 
+				+ " ON r.emp_no = e.emp_no"
+				+ " WHERE r.regi_no = ?" 
+				+ " ORDER BY r.regi_date DESC" 
+				+ " LIMIT 1";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, regiNo);
@@ -114,8 +124,10 @@ public class ClinicDao {
 
 
 	/*
-	 * 메소드 : ClinicDatail#clinicDetail() 페이지 : clinicDetailFrom.jsp 시작 날짜 :
-	 * 2024-05-26 담당자 : 김지훈
+	 * 메소드 : ClinicDatail#clinicDetail() 
+	 * 페이지 : clinicDetailFrom.jsp 
+	 * 시작 날짜 : 2024-05-26 
+	 * 담당자 : 김지훈
 	 */
 
 	public static ArrayList<HashMap<String, Object>> clinicDetail(int petNo) throws Exception {
@@ -132,9 +144,14 @@ public class ClinicDao {
 		 */
 
 		String sql = "SELECT r.regi_no regiNo, cl.clinic_no clinicNo, cl.clinic_content clinicContent,"
-				+ " cl.create_date createDate, cl.update_date updateDate" + " FROM pet p" + " INNER JOIN customer c"
-				+ " ON p.customer_no = c.customer_no" + " INNER JOIN registration r" + " ON p.pet_no = r.pet_no"
-				+ " INNER JOIN clinic cl" + " ON r.regi_no = cl.regi_no" + " WHERE p.pet_no = ?"
+				+ " cl.create_date createDate, cl.update_date updateDate" 
+				+ " FROM pet p" + " INNER JOIN customer c"
+				+ " ON p.customer_no = c.customer_no" 
+				+ " INNER JOIN registration r" 
+				+ " ON p.pet_no = r.pet_no"
+				+ " INNER JOIN clinic cl" 
+				+ " ON r.regi_no = cl.regi_no" 
+				+ " WHERE p.pet_no = ?"
 				+ " ORDER BY cl.update_date ASC;";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -158,8 +175,10 @@ public class ClinicDao {
 	}
 
 	/*
-	 * 메소드 : ClinicDao#clinicList() 페이지 : clinicList.jsp 시작 날짜 : 2024-05-23 담당자 :
-	 * 한은혜
+	 * 메소드 : ClinicDao#clinicList() 
+	 * 페이지 : clinicList.jsp 
+	 * 시작 날짜 : 2024-05-23 
+	 * 담당자 : 한은혜
 	 */
 	public static ArrayList<HashMap<String, Object>> clinicList(int empNo) throws Exception {
 
@@ -173,10 +192,15 @@ public class ClinicDao {
 		 */
 		String sql = "SELECT  r.emp_no empNo, r.regi_no regiNo, r.regi_content regiContent, r.regi_state regiState, r.regi_date regiDate,"
 				+ " r.pet_no petNo, pet_name petName, pet_kind petKind, pet_birth petBirth,"
-				+ " (SELECT COUNT(regi_no) FROM registration" + " 	WHERE DATE(regi_date) = DATE(NOW())"
-				+ "		AND emp_no = ?" + "		AND (regi_state = '대기' OR regi_state ='예약' OR regi_state = '진행')) totalRow" // 총 행 수
-				+ " FROM registration r" + " LEFT JOIN pet p" + " ON r.pet_no = p.pet_no "
-				+ " WHERE r.emp_no = ?" + " AND (r.regi_state = '대기' OR r.regi_state ='예약' OR r.regi_state = '진행')"
+				+ " (SELECT COUNT(regi_no) FROM registration"
+				+ " 	WHERE DATE(regi_date) = DATE(NOW())"
+				+ "		AND emp_no = ?"
+				+ "		AND (regi_state = '대기' OR regi_state ='예약' OR regi_state = '진행')) totalRow" // 총 행 수
+				+ " FROM registration r"
+				+ " LEFT JOIN pet p"
+				+ " ON r.pet_no = p.pet_no"
+				+ " WHERE r.emp_no = ?"
+				+ " AND (r.regi_state = '대기' OR r.regi_state ='예약' OR r.regi_state = '진행')"
 				+ " ORDER BY r.regi_date DESC";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);

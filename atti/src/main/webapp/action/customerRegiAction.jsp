@@ -35,9 +35,9 @@
 	// 보호자 등록 실패 시 보여질 에러 메시지 
 	String errorMsg = null;
 	
-	if(customerName == null || customerName.trim().isEmpty()) { // customerName이 null이거나 공백일 시
+	if(customerName == null || customerName.trim().isEmpty() || !customerName.matches("[a-zA-Z가-힣]+")) { // customerName이 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("보호자 이름이 입력되지 않았으니 확인해 주세요", "UTF-8");
-	} else if(customerTel == null || customerTel.trim().isEmpty()) { // customerTel이 null이거나 공백일 시
+	} else if(customerTel == null || customerTel.trim().isEmpty() || !(customerTel.length() ==  11) || !customerTel.matches("\\d+")) { // customerTel이 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("보호자 연락처가 입력되지 않았으니 확인해 주세요", "UTF-8");
 	} else if(customerAddress == null || customerAddress.trim().isEmpty()) { // customerAddress가 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("보호자 주소가 입력되지 않았으니 확인해 주세요", "UTF-8");

@@ -40,9 +40,9 @@
 	
 	if(empMajor == null || empMajor.trim().isEmpty()) { // empMajor가 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("의사 전공이 입력되지 않았으니 확인해 주세요", "UTF-8");
-	} else if(petKind == null || petKind.trim().isEmpty()) { // petKind가 null이거나 공백일 시
+	} else if(petKind == null || petKind.trim().isEmpty() || !petKind.matches("[a-zA-Z가-힣]+")) { // petKind가 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("동물 종류가 입력되지 않았으니 확인해 주세요", "UTF-8");
-	} else if(petName == null || petName.trim().isEmpty()) { // petName이 null이거나 공백일 시
+	} else if(petName == null || petName.trim().isEmpty() || !petName.matches("[a-zA-Z가-힣]+")) { // petName이 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("이름이 입력되지 않았으니 확인해 주세요", "UTF-8");
 	} else if(petBirth == null || petBirth.trim().isEmpty()) { // petBirth가 null이거나 공백일 시
 		errorMsg = URLEncoder.encode("생일이 입력되지 않았으니 확인해 주세요", "UTF-8");
