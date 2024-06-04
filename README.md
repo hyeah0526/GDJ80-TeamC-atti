@@ -15,7 +15,7 @@
 
 ## 3. 요구사항 명세서
 - [요구사항 명세서 링크 이동](https://github.com/GDJ80-TeamC/semi-atti/blob/6572b27fb473d0ca1026451a540e9196287a7d22/atti/src/main/webapp/META-INF/document/GDJ80_teamC_%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AA%85%EC%84%B8%EC%84%9C.png)
-<img src="https://github.com/GDJ80-TeamC/semi-atti/blob/7147292df72ef10ce1464b42957e348adc7f379a/atti/src/main/webapp/META-INF/document/GDJ80_teamC_%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AA%85%EC%84%B8%EC%84%9C.png" width="800"/>
+<img src="https://github.com/GDJ80-TeamC/semi-atti/blob/6572b27fb473d0ca1026451a540e9196287a7d22/atti/src/main/webapp/META-INF/document/GDJ80_teamC_%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AA%85%EC%84%B8%EC%84%9C.png" width="800"/>
 
 
 ## 4.  인터페이스 설계서 / ERD다이어 그램 
